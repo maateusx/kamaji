@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="kamaji">
+
+<head>
+    <title>Kamaji Dashboard</title>
+    <meta charset="utf-8">
+    <base href="/">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#181d21">
+
+    <!-- FAV ICON -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="css/app.css">
+    
+    <link rel="stylesheet" href="views/auth/login/login.css">
+    <link rel="stylesheet" href="views/dashboard/home/home.css">
+
+</head>
+ 
+<body>
+
+    <div ng-show="1 == 0" align="center" class="kamaji-preloading">
+        <img src="img/preloading.png" style="width: 250px">
+    </div>
+
+    <div style="width:100%;height:100%" ui-view></div>
+    
+</body>
+
+    <!-- Bootstrap -->
+    <script src="js/lib/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/lib/popper.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+
+    <!-- Angular -->
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-ui-router.min.js"></script>
+
+    <!-- Controllers -->
+    <script src="views/app.js"></script>
+
+    <script src="views/auth/login/login.config.js"></script>
+    <script src="views/auth/login/login.controller.js"></script>
+
+    <script src="views/dashboard/home/home.config.js"></script>
+    <script src="views/dashboard/home/home.controller.js"></script>
+
+
+
+</html>

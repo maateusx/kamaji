@@ -1,0 +1,62 @@
+<div style="padding: 10px; margin: 0;" class="row">
+	<div class="w70">
+		<div class="row modalBodyNotification">
+			<div class="w50" style="padding: 10px; padding-top: 0px;">
+				<label for="notification-name" class="modalNotificationInputsLabel">Nome</label>
+	            <div class="input-group modalNotificationInputsContent">
+	              <span class="input-group-addon modalNotificationInputsIcon" id="notification-name-icon">
+	                <i class="fa fa-bars" aria-hidden="true"></i>
+	              </span>
+	              <input type="text" class="form-control modalNotificationInput" id="notification-name" aria-describedby="notification-name-icon" ng-model="newInvoice.name">
+	            </div>
+			</div>
+			<div class="w50" style="padding: 10px; padding-top: 0px;">
+				<label for="notification-name" class="modalNotificationInputsLabel">Emisão</label>
+	            <div class="input-group modalNotificationInputsContent">
+	              <span class="input-group-addon modalNotificationInputsIcon" id="notification-name-icon">
+	                <i class="fa fa-calendar" aria-hidden="true"></i>
+	              </span>
+	              <input type="date" class="form-control modalNotificationInput" id="notification-name" aria-describedby="notification-name-icon" placeholder="--/--/----" ng-model="newInvoice.emission">
+	            </div>
+			</div>
+		</div>
+		<div class="row modalBodyNotification"  style="margin-top: 10px;">
+			<div class="w50" style="padding: 10px; padding-top: 0px;">
+				<label for="notification-name" class="modalNotificationInputsLabel">Vencimento</label>
+	            <div class="input-group modalNotificationInputsContent" style="background-color: #e74c3c">
+	              <span class="input-group-addon modalNotificationInputsIcon" id="notification-name-icon" style="background-color: #e74c3c; border-color: #e74c3c;">
+	                <i class="fa fa-calendar" aria-hidden="true"></i>
+	              </span>
+	              <input type="date" class="form-control modalNotificationInput" id="notification-name" aria-describedby="notification-name-icon" placeholder="--/--/----" ng-model="newInvoice.expirate" style="border-color: #e74c3c;">
+	            </div>
+			</div>
+			<div class="w50" style="padding: 10px; padding-top: 0px;">
+				<label for="notification-name" class="modalNotificationInputsLabel">Valor</label>
+	            <div class="input-group modalNotificationInputsContent" style="background-color: #3498db">
+	              <span class="input-group-addon modalNotificationInputsIcon" id="notification-name-icon" style="font-weight: bold; font-size:12px; background-color: #3498db; border-color: #3498db;">
+	                USD
+	              </span>
+	              <input type="number" class="form-control modalNotificationInput" id="notification-name" aria-describedby="notification-name-icon" placeholder="0.00" ng-model="newInvoice.total" style="border-color: #3498db;">
+	            </div>
+			</div>
+		</div>
+	</div>
+	<div class="w30 modalBodyNotification">
+		<div style="padding: 10px; padding-top: 0px;">
+			<label for="notification-name" class="modalNotificationInputsLabel">Notificações</label>
+            <div class="input-group modalNotificationInputsContent">
+              <span class="input-group-addon modalNotificationInputsIcon" id="notification-name-icon">
+                <i class="fa fa-bell" aria-hidden="true"></i>
+              </span>
+              <input type="text" class="form-control modalNotificationInput" id="notification-name" aria-describedby="notification-name-icon" ng-model="newInvoice.notification">
+            </div>
+		</div>
+	</div>
+</div>
+
+<div style="margin-top: 15px; padding-right: 10px;" align="right">
+    <button class="modalNotificationButton" ng-click="newContact()">
+      <i class="fa fa-plus-circle" aria-hidden="true" style="margin-right: 5px;"></i>
+      Cadastrar
+    </button>
+</div>

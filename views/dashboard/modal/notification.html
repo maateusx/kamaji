@@ -1,0 +1,78 @@
+<div class="modalBodyNotification">
+    <div class="row margin-0">
+        <div class="w40">
+            <label for="notification-name" class="modalNotificationInputsLabel">Nome</label>
+            <div class="input-group modalNotificationInputsContent">
+              <span class="input-group-addon modalNotificationInputsIcon" id="notification-name-icon">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+              </span>
+              <input type="text" class="form-control modalNotificationInput" id="notification-name" aria-describedby="notification-name-icon" placeholder="------------------------------" ng-model="contactNew.name">
+            </div>
+        </div>
+        <div class="w40" style="padding: 0 20px;">
+            <label for="notification-email" class="modalNotificationInputsLabel">Email</label>
+            <div class="input-group modalNotificationInputsContent">
+              <span class="input-group-addon modalNotificationInputsIcon" id="notification-email-icon">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+              <input type="text" class="form-control modalNotificationInput" id="notification-email" aria-describedby="notification-email-icon" placeholder="exemplo@email.com.br" ng-model="contactNew.email">
+            </div>
+        </div>
+        <div class="w20">
+            <label for="notification-phone" class="modalNotificationInputsLabel">Telefone</label>
+            <div class="input-group modalNotificationInputsContent">
+              <span class="input-group-addon modalNotificationInputsIcon" id="notification-phone-icon">
+                <i class="fa fa-mobile" aria-hidden="true" style="font-size:25px;"></i>
+              </span>
+              <input type="tel" class="form-control modalNotificationInput" id="notification-phone" aria-describedby="notification-phone-icon" placeholder="-- - ---- ----" ng-model="contactNew.phone">
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 25px;" align="right">
+        <button class="modalNotificationButton" ng-click="newContact()">
+          <i class="fa fa-plus-circle" aria-hidden="true" style="margin-right: 5px;"></i>
+          Cadastrar
+        </button>
+    </div>
+</div>
+
+<div style="margin-top: 20px; padding-bottom: 15px;">
+    <div class="row margin-0">
+      <div class="row margin-0 w60" align="left" style="padding: 0 10px">
+          <div style="font-weight: bold; font-size: 14px">
+            Contatos Cadastrados
+          </div>
+          <div style="padding-left: 15px">
+            <button class="modalNotification-ButtonSearch" ng-click="changeSearch()">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <input type="text" placeholder="Pesquisar" class="modalNotification-search" ng-model="notificationSearch.$" ng-show="showSearch">
+          </div>
+      </div>
+      <div class="row margin-0 w40" align="right">
+          <div class="w30">
+            <button class="{{notificationFilter == 1? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectFilter(1)">Todos</button>
+          </div>
+          <div class="w30">
+            <button class="{{notificationFilter == 2? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectFilter(2)">Celulares</button>
+          </div>
+          <div class="w30">
+            <button class="{{notificationFilter == 3? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectFilter(3)">Emails</button>
+          </div>
+      </div>
+    </div>
+    <div class="modalBodyNotification margin-top-10 column">
+      <div class="row modalNotification-table" style="background-color: transparent;">
+        <div class="w30" align="left" ng-show="notificationFilter == 1"><b>Nome</b></div>
+        <div class="w30" align="left" ng-show="notificationFilter == 1 || notificationFilter == 3"><b>Email</b></div>
+        <div class="w30" align="left" ng-show="notificationFilter == 1 || notificationFilter == 2"><b>Telefone</b></div>
+        <div class="w10" align="center"><b>Opções</b></div>
+      </div>
+      <div class="row modalNotification-table" ng-repeat="contact in contacts | filter:notificationSearch">
+        <div class="w30" align="left" ng-show="notificationFilter == 1">{{contact.name}}</div>
+        <div class="w30" align="left" ng-show="notificationFilter == 1 || notificationFilter == 3">{{contact.email}}</div>
+        <div class="w30" align="left" ng-show="notificationFilter == 1 || notificationFilter == 2">{{contact.phone}}</div>
+        <div class="w10" align="center"><i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteContact($index)"></i></div>
+      </div>
+    </div>
+</div>

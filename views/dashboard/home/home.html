@@ -1,0 +1,207 @@
+<div class="dashboard-background row">
+        
+    <!-- BEGIN FIRST COLUMN -->
+    <div class="col-md-9 dashboard-first-column">
+
+        <nav class="navbar navbar-expand-lg dashboard-navbg">
+            <div style="border-right: 2px solid #13181c;">
+                <img src="{{user.avatar}}" class="dashboard_nav-avatar">
+                <span class="text-capitalize">{{user.name}}</span>
+                <i class="fa fa-sign-out cursor-pointer margin-0-10" aria-hidden="true" ng-click="logout()"></i>
+            </div>
+
+            <button class="navbar-toggler color-green" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border: 1px solid #3ab54a;">
+                <!-- <span class="navbar-toggler-icon"></span> -->
+                <i class="navbar-toggler-icon fa fa-circle" aria-hidden="true"></i>
+            </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent" align="center">
+
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 w100" style="justify-content: center;">
+              <li class="nav-item w20">
+                <a class="nav-link">{{coinType}}</a>
+              </li>
+              <li class="nav-item w20" ng-repeat="data in navDatas">
+                <a class="nav-link dashboard-nav-item">
+                    <span class="{{data.color == 1 ? 'color-green':''}}{{data.color == 0 ? 'color-red':''}}">{{data.title}}</span>
+                    <div class="dashboard_nav-subtext">{{data.sub}}</div>
+                </a>
+              </li>
+            </ul>
+
+          </div>
+        </nav>
+
+        <!-- BEGIN CONTENT -->
+        <div class="dashboard-content" align="center">
+
+            <div ng-hide="indicatorIsOn">
+                <div align="left">
+                    <i class="fa fa-circle {{mainGraph.color == 1 ? 'color-green':''}}{{mainGraph.color == 0 ? 'color-red':''}}" aria-hidden="true"></i>
+                    <span class="dashboard_graph-status">{{mainGraph.status}}</span>   
+                </div>
+                <div style="height: 250px; width: 100%; margin-top: 20px; background-color: red;">
+                    {{mainGraph.graph}}
+                </div>
+                <div style="height: 100px; width: 100%; background-color: green;">
+                    {{mainGraph.secondGraph}}
+                </div>
+            </div>
+
+            <div ng-show="indicatorIsOn">
+                <div class="row secondary-graph-status" align="center">
+                    <div class="w5 padding-top-5" align="center">
+                        <i class="fa fa-circle color-green" aria-hidden="true" style="font-size:14px;"></i>    
+                    </div>
+                    <div class="w18" align="left">
+                        <div>{{secondGraph.title}}</div>
+                        <div class="font-normal">{{secondGraph.sub}}</div>  
+                    </div>
+                    <div class="w18" align="left">
+                        <div>{{secondGraph.average}}</div>
+                        <div class="font-normal">Média</div>     
+                    </div>
+                    <div class="w18" align="left">
+                        <div>{{secondGraph.deviation}}</div>
+                        <div class="font-normal">Desvio Padrão</div>   
+                    </div>
+                    <div class="w18" align="left">
+                        <div>{{secondGraph.distance}}</div>
+                        <div class="font-normal">Distância Atual</div>     
+                    </div>
+                    <div class="w18 row margin-0" align="left">
+                        <div class="secondary-graph-days {{secondGraph.color == 1? 'color-green':'color-red'}}" align="center">
+                            {{secondGraph.days}}
+                        </div>
+                        <div style="padding-left: 5px;">
+                            <div class="font-normal">Dias<br>Passados</div> 
+                        </div>
+                    </div>
+                </div>
+                <div style="height: 300px; width: 100%; margin-top: 20px; background-color: blue;">
+                    Graph
+                </div>
+                <div>
+                    <div class="secondary-graph-notification" align="left">
+                        Estratégia de Notificações
+                    </div>
+                    <div class="row secondary-graph-notification-settings" style="margin-top: 15px">
+                        <div class="w20 row margin-0" style="padding: 0 15px;" ng-repeat="strategy in notificationsStrategies">
+                            <div class="w10" align="center">
+                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                            </div>
+                            <div class="column w90" style="padding: 0 10px; padding-left: 5px;">
+                                <div class="row secondary-graph-notification-info">
+                                    <div class="w50" align="left">{{strategy.title}}</div>
+                                    <div class="w40" align="center">
+                                        <input type="number" class="secondary-graph-percent-input" min="0" max="100" ng-model="notificationsStrategies[$index].percent" ng-show="strategy.active" ng-change="refreshStrategies($index)">
+                                    </div>
+                                    <div class="w10">
+                                        <span ng-show="strategy.active">
+                                            &#37;
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row secondary-graph-notification-info">
+                                    <div class="w50" align="left" style="font-weight: normal;">
+                                        {{strategy.sub}}
+                                    </div>
+                                    <div class="w50"></div>
+                                </div>
+                                <div class="w100">
+                                    <input type="range" min="0" max="100" value="50" class="secondary-graph-slider" ng-model="notificationsStrategies[$index].percent" ng-change="refreshStrategies($index)" ng-show="strategy.active">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin: 20px 0;">
+                <div class="w50" align="left">
+                    <img src="img/preloading.png" style="height: 50px">
+                </div>
+                <div class="w50" align="right">
+                    <button class="dashboard_invoices-button" ng-click="openModal(2)">Invoices</button>
+                </div>
+            </div>
+            
+        </div>
+        <!-- END CONTENT -->
+
+    </div>
+    <!-- END FIRST COLUMN -->
+
+    <!-- BEGIN SECOND COLUMN -->
+    <div class="col-md-3 dashboard-second-column">
+
+        <div class="min-h33">
+            <nav class="navbar dashboard-navbg">
+              <span class="navbar-text">
+                Indicadores
+                <i class="fa fa-cog cursor-pointer margin-left-10" aria-hidden="true"></i>
+              </span>
+            </nav>
+            <div class="column" style="padding: 15px 0;">
+                <div class="row dashboard-indicators {{indicatorIsOn && selectedIndicator.title == indicator.title ? 'selected-indicator':''}}" ng-repeat="indicator in indicators">
+                    <div class="w10 cursor-pointer" ng-click="selectIndicator($index)" align="center">
+                        <i class="fa fa-circle {{indicator.color == 1 ? 'color-green':'color-red'}}" aria-hidden="true"></i>
+                    </div>
+                    <div class="w40 font-12 cursor-pointer" align="left" ng-click="selectIndicator($index)">{{indicator.title}}</div>
+                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.percent}}</div>
+                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.time}}</div>
+                    <div class="w20">
+                        <label class="switch">
+                          <input type="checkbox" ng-model="indicators[$index].active" ng-change="turnOnIndicator($index)">
+                          <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="w5">
+                        <div class="font-12 cursor-pointer" ng-show="indicatorIsOn && selectedIndicator.title == indicator.title" align="left" ng-click="deselectIndicator()">
+                            X
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="min-h33">
+            <nav class="navbar dashboard-navbg">
+              <span class="navbar-text">
+                Notificações
+                <i class="fa fa-cog cursor-pointer margin-left-10" aria-hidden="true" ng-click="openModal(3)"></i>
+                <i class="fa fa-refresh cursor-pointer margin-left-10" aria-hidden="true" ng-click="notificationsRefresh()"></i>
+              </span>
+            </nav>
+
+            <div class="column padding-15">
+                <div class="row font-10 margin-0 margin-top-10" ng-repeat="notification in notifications">
+                    <div class="w10">
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="w90">
+                        <b>{{notification.title}}</b>
+                        {{notification.sub}}  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="min-h33">
+            <nav class="navbar dashboard-navbg">
+              <span class="navbar-text">
+                Twitter Handles
+              </span>
+            </nav>
+
+            <div class="column">
+
+            </div>
+        </div>
+        
+
+    </div>
+    <!-- END SECOND COLUMN -->
+
+</div>
+
+<div ng-include src="'views/dashboard/modal/modal.html'"></div>

@@ -1,0 +1,53 @@
+.login-background {
+	background-image: url('https://cdn.jsdelivr.net/npm/react-blur-admin@0.11.1/src/assets/img/blur-bg-blurred.jpg'); 
+	background-position: center center;
+	height: 100%;
+	width: 100%;
+	background-repeat: repeat;
+	color: #444 !important;
+	padding-top: 5%;
+}
+
+.login-container {
+	background-color: #e7e7e7;
+}
+
+.login_input-container {
+	background-image: url('/../img/kamajiastronaut.jpg');
+	background-position: center;
+	background-size: 100% auto;
+	padding: 40px 30px;
+}
+
+.login_input-label {
+	color: #fff;
+	margin-bottom: 0px;
+}
+
+.login_text-container {
+	padding: 40px 30px;
+}
+
+.login_button-sign {
+	background-color: #04adee;
+	border: none;
+	height: 45px;
+	width: 40%;
+}
+.login_button-sign:focus {outline:0;}
+
+.login_arrow-right {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 23px 0 22px 30px;
+	border-radius: 1px;
+	border-color: transparent transparent transparent #04adee;
+	float: right;
+}
+
+@media screen and (max-width: 776px) {
+    .login-background {
+        padding-top: 0;
+    }
+}

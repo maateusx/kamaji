@@ -1,0 +1,54 @@
+<div class="login-background" align="center">
+
+    <div class="container">
+        <div class="row login-container">
+        
+            <div class="col-md-5 login_input-container">
+                <img src="img/preloading.png" style="width: 50%">
+
+                <div class="alert alert-warning" role="alert" ng-show="loginAlert.isOn" style="margin-top: 20px;">
+                  {{loginAlert.text}}
+                </div>
+
+                <div align="left" style="margin-top: 20px; width: 80%">
+                    <label for="email-account" class="login_input-label">Email</label>
+                    <div class="input-group">
+                      <input type="email" class="form-control" id="email-account" aria-describedby="basic-addon3" ng-model="account.email" ng-enter="makeLogin()">
+                    </div>
+
+                    <label for="password-account" class="login_input-label" style="margin-top: 10px;">Senha</label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="password-account" aria-describedby="basic-addon3" ng-model="account.password" ng-enter="makeLogin()">
+                    </div>
+                    
+                    <div align="right" style="margin-top: 20px;">
+                        <button class="login_button-sign cursor-pointer" ng-click="makeLogin()"><b>Entrar</b></button>
+                        <div class="login_arrow-right cursor-pointer" ng-click="makeLogin()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 login_text-container" align="left">
+                <h3>Kamaji</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,41 @@
+<div style="margin-top: 20px; padding-bottom: 15px;">
+    <div class="row margin-0">
+      <div class="row margin-0 w70" align="left" style="padding: 0 10px">
+          <div style="font-weight: bold; font-size: 14px">
+            Lista de Invoices
+          </div>
+      </div>
+      <div class="row margin-0 w30" align="right">
+          <div class="w50">
+            <button class="{{invoicesFilter == 1? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectInvoiceFilter(1)">Abertas</button>
+          </div>
+          <div class="w50">
+            <button class="{{invoicesFilter == 2? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectInvoiceFilter(2)">Encerradas</button>
+          </div>
+      </div>
+    </div>
+    <!-- <div class="modalBodyNotification margin-top-10 column" style="width: 100%; overflow-x: auto; ">
+      <div style="background-color: green; border-radius: 0; color: #222; font-weight: bold; width: auto; white-space: nowrap;">
+      	<div class="w30" align="left" style="display: inline-block; float: none;" >Nr. Invoice</div>
+        <div class="w30" align="left" style="display: inline-block; float: none;">Resp. Invoice</div>
+        <div class="w30" align="left" style="display: inline-block;">Tipo</div>
+        <div class="w30" align="left" style="display: inline-block;">Dt. Emissão</div>
+        <div class="w30" align="left" style="display: inline;">Dt. Vencimento</div>
+        <div class="w30" align="left" style="display: inline;">Dt. Pagto</div>
+        <div class="w30" align="left" style="display: inline;">Fornecedor</div>
+        <div class="w30" align="left" style="display: inline;">Valor Invoice</div>
+        <div class="w30" align="left" style="display: inline;">Dólar Previsão</div>
+        <div class="w30" align="left" style="display: inline;">Dólar Pagto</div>
+        <div class="w30" align="left" style="display: inline-block;">Valor Pago</div>
+        <div class="w30" align="left" style="display: inline-block;">Status</div>
+        <div class="w30" align="left" style="display: inline-block;">Observação</div>
+        <div class="w10" align="center" style="display: inline-block;">Opções</div>
+      </div>
+      <div class="row modalNotification-table" ng-repeat="invoice in [1,2,3,4,5]" style="margin-top: 10px;">
+        <div class="w30" align="left">{{contact.name}}</div>
+        <div class="w30" align="left">{{contact.email}}</div>
+        <div class="w30" align="left">{{contact.phone}}</div>
+        <div class="w10" align="center"><i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteContact($index)"></i></div>
+      </div>
+    </div> -->
+</div>
