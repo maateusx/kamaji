@@ -1,58 +1,25 @@
-app.controller("homeController", function($scope, $state, $rootScope){
+app.controller("homeController", function($scope, $state, $rootScope, $http){
 
+
+	// CONSTRUCTOR
 	$scope.user = {
 		avatar: 'img/user-placeholder.jpg',
 		name: 'Mateus Pereira'
-	}
+	};
 
 	$scope.coinType = 'USD/BRL';
 
 	$scope.navDatas = [
-		{title: '3.1715', sub: 'close'},
-		{title: '+0.01%', sub: '24 Hour Change', color: 1},
-		{title: '3.16507', sub: 'High'},
-		{title: '3.17765', sub: 'Low'}
+		{title: 'Não informado', sub: 'close'},
+		{title: 'Não informado', sub: '24 Hour Change', color: 1},
+		{title: 'Não informado', sub: 'High'},
+		{title: 'Não informado', sub: 'Low'}
 	];
-
-	$scope.eoq = true;
-
-	$scope.indicators = [
-		{title: 'MACD', percent: '80%', time: '5d', color: 1, active: false},
-		{title: 'RSI', percent: '50%', time: '2d', color: 1, active: true},
-		{title: 'Bollinger Bands', percent: '20%', time: '2d', color: 0, active: false},
-		{title: 'SuperTrend', percent: '10%', time: '2d', color: 0, active: false}
-	];
-	$rootScope.indicatorIsOn = false;
-
-	$scope.selectIndicator = function(index) {
-		$rootScope.indicatorIsOn = true;
-		$rootScope.selectedIndicator = $scope.indicators[index]; //Change memory address
-		$scope.secondGraph.title = $scope.indicators[index].title;
-	}
-	$scope.deselectIndicator = function() {
-		$rootScope.selectedIndicator = null;
-		$rootScope.indicatorIsOn = false;
-	}
-	$scope.turnOnIndicator = function(index){
-		let indicator = $scope.indicators[index];
-		console.log(indicator);
-	}
-	
-	$scope.notifications = [
-		{title: 'Invoice: HBO - 25/07/2017 - 4 Indicadores Ativos', sub: 'Notificado via celular - 34 9 9277 5400'},
-		{title: 'Invoice: HBO - 24/07/2017 - 5 Indicadores Ativos', sub: 'Notificado via celular - 34 9 9277 5400'},
-		{title: 'Invoice: HBO - 23/07/2017 - 2 Indicadores Ativos', sub: 'Notificado via celular - 34 9 9277 5400'}
-	];
-
-	$scope.notificationsRefresh = function(){
-		//req
-	}
 
 	$scope.mainGraph = {
-		status: 'Good Buy',
-		color: 1,
-		graph: 'Graph1',
-		secondGraph: 'Graph2'
+		status: 'Não informado',
+		color: 0,
+		data: null
 	}
 
 	$scope.secondGraph = {
@@ -64,6 +31,134 @@ app.controller("homeController", function($scope, $state, $rootScope){
 		color: 1,
 		days: 2
 	}
+
+	$scope.indicators = [
+		{title: 'MACD', percent: null, time: '', color: 0, active: false, average: {id: 26, value: null}, deviation: {id: 27, value: null}, distance: {id: 28, value: null}, id: 1},
+		{title: 'MACDH', percent: null, time: '', color: 0, active: false, average: {id: 29, value: null}, deviation: {id: 30, value: null}, distance: {id: 31, value: null}, id: 3},
+		{title: 'RSI', percent: null, time: '', color: 0, active: false, average: {id: 11, value: null}, deviation: {id: 12, value: null}, distance: {id: 13, value: null}, id: 8},
+		{title: 'BB Low', percent: null, time: '', color: 0, active: false, average: {id: 20, value: null}, deviation: {id: 21, value: null}, distance: {id: 22, value: null}, id: 6},
+		{title: 'BB Up', percent: null, time: '', color: 0, active: false, average: {id: 17, value: null}, deviation: {id: 18, value: null}, distance: {id: 19, value: null}, id: 5}
+	];
+	$rootScope.indicatorIsOn = false;
+
+	$scope.getDistance = function(n){
+		$rootScope.req('/indicator/getdata/'+$scope.indicators[n].distance.id, null, 'GET', function(suc){
+			$scope.indicators[n].distance.value = suc;
+			$scope.indicators[n].percent = suc*100 | 0;
+		}, function(err){
+			console.log(err);
+		});
+	}
+	$scope.getTime = function(n){
+		$rootScope.req('/strategy/indicator_days/'+$scope.indicators[n].id, null, 'GET', function(suc){
+			$scope.indicators[n].time = suc;
+		}, function(err){
+			console.log(err);
+		});
+	}
+
+	$scope.init = function() {
+		$rootScope.req('/indicator/getdata/7', null, 'GET', function(suc){
+			$scope.navDatas[0].title = suc;
+		}, function(err){
+			console.log(err);
+		});
+
+		$rootScope.req('/indicator/getdata/10', null, 'GET', function(suc){
+			$scope.navDatas[1].title = suc;
+			if(suc > 0){
+				$scope.navDatas[1].color = 1;
+			} else {
+				$scope.navDatas[1].color = 0;
+			}
+		}, function(err){
+			console.log(err);
+		});
+
+		$rootScope.req('/indicator/getdata/high', null, 'GET', function(suc){
+			$scope.navDatas[2].title = suc;
+		}, function(err){
+			console.log(err);
+		});
+
+		$rootScope.req('/indicator/getdata/low', null, 'GET', function(suc){
+			$scope.navDatas[3].title = suc;
+		}, function(err){
+			console.log(err);
+		});
+
+		$rootScope.req('/chart/getall/line', null, 'GET', function(suc){
+			console.log('line: ' + suc);
+			$scope.mainGraph.data = suc;
+		}, function(err){
+			console.log(err);
+		});
+
+		$rootScope.req('/signal/getall', null, 'GET', function(suc){
+			for(var i=0; i<suc.length; i++){
+				for(var j=0; j<$scope.indicators.length; j++){
+					if(suc[i] == $scope.indicators[j].id)
+						$scope.indicators[j].color = 1;
+				}
+			}
+		}, function(err){
+			console.log(err);
+		});
+
+		$rootScope.req('/overview', null, 'GET', function(suc){
+			if(suc){
+				$scope.mainGraph.status = 'Tendência de Subida';
+				$scope.mainGraph.color =  1;
+			} else {
+				$scope.mainGraph.status = 'Tendência Indefinida';
+				$scope.mainGraph.color =  0;
+			}
+		}, function(err){
+			console.log(err);
+		});
+
+		//GET DISTANCE
+		$scope.getDistance(0); $scope.getTime(0);
+		$scope.getDistance(1); $scope.getTime(1);
+		$scope.getDistance(2); $scope.getTime(2);
+		$scope.getDistance(3); $scope.getTime(3);
+		$scope.getDistance(4); $scope.getTime(4);
+	}
+	$scope.init();
+
+	//INDICATORS
+	$scope.selectIndicator = function(index) {
+		$rootScope.indicatorIsOn = true;
+		$rootScope.selectedIndicator = $scope.indicators[index]; //Change memory address
+		$scope.secondGraph.title = $scope.indicators[index].title;
+	}
+	$scope.deselectIndicator = function() {
+		$rootScope.selectedIndicator = null;
+		$rootScope.indicatorIsOn = false;
+	}
+	$scope.turnOnIndicator = function(index){
+		//DADOS DO GRAFICO1 EM BAIXO
+		let indicator = $scope.indicators[index];
+		$rootScope.req('/chart/indicator/'+indicator.id, null, 'GET', function(success){
+			console.log(success, 'success');
+		}, function(error){
+			console.log(error, 'err')
+		})
+	}
+	
+//	$scope.notifications = [];
+
+	$scope.notificationsRefresh = function(){
+		$rootScope.req('/notification/getall', null, 'GET', function(suc){
+			suc = suc.slice(0, 1) + suc.slice(2);
+			suc = suc.slice(0,suc.length-2) + suc.slice(suc.length)+']';
+			suc=JSON.parse(suc);
+			$scope.notifications = suc;
+		}, function(err){
+			console.log(err);
+		});
+	}
+	$scope.notificationsRefresh();
 
 	$scope.ranger = 50;
 
@@ -133,6 +228,18 @@ app.controller("homeController", function($scope, $state, $rootScope){
 		$scope.contacts.push({name: $scope.contactNew.name, email: $scope.contactNew.email, phone: $scope.contactNew.phone})
 		$scope.contactNew = {};
 	}
+	$scope.newInvoice = {};
+	$scope.createInvoice = function()
+	{
+		alert($scope.newInvoice);
+		$rootScope.req('/invoice/register/'+$scope.newInvoice.num+'/'+$scope.newInvoice.resp+'/'+$scope.newInvoice.type+'/'+$scope.newInvoice.emission+'/'+$scope.newInvoice.expirate+'/'+$scope.newInvoice.forn+'/'+$scope.newInvoice.total+'/'+$scope.newInvoice.prevision+'/'+$scope.newInvoice.obs, null, 'GET', function(suc){
+			console.log(suc);
+			alert(222222222)		
+		}, function(err){
+			alert(1111111)
+			console.log(err);
+		});
+	}
 	/* -- END NOTIFICATION MODAL -- */
 
 	$scope.logout = function(){
@@ -141,4 +248,65 @@ app.controller("homeController", function($scope, $state, $rootScope){
 		$rootScope = $rootScope.$new(true);
 		$scope = $scope.$new(true);
 	}
+
+	TESTER = document.getElementById('tester');
+
+	var data = [{
+    x: [1, 2, 3, 4, 5],
+    y: [1, 2, 4, 8, 16] }];
+
+
+    var trace1 = {
+	  x: [1, 2, 3, 4],
+	  y: [10, 15, 13, 17],
+	  mode: 'markers',
+	  marker: {
+	    color: 'rgb(219, 64, 82)',
+	    size: 12
+	  }
+	};
+
+	var trace2 = {
+	  x: [2, 3, 4, 5],
+	  y: [16, 5, 11, 9],
+	  mode: 'lines',
+	  line: {
+	    color: 'rgb(55, 128, 191)',
+	    width: 3
+	  }
+	};
+
+	var trace3 = {
+	  x: [1, 2, 3, 4],
+	  y: [12, 9, 15, 12],
+	  mode: 'lines+markers',
+	  marker: {
+	    color: 'rgb(128, 0, 128)',
+	    size: 8
+	  },
+	  line: {
+	    color: 'rgb(128, 0, 128)',
+	    width: 1
+	  }
+	};
+
+	var layout = {
+	   scene:{
+		xaxis: {
+		 backgroundcolor: "rgb(255,255,255,0)",
+		 showbackground: false,
+		}, 
+	    yaxis: {
+	     backgroundcolor: "rgb(255,255,255)",
+	     showbackground: false,
+	    }, 
+	    zaxis: {
+	     backgroundcolor: "rgb(255,255,255)",
+	     showbackground: false,
+	    }}
+	};
+Plotly.plot( TESTER, data, layout);
+
+/* Current Plotly.js version */
+console.log( Plotly.BUILD );
 })

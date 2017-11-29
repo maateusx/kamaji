@@ -40,13 +40,14 @@
                     <i class="fa fa-circle {{mainGraph.color == 1 ? 'color-green':''}}{{mainGraph.color == 0 ? 'color-red':''}}" aria-hidden="true"></i>
                     <span class="dashboard_graph-status">{{mainGraph.status}}</span>   
                 </div>
-                <div style="height: 250px; width: 100%; margin-top: 20px; background-color: red;">
-                    {{mainGraph.graph}}
-                </div>
-                <div style="height: 100px; width: 100%; background-color: green;">
-                    {{mainGraph.secondGraph}}
+
+                <div id="tester" style="width:100%;height:250px; margin-top: 20px;"></div>
+                
+                <div style="height: 100px; width: 100%; background-color: green;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active">
+                    {{graph_indicator.title}}
                 </div>
             </div>
+
 
             <div ng-show="indicatorIsOn">
                 <div class="row secondary-graph-status" align="center">
@@ -54,24 +55,24 @@
                         <i class="fa fa-circle color-green" aria-hidden="true" style="font-size:14px;"></i>    
                     </div>
                     <div class="w18" align="left">
-                        <div>{{secondGraph.title}}</div>
+                        <div>{{selectedIndicator.title}}</div>
                         <div class="font-normal">{{secondGraph.sub}}</div>  
                     </div>
                     <div class="w18" align="left">
-                        <div>{{secondGraph.average}}</div>
+                        <div>{{selectedIndicator.average.value}}</div>
                         <div class="font-normal">Média</div>     
                     </div>
                     <div class="w18" align="left">
-                        <div>{{secondGraph.deviation}}</div>
+                        <div>{{selectedIndicator.deviation.value}}</div>
                         <div class="font-normal">Desvio Padrão</div>   
                     </div>
                     <div class="w18" align="left">
-                        <div>{{secondGraph.distance}}</div>
+                        <div>{{selectedIndicator.distance.value | number:6}}</div>
                         <div class="font-normal">Distância Atual</div>     
                     </div>
                     <div class="w18 row margin-0" align="left">
-                        <div class="secondary-graph-days {{secondGraph.color == 1? 'color-green':'color-red'}}" align="center">
-                            {{secondGraph.days}}
+                        <div class="secondary-graph-days {{selectedIndicator.color == 1? 'color-green':'color-red'}}" align="center">
+                            {{selectedIndicator.days}}
                         </div>
                         <div style="padding-left: 5px;">
                             <div class="font-normal">Dias<br>Passados</div> 
@@ -147,8 +148,8 @@
                         <i class="fa fa-circle {{indicator.color == 1 ? 'color-green':'color-red'}}" aria-hidden="true"></i>
                     </div>
                     <div class="w40 font-12 cursor-pointer" align="left" ng-click="selectIndicator($index)">{{indicator.title}}</div>
-                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.percent}}</div>
-                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.time}}</div>
+                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.percent}}<span ng-show="indicator.percent">%</span></div>
+                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.time}}<span ng-show="indicator.time">d</span></div>
                     <div class="w20">
                         <label class="switch">
                           <input type="checkbox" ng-model="indicators[$index].active" ng-change="turnOnIndicator($index)">
@@ -179,8 +180,7 @@
                         <i class="fa fa-circle" aria-hidden="true"></i>
                     </div>
                     <div class="w90">
-                        <b>{{notification.title}}</b>
-                        {{notification.sub}}  
+                        <b>Invoice: {{notification.message}} - {{notification.date.split(' ')[0]}} - {{notification.indicadores}} Indicadores Ativos {{notification.title}}</b> 
                     </div>
                 </div>
             </div>

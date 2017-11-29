@@ -9,21 +9,19 @@ var app = angular.module('kamaji', [
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
 
-  $rootScope.reqApiURL = "";
-  $rootScope.serverURL = "";
+  $rootScope.reqApiURL = "http://10.15.36.41:5000";
+  $rootScope.serverURL = "http://10.15.36.41:5000";
 
-  $rootScope.req = function(service, params, type, success, error){
+  $rootScope.req = function(service, params, type, successCB, errorCB){
     $http({
-      url: $rootScope.reqApiURL + service,
-      method: type,
-      data: params  
-    })
-    .success(function(data){
-      success(data);
-    })
-    .error(function(err){
-      error(err);
-    });  
+      method: type, 
+      data: params,
+      url: $rootScope.reqApiURL + service
+    }).then(function (response) {
+      successCB(response.data);
+    },function (error){
+      errorCB(error);
+    });
   }
 
   $rootScope.reqLoading = function(service, params, type, success, error){
