@@ -4,7 +4,7 @@
 
       <div class="modal-header" style="background-color: #07080a; border-radius: 0px; border:none;">
         <h5 class="modal-title" id="modalLabel">
-            <button class="modalTab {{seletecdTab == 1? 'modalSelectedTab':''}}" ng-click="changeTab(1)">Adicionar Invoice</button>
+            <button class="modalTab {{seletecdTab == 1? 'modalSelectedTab':''}}" ng-click="changeTab(1)">{{editInvoiceShow? 'Editar ':'Adicionar '}}Invoice</button>
             <button class="modalTab {{seletecdTab == 2? 'modalSelectedTab':''}}" ng-click="changeTab(2)">Invoice</button>
             <button class="modalTab {{seletecdTab == 3? 'modalSelectedTab':''}}" ng-click="changeTab(3)">Notificações</button>
         </h5>

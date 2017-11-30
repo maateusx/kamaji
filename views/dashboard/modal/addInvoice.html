@@ -113,8 +113,12 @@
 </div>
 
 <div style="margin-top: 15px; padding-right: 10px;" align="right">
-    <button class="modalNotificationButton" ng-click="createInvoice()">
+    <button class="modalNotificationButton" ng-click="createInvoice()" ng-show="!editInvoiceShow">
       <i class="fa fa-plus-circle" aria-hidden="true" style="margin-right: 5px;"></i>
       Cadastrar
+    </button>
+    <button class="modalNotificationButton" ng-click="updateInvoice()" ng-show="editInvoiceShow">
+      <i class="fa fa-plus-circle" aria-hidden="true" style="margin-right: 5px;"></i>
+      Atualizar
     </button>
 </div>

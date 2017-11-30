@@ -1,5 +1,6 @@
 app.controller("homeController", function($scope, $state, $rootScope, $http){
 
+	$rootScope.admin = true;
 
 	// CONSTRUCTOR
 	$scope.user = {
@@ -175,7 +176,6 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		//req
 	}
  
-
  	/* -- MODAL -- */
 	$scope.openModal = function(tab){
 		$rootScope.seletecdTab = tab;
@@ -183,15 +183,109 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.changeTab = function(tab){
 		$rootScope.seletecdTab = tab;
+		$scope.paymentInvoiceShow = false;
+		$scope.editInvoiceShow = false;
+	}
+	/* -- BEGIN INVOICE MODAL --*/
+	
+
+	$scope.editInvoiceShow = false;
+	$scope.showEditInvoice = function(invoice){
+		$scope.newInvoice = invoice;
+		$rootScope.seletecdTab = 1; 
+	}
+	$scope.updateInvoice = function(){
+		$rootScope.selectedInvoice = $scope.newInvoice;
+		if($rootScope.selectedInvoice.num == null || $rootScope.selectedInvoice.num == ''
+			|| $rootScope.selectedInvoice.resp == null || $rootScope.selectedInvoice.resp == ''
+			|| $rootScope.selectedInvoice.type == null || $rootScope.selectedInvoice.type == ''
+			|| $rootScope.selectedInvoice.emission == null || $rootScope.selectedInvoice.emission == ''
+			|| $rootScope.selectedInvoice.expirate == null || $rootScope.selectedInvoice.expirate == ''
+			|| $rootScope.selectedInvoice.forn == null || $rootScope.selectedInvoice.forn == ''
+			|| $rootScope.selectedInvoice.total == null || $rootScope.selectedInvoice.total == '' 
+			|| $rootScope.selectedInvoice.prevision == null || $rootScope.selectedInvoice.prevision == ''
+			|| $rootScope.selectedInvoice.obs == null || $rootScope.selectedInvoice.obs == ''){
+			alert("Preencha todos os campos corretamente!");
+			return;
+		}
+		//trocar . por ,
+		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.num+'/'+$rootScope.selectedInvoice.resp+'/'+$rootScope.selectedInvoice.type+'/'+$rootScope.selectedInvoice.emission+'/'+$rootScope.selectedInvoice.expirate+'/'+$rootScope.selectedInvoice.forn+'/'+$rootScope.selectedInvoice.total+'/'+$rootScope.selectedInvoice.prevision+'/'+$rootScope.selectedInvoice.obs, null, 'GET', function(suc){
+			alert('Invoice atualizado com sucesso!');
+			$rootScope.selectedInvoice = {};
+			$rootScope.seletecdTab = null; 
+			$scope.editInvoiceShow = false;
+		}, function(err){
+			console.log(err);
+		});	
 	}
 
-	/* -- BEGIN INVOICE MODAL --*/
+	$scope.paymentInvoiceShow = false;
+	$scope.showPaymentInvoice = function(invoice){
+		$rootScope.selectedInvoice = invoice; 
+	}
+	$scope.payInvoice = function(){
+		if($rootScope.selectedInvoice.num == null || $rootScope.selectedInvoice.num == ''
+			|| $rootScope.selectedInvoice.payDate == null || $rootScope.selectedInvoice.payDate == ''
+			|| $rootScope.selectedInvoice.payDolar == null || $rootScope.selectedInvoice.payDolar == ''
+			|| $rootScope.selectedInvoice.payTotal == null || $rootScope.selectedInvoice.payTotal == ''){
+			alert("Preencha todos os campos corretamente!");
+			return;
+		}
+		//trocar . por ,
+		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.num+'/'+$rootScope.selectedInvoice.payDate+'/'+$rootScope.selectedInvoice.payDolar+'/'+$rootScope.selectedInvoice.payTotal, null, 'GET', function(suc){
+			alert('Invoice atualizado com sucesso!');
+			$rootScope.selectedInvoice = {};
+			$rootScope.seletecdTab = null; 
+			$scope.paymentInvoiceShow = false;
+		}, function(err){
+			console.log(err);
+		});	
+	}
+
+	$scope.newInvoice = {};
+	$scope.createInvoice = function()
+	{
+		if($scope.newInvoice.num == null || $scope.newInvoice.num == ''
+			|| $scope.newInvoice.resp == null || $scope.newInvoice.resp == ''
+			|| $scope.newInvoice.type == null || $scope.newInvoice.type == ''
+			|| $scope.newInvoice.emission == null || $scope.newInvoice.emission == ''
+			|| $scope.newInvoice.expirate == null || $scope.newInvoice.expirate == ''
+			|| $scope.newInvoice.forn == null || $scope.newInvoice.forn == ''
+			|| $scope.newInvoice.total == null || $scope.newInvoice.total == '' 
+			|| $scope.newInvoice.prevision == null || $scope.newInvoice.prevision == ''
+			|| $scope.newInvoice.obs == null || $scope.newInvoice.obs == ''){
+			alert("Preencha todos os campos corretamente!");
+			return;
+		}
+		//trocar . por ,
+		$rootScope.req('/invoice/register/'+$scope.newInvoice.num+'/'+$scope.newInvoice.resp+'/'+$scope.newInvoice.type+'/'+$scope.newInvoice.emission+'/'+$scope.newInvoice.expirate+'/'+$scope.newInvoice.forn+'/'+$scope.newInvoice.total+'/'+$scope.newInvoice.prevision+'/'+$scope.newInvoice.obs, null, 'GET', function(suc){
+			alert('Invoice criado com sucesso!');
+			$scope.newInvoice = {};
+		}, function(err){
+			console.log(err);
+		});
+	}
+
 	$scope.invoicesFilter = 1;
 	$scope.selectInvoiceFilter = function(n){
 		$scope.invoicesFilter = n;
 	}
-	/* -- END INVOICE MODAL -- */
 
+	$scope.openInvoices = [];
+	$scope.getAllInvoices = function(){
+		$rootScope.req('/invoice/getopen', null, 'GET', function(suc){
+			$scope.openInvoices = suc;
+		}, function(err){
+			console.log(err);
+		});
+		$rootScope.req('/invoice/getclose', null, 'GET', function(suc){
+			$scope.closeInvoices = suc;
+		}, function(err){
+			console.log(err);
+		});
+	}
+	$scope.getAllInvoices();
+	/* -- END INVOICE MODAL -- */
 
 	/* -- BEGIN NOTIFICATION MODAL -- */
 	$rootScope.notificationFilter = 1;
@@ -212,31 +306,29 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		email: '',
 		phone: ''
 	}
-	$scope.contacts = [
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'},
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'},
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'},
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'},
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'},
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'},
-		{name: 'Mateus P', phone:'(12) 11233-1233', email: 'mateus@email.com'}
-	];
+	$scope.contacts = [];
+	$scope.getContact = function(){
+		$rootScope.req('/contacts/getall', null, 'GET', function(suc){
+			$scope.contacts = suc;
+		}, function(err){
+			console.log(err);
+		});
+	}
+	$scope.getContact();
 	$scope.deleteContact = function(index){
 		$scope.contacts.splice(index,1);
 	}
 	$scope.newContact = function(){
-		$scope.contacts.push({name: $scope.contactNew.name, email: $scope.contactNew.email, phone: $scope.contactNew.phone})
-		$scope.contactNew = {};
-	}
-	$scope.newInvoice = {};
-	$scope.createInvoice = function()
-	{
-		alert($scope.newInvoice);
-		$rootScope.req('/invoice/register/'+$scope.newInvoice.num+'/'+$scope.newInvoice.resp+'/'+$scope.newInvoice.type+'/'+$scope.newInvoice.emission+'/'+$scope.newInvoice.expirate+'/'+$scope.newInvoice.forn+'/'+$scope.newInvoice.total+'/'+$scope.newInvoice.prevision+'/'+$scope.newInvoice.obs, null, 'GET', function(suc){
-			console.log(suc);
-			alert(222222222)		
+		if($scope.contactNew.name == null || $scope.contactNew.name == ''
+			|| $scope.contactNew.email == null || $scope.contactNew.email == ''
+			|| $scope.contactNew.phone == null || $scope.contactNew.phone == ''){
+			alert('Preencha todos os campos corretamente!');
+			return;
+		}
+		$rootScope.req('/contacts/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone, null, 'GET', function(suc){
+			$scope.contacts.push($scope.contactNew);
+			$scope.contactNew = {};
 		}, function(err){
-			alert(1111111)
 			console.log(err);
 		});
 	}
@@ -248,6 +340,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope = $rootScope.$new(true);
 		$scope = $scope.$new(true);
 	}
+
+ /* ---------------------- */
 
 	TESTER = document.getElementById('tester');
 

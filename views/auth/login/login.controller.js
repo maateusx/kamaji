@@ -29,8 +29,11 @@ app.controller("loginController", function($scope, $state, $rootScope){
 			$state.go('home');
 		}, function(error){
 			console.log(error);
+			alert('Email e/ou Senha Incorreto.');
 		});
 	}
+
+	$state.go('home');
 
 	//check cache
 	if(localStorage.getItem('email') != null && localStorage.getItem('email')!= '' 
