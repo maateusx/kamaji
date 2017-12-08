@@ -43,9 +43,9 @@
 
                 <!-- <div id="tester" style="width:100%;height:250px; margin-top: 20px;"></div> -->
                 <canvas id="line" class="chart chart-line" chart-data="data"
-chart-labels="labels" chart-series="series" chart-options="options"
-chart-dataset-override="datasetOverride" chart-click="onClick">
-</canvas>
+                chart-labels="labels" chart-series="series" chart-options="options"
+                chart-dataset-override="datasetOverride">
+                </canvas>
                 
                 <div style="height: 100px; width: 100%; background-color: green;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active">
                     {{graph_indicator.title}}
@@ -119,6 +119,33 @@ chart-dataset-override="datasetOverride" chart-click="onClick">
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="row w30" align="right">
+                            <div class="w10" align="center">
+                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                            </div>
+                            <div class="w60">
+                                Consevador
+                            </div>
+                        </div>
+                        <div class="row w30" align="center">
+                            <div class="w10" align="center">
+                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                            </div>
+                            <div class="w60">
+                                Muito Conservador
+                            </div>
+                        </div>
+                        <div class="row w30" align="center">
+                            <div class="w10" align="center">
+                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                            </div>
+                            <div class="w60">
+                                Ultra Consevador
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
             <div class="row" style="margin: 20px 0;">
@@ -148,12 +175,12 @@ chart-dataset-override="datasetOverride" chart-click="onClick">
             </nav>
             <div class="column" style="padding: 15px 0;">
                 <div class="row dashboard-indicators {{indicatorIsOn && selectedIndicator.title == indicator.title ? 'selected-indicator':''}}" ng-repeat="indicator in indicators">
-                    <div class="w10 cursor-pointer" ng-click="selectIndicator($index)" align="center">
+                    <div class="w10 cursor-pointer" ng-click="selectIndicator($index); turnOnIndicator($index);" align="center">
                         <i class="fa fa-circle {{indicator.color == 1 ? 'color-green':'color-red'}}" aria-hidden="true"></i>
                     </div>
-                    <div class="w40 font-12 cursor-pointer" align="left" ng-click="selectIndicator($index)">{{indicator.title}}</div>
-                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.percent}}<span ng-show="indicator.percent">%</span></div>
-                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index)">{{indicator.time}}<span ng-show="indicator.time">d</span></div>
+                    <div class="w40 font-12 cursor-pointer" align="left" ng-click="selectIndicator($index); turnOnIndicator($index);">{{indicator.title}}</div>
+                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index); turnOnIndicator($index);">{{indicator.percent}}<span ng-show="indicator.percent">%</span></div>
+                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index); turnOnIndicator($index);">{{indicator.time}}<span ng-show="indicator.time">d</span></div>
                     <div class="w20">
                         <label class="switch">
                           <input type="checkbox" ng-model="indicators[$index].active" ng-change="turnOnIndicator($index)">

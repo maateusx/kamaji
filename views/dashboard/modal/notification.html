@@ -69,6 +69,7 @@
         <div class="w10" align="center"><b>Opções</b></div>
       </div>
       <div class="row modalNotification-table" ng-repeat="contact in contacts | filter:notificationSearch">
+        {{contact}}
         <div class="w30" align="left" ng-show="notificationFilter == 1">{{contact.name}}</div>
         <div class="w30" align="left" ng-show="notificationFilter == 1 || notificationFilter == 3">{{contact.email}}</div>
         <div class="w30" align="left" ng-show="notificationFilter == 1 || notificationFilter == 2">{{contact.phone}}</div>

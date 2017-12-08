@@ -93,8 +93,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			//console.log('/chart/getall/line: ' + JSON.stringify(suc));
 			$scope.mainGraph.data = suc.data;
 			 for(var i=0; i<$scope.mainGraph.data.length; i++){
-
-			 	$scope.labels.push($scope.mainGraph.data[i].Date);
+			 	var stringaux = $scope.mainGraph.data[i].Date.split('T');
+			 	$scope.labels.push(stringaux[0]);
 			 	$scope.data.push($scope.mainGraph.data[i].Close);
 			 }
 			  $scope.series = ['Series A'];
@@ -103,13 +103,15 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			  };
 			  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
 			  $scope.options = {
+			  	elements: { point: { radius: 0 } },
 			    scales: {
 			      yAxes: [
 			        {
 			          id: 'y-axis-1',
 			          type: 'linear',
 			          display: true,
-			          position: 'left'
+			          position: 'left',
+			          scaleShowLabels: false
 			        }
 			      ]
 			    }
@@ -150,10 +152,23 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.init();
 
+	$scope.getDataN = function(n){
+		$rootScope.req('/indicator/getdata/'+n, null, 'GET', function(suc){
+			if(n == 26)
+				$rootScope.selectedIndicator.average.value = suc;
+			else if(n == 27)
+				$rootScope.selectedIndicator.deviation.value = suc;
+		}, function(error){
+
+		})
+	}
+
 	//INDICATORS
 	$scope.selectIndicator = function(index) {
 		$rootScope.indicatorIsOn = true;
 		$rootScope.selectedIndicator = $scope.indicators[index]; //Change memory address
+		$scope.getDataN(26); //fazer para todOS INDICADORES
+		$scope.getDataN(27);
 		$scope.secondGraph.title = $scope.indicators[index].title;
 	}
 	$scope.deselectIndicator = function() {
@@ -165,6 +180,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		let indicator = $scope.indicators[index];
 		$rootScope.req('/chart/indicator/'+indicator.id, null, 'GET', function(success){
 			console.log(success, 'success');
+			$scope.indicatorGraph = success.data;
 		}, function(error){
 			console.log(error, 'err')
 		})
@@ -288,6 +304,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.req('/invoice/register/'+$scope.newInvoice.num+'/'+$scope.newInvoice.resp+'/'+$scope.newInvoice.type+'/'+emission+'/'+expirate+'/'+$scope.newInvoice.forn+'/'+$scope.newInvoice.total+'/'+$scope.newInvoice.prevision+'/'+$scope.newInvoice.obs, null, 'GET', function(suc){
 			alert('Invoice criado com sucesso!');
 			$scope.newInvoice = {};
+			$scope.getAllInvoices();
 		}, function(err){
 			console.log(err);
 		});
@@ -336,7 +353,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.contacts = [];
 	$scope.getContact = function(){
 		$rootScope.req('/contact/getall', null, 'GET', function(suc){
-//			$scope.contacts = suc;
+			$scope.contacts = suc;
 		}, function(err){
 			console.log(err);
 		});
@@ -352,10 +369,13 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			alert('Preencha todos os campos corretamente!');
 			return;
 		}
-		$rootScope.req('/contacts/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone, null, 'GET', function(suc){
-			$scope.contacts.push($scope.contactNew);
+		$rootScope.req('/contact/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone, null, 'GET', function(suc){
+			$scope.getContact();
+			alert(1);
+			//$scope.contacts.push($scope.contactNew);
 			$scope.contactNew = {};
 		}, function(err){
+			alert(2);
 			console.log(err);
 		});
 	}

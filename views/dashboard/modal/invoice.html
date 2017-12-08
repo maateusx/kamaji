@@ -17,6 +17,7 @@
     <div ng-show="invoicesFilter == 1">
       <div class="modalBodyNotification margin-top-10 column" style="width:100%; overflow-x: auto; ">
         <div style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap;">
+          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);" >-</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);" >Nr. Invoice</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Resp. Invoice</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Tipo</div>
@@ -33,6 +34,11 @@
           <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Opções</div>
         </div>
         <div class="modalNotification-table" ng-repeat="invoice in openInvoices" style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap; margin-top: 10px;">
+          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">
+            <i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i>
+            <i class="fa fa-dollar cursor-pointer" aria-hidden="true"></i>
+            <i class="fa fa-bell cursor-pointer" aria-hidden="true"></i>
+          </div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.nro_invoice}}</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.resp_invoice}}</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.tipo}}</div>
