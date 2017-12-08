@@ -36,8 +36,8 @@
         <div class="modalNotification-table" ng-repeat="invoice in openInvoices" style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap; margin-top: 10px;">
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">
             <i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i>
-            <i class="fa fa-dollar cursor-pointer" aria-hidden="true"></i>
-            <i class="fa fa-bell cursor-pointer" aria-hidden="true"></i>
+            <i class="fa fa-dollar cursor-pointer" aria-hidden="true" style="margin-left: 7px;"></i>
+            <i class="fa fa-bell cursor-pointer" aria-hidden="true" style="margin-left: 7px;"></i>
           </div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.nro_invoice}}</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.resp_invoice}}</div>
@@ -91,7 +91,7 @@
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.valor_pago}}</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.status}}</div>
           <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.observacao}}</div>
-          <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);"><i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteContact($index)"></i></div>
+          <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);"><i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteInvoice($index)"></i></div>
         </div>
         <div align="center" ng-show="closeInvoices.length == 0" style="width: 100%">
           <h5>Nenhuma invoice fechada.</h5>

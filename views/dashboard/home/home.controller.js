@@ -175,12 +175,37 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.selectedIndicator = null;
 		$rootScope.indicatorIsOn = false;
 	}
+
 	$scope.turnOnIndicator = function(index){
 		//DADOS DO GRAFICO1 EM BAIXO
 		let indicator = $scope.indicators[index];
 		$rootScope.req('/chart/indicator/'+indicator.id, null, 'GET', function(success){
-			console.log(success, 'success');
+			//console.log(success, 'success');
 			$scope.indicatorGraph = success.data;
+			for(var i=0; i<$scope.indicatorGraph.length; i++){
+			 	var stringaux = $scope.indicatorGraph[i].Date.split('T');
+			 	$scope.labels2.push(stringaux[0]);
+			 	$scope.data2.push($scope.indicatorGraph[i].Close);
+			 }
+			  $scope.series2 = ['Series A'];
+			/*  $scope.onClick = function (points, evt) {
+			    console.log(points, evt);
+			  };*/
+			  $scope.datasetOverride2 = [{ yAxisID: 'y-axis-1' }];
+			  $scope.options2 = {
+			  	elements: { point: { radius: 0 } },
+			    scales: {
+			      yAxes: [
+			        {
+			          id: 'y-axis-1',
+			          type: 'linear',
+			          display: true,
+			          position: 'left',
+			          scaleShowLabels: false
+			        }
+			      ]
+			    }
+			};
 		}, function(error){
 			console.log(error, 'err')
 		})
@@ -329,6 +354,15 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 	}
 	$scope.getAllInvoices();
+
+	$scope.deleteInvoice = function(index){
+		$rootScope.req('/invoice/delete/'+$scope.openInvoices[index].nro_invoice, null, 'GET', function(suc){
+			$scope.contacts.splice(index,1);
+			$scope.getContact();
+		}, function(err){
+			console.log(err);
+		});
+	}
 	/* -- END INVOICE MODAL -- */
 
 	/* -- BEGIN NOTIFICATION MODAL -- */
@@ -360,7 +394,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.getContact();
 	$scope.deleteContact = function(index){
-		$scope.contacts.splice(index,1);
+		$rootScope.req('/contact/delete/'+$scope.contacts[index].email, null, 'GET', function(suc){
+			$scope.contacts.splice(index,1);
+			$scope.getContact();
+		}, function(err){
+			console.log(err);
+		});
 	}
 	$scope.newContact = function(){
 		if($scope.contactNew.name == null || $scope.contactNew.name == ''
@@ -370,12 +409,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			return;
 		}
 		$rootScope.req('/contact/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone, null, 'GET', function(suc){
+			$scope.contacts.push($scope.contactNew);
 			$scope.getContact();
-			alert(1);
-			//$scope.contacts.push($scope.contactNew);
+			//alert(1);
 			$scope.contactNew = {};
 		}, function(err){
-			alert(2);
+			//alert(2);
 			console.log(err);
 		});
 	}
