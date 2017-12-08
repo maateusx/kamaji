@@ -1,7 +1,8 @@
 var app = angular.module('kamaji', [
   'kamaji.auth',
   'kamaji.dashboard',
-  'ui.router'
+  'ui.router',
+  'chart.js'
 ])
 
 .run(function ($rootScope, $http, $location, $window, $state, $stateParams) {

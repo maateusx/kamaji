@@ -11,7 +11,8 @@ app.controller("loginController", function($scope, $state, $rootScope){
 	}
 
 	$scope.makeLogin = function (){
-		$scope.loginAlert.isOn = false;
+		$state.go('home');
+		/*$scope.loginAlert.isOn = false;
 		if($scope.account.email == '' || $scope.account.email == null){
 			$scope.loginAlert.isOn = true;
 			$scope.loginAlert.text = 'Por favor, digite um email!';
@@ -30,10 +31,8 @@ app.controller("loginController", function($scope, $state, $rootScope){
 		}, function(error){
 			console.log(error);
 			alert('Email e/ou Senha Incorreto.');
-		});
+		});*/
 	}
-
-	$state.go('home');
 
 	//check cache
 	if(localStorage.getItem('email') != null && localStorage.getItem('email')!= '' 

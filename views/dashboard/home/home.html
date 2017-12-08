@@ -1,4 +1,4 @@
-<div class="dashboard-background row">
+    <div class="dashboard-background row">
         
     <!-- BEGIN FIRST COLUMN -->
     <div class="col-md-9 dashboard-first-column">
@@ -41,7 +41,11 @@
                     <span class="dashboard_graph-status">{{mainGraph.status}}</span>   
                 </div>
 
-                <div id="tester" style="width:100%;height:250px; margin-top: 20px;"></div>
+                <!-- <div id="tester" style="width:100%;height:250px; margin-top: 20px;"></div> -->
+                <canvas id="line" class="chart chart-line" chart-data="data"
+chart-labels="labels" chart-series="series" chart-options="options"
+chart-dataset-override="datasetOverride" chart-click="onClick">
+</canvas>
                 
                 <div style="height: 100px; width: 100%; background-color: green;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active">
                     {{graph_indicator.title}}

@@ -62,7 +62,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.req('/indicator/getdata/7', null, 'GET', function(suc){
 			$scope.navDatas[0].title = suc;
 		}, function(err){
-			console.log(err);
+			console.log('/indicator/getdata/7',err);
 		});
 
 		$rootScope.req('/indicator/getdata/10', null, 'GET', function(suc){
@@ -73,24 +73,47 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 				$scope.navDatas[1].color = 0;
 			}
 		}, function(err){
-			console.log(err);
+			console.log('/indicator/getdata/10',err);
 		});
 
 		$rootScope.req('/indicator/getdata/high', null, 'GET', function(suc){
 			$scope.navDatas[2].title = suc;
 		}, function(err){
-			console.log(err);
+			console.log('/indicator/getdata/high',err);
 		});
 
 		$rootScope.req('/indicator/getdata/low', null, 'GET', function(suc){
 			$scope.navDatas[3].title = suc;
 		}, function(err){
-			console.log(err);
+			console.log('/indicator/getdata/low',err);
 		});
 
+		//MAIN GRAPH
 		$rootScope.req('/chart/getall/line', null, 'GET', function(suc){
-			console.log('line: ' + suc);
-			$scope.mainGraph.data = suc;
+			//console.log('/chart/getall/line: ' + JSON.stringify(suc));
+			$scope.mainGraph.data = suc.data;
+			 for(var i=0; i<$scope.mainGraph.data.length; i++){
+
+			 	$scope.labels.push($scope.mainGraph.data[i].Date);
+			 	$scope.data.push($scope.mainGraph.data[i].Close);
+			 }
+			  $scope.series = ['Series A'];
+			  $scope.onClick = function (points, evt) {
+			    console.log(points, evt);
+			  };
+			  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+			  $scope.options = {
+			    scales: {
+			      yAxes: [
+			        {
+			          id: 'y-axis-1',
+			          type: 'linear',
+			          display: true,
+			          position: 'left'
+			        }
+			      ]
+			    }
+			  };
 		}, function(err){
 			console.log(err);
 		});
@@ -119,11 +142,11 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 
 		//GET DISTANCE
-		$scope.getDistance(0); $scope.getTime(0);
-		$scope.getDistance(1); $scope.getTime(1);
-		$scope.getDistance(2); $scope.getTime(2);
-		$scope.getDistance(3); $scope.getTime(3);
-		$scope.getDistance(4); $scope.getTime(4);
+		$scope.getDistance(0); //$scope.getTime(0);
+		$scope.getDistance(1); //$scope.getTime(1);
+		$scope.getDistance(2); //$scope.getTime(2);
+		$scope.getDistance(3); //$scope.getTime(3);
+		$scope.getDistance(4); //$scope.getTime(4);
 	}
 	$scope.init();
 
@@ -150,14 +173,14 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 //	$scope.notifications = [];
 
 	$scope.notificationsRefresh = function(){
-		$rootScope.req('/notification/getall', null, 'GET', function(suc){
+		/*$rootScope.req('/notification/getall', null, 'GET', function(suc){
 			suc = suc.slice(0, 1) + suc.slice(2);
 			suc = suc.slice(0,suc.length-2) + suc.slice(suc.length)+']';
 			suc=JSON.parse(suc);
 			$scope.notifications = suc;
 		}, function(err){
 			console.log(err);
-		});
+		});*/
 	}
 	$scope.notificationsRefresh();
 
@@ -257,8 +280,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
+		let emission = $scope.newInvoice.emission.getFullYear()+'-'+($scope.newInvoice.emission.getMonth()+1)+'-'+$scope.newInvoice.emission.getDay();
+		let expirate = $scope.newInvoice.expirate.getFullYear()+'-'+($scope.newInvoice.expirate.getMonth()+1)+'-'+$scope.newInvoice.expirate.getDay();
 		//trocar . por ,
-		$rootScope.req('/invoice/register/'+$scope.newInvoice.num+'/'+$scope.newInvoice.resp+'/'+$scope.newInvoice.type+'/'+$scope.newInvoice.emission+'/'+$scope.newInvoice.expirate+'/'+$scope.newInvoice.forn+'/'+$scope.newInvoice.total+'/'+$scope.newInvoice.prevision+'/'+$scope.newInvoice.obs, null, 'GET', function(suc){
+		$scope.newInvoice.total += 0.00;
+		$scope.newInvoice.prevision += 0.00;
+		$rootScope.req('/invoice/register/'+$scope.newInvoice.num+'/'+$scope.newInvoice.resp+'/'+$scope.newInvoice.type+'/'+emission+'/'+expirate+'/'+$scope.newInvoice.forn+'/'+$scope.newInvoice.total+'/'+$scope.newInvoice.prevision+'/'+$scope.newInvoice.obs, null, 'GET', function(suc){
 			alert('Invoice criado com sucesso!');
 			$scope.newInvoice = {};
 		}, function(err){
@@ -308,8 +335,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.contacts = [];
 	$scope.getContact = function(){
-		$rootScope.req('/contacts/getall', null, 'GET', function(suc){
-			$scope.contacts = suc;
+		$rootScope.req('/contact/getall', null, 'GET', function(suc){
+//			$scope.contacts = suc;
 		}, function(err){
 			console.log(err);
 		});
@@ -343,64 +370,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
  /* ---------------------- */
 
-	TESTER = document.getElementById('tester');
-
-	var data = [{
-    x: [1, 2, 3, 4, 5],
-    y: [1, 2, 4, 8, 16] }];
+ $scope.labels = [];
+ $scope.data = [];
 
 
-    var trace1 = {
-	  x: [1, 2, 3, 4],
-	  y: [10, 15, 13, 17],
-	  mode: 'markers',
-	  marker: {
-	    color: 'rgb(219, 64, 82)',
-	    size: 12
-	  }
-	};
-
-	var trace2 = {
-	  x: [2, 3, 4, 5],
-	  y: [16, 5, 11, 9],
-	  mode: 'lines',
-	  line: {
-	    color: 'rgb(55, 128, 191)',
-	    width: 3
-	  }
-	};
-
-	var trace3 = {
-	  x: [1, 2, 3, 4],
-	  y: [12, 9, 15, 12],
-	  mode: 'lines+markers',
-	  marker: {
-	    color: 'rgb(128, 0, 128)',
-	    size: 8
-	  },
-	  line: {
-	    color: 'rgb(128, 0, 128)',
-	    width: 1
-	  }
-	};
-
-	var layout = {
-	   scene:{
-		xaxis: {
-		 backgroundcolor: "rgb(255,255,255,0)",
-		 showbackground: false,
-		}, 
-	    yaxis: {
-	     backgroundcolor: "rgb(255,255,255)",
-	     showbackground: false,
-	    }, 
-	    zaxis: {
-	     backgroundcolor: "rgb(255,255,255)",
-	     showbackground: false,
-	    }}
-	};
-Plotly.plot( TESTER, data, layout);
-
-/* Current Plotly.js version */
-console.log( Plotly.BUILD );
 })
