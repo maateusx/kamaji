@@ -1,13 +1,6 @@
 app.controller("homeController", function($scope, $state, $rootScope, $http){
-
-	$rootScope.admin = true;
-
+        
 	// CONSTRUCTOR
-	$scope.user = {
-		avatar: 'img/user-placeholder.jpg',
-		name: 'Mateus Pereira'
-	};
-
 	$scope.coinType = 'USD/BRL';
 
 	$scope.navDatas = [
@@ -90,19 +83,16 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
 		//MAIN GRAPH
 		$rootScope.req('/chart/getall/line', null, 'GET', function(suc){
-			//console.log('/chart/getall/line: ' + JSON.stringify(suc));
-			$scope.mainGraph.data = suc.data;
-			 for(var i=0; i<$scope.mainGraph.data.length; i++){
-			 	var stringaux = $scope.mainGraph.data[i].Date.split('T');
-			 	$scope.labels.push(stringaux[0]);
-			 	$scope.data.push($scope.mainGraph.data[i].Close);
-			 }
-			  $scope.series = ['Series A'];
-			  $scope.onClick = function (points, evt) {
-			    console.log(points, evt);
-			  };
-			  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
-			  $scope.options = {
+			$scope.mainGraphData = [];
+			$scope.mainGraphLabels = [];
+			for(var i=0; i<suc.data.length; i++){
+			 	var stringaux = suc.data[i].Date.split('T');
+			 	$scope.mainGraphLabels.push(stringaux[0]);
+			 	$scope.mainGraphData.push(suc.data[i].Close);
+			}
+			$scope.series = ['Value'];
+			$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+			$scope.mainGraphOptions = {
 			  	elements: { point: { radius: 0 } },
 			    scales: {
 			      yAxes: [
@@ -115,7 +105,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			        }
 			      ]
 			    }
-			  };
+			};
 		}, function(err){
 			console.log(err);
 		});
@@ -152,24 +142,127 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.init();
 
-	$scope.getDataN = function(n){
-		$rootScope.req('/indicator/getdata/'+n, null, 'GET', function(suc){
-			if(n == 26)
-				$rootScope.selectedIndicator.average.value = suc;
-			else if(n == 27)
-				$rootScope.selectedIndicator.deviation.value = suc;
-		}, function(error){
+	$scope.selectMainGraph = function(n){
+		$scope.selectedMainGraph = n;
+		//MAIN GRAPH
+		var url = '';
+		if(n == 1){
+			url = '/chart/getall/line';
+		} else if(n == 2) {
+			url = '/chart/year/indicator/0';
+		} else if(n == 3) {
+			url = '/chart/month/indicator/0';
+		} else if(n == 4) {
+			url = '/chart/week/indicator/0';
+		}
 
+		$rootScope.req(url, null, 'GET', function(suc){
+
+			$scope.mainGraphData = [];
+			$scope.mainGraphLabels = [];
+			for(var i=0; i<suc.data.length; i++){
+			 	var stringaux = suc.data[i].Date.split('T');
+			 	$scope.mainGraphLabels.push(stringaux[0]);
+			 	$scope.mainGraphData.push(suc.data[i].close);
+			}
+			$scope.series = ['Value'];
+			$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+			$scope.mainGraphOptions = {
+//			  	elements: { point: { radius: 0 } },
+			    scales: {
+			      yAxes: [
+			        {
+			          id: 'y-axis-1',
+			          type: 'linear',
+			          display: true,
+			          position: 'left',
+			          scaleShowLabels: false
+			        }
+			      ]
+			    }
+			};
+
+			/*console.log(JSON.stringify(suc))
+			$scope.labels= [];
+			$scope.data=[];
+			$scope.mainGraph.data = suc.data;
+			for(var i=0; i<$scope.mainGraph.data.length; i++){
+			 	var stringaux = $scope.mainGraph.data[i].Date.split('T');
+			 	$scope.labels.push(stringaux[0]);
+			 	$scope.data.push($scope.mainGraph.data[i].close);
+			}
+			$scope.series = [''];
+			$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+			$scope.options = {
+			    scales: {
+			      yAxes: [
+			        {
+			          id: 'y-axis-1',
+			          type: 'linear',
+			          display: true,
+			          position: 'left',
+			          scaleShowLabels: false
+			        }
+			      ]
+			    }
+			};*/
+			$scope.$apply();
+		}, function(err){
+			console.log(err);
+		});
+	}
+
+	$scope.getDataN = function(n){
+		//GET AVERAGE
+		$rootScope.req('/indicator/getdata/'+$scope.indicators[n].average.id, null, 'GET', function(suc){
+			$rootScope.selectedIndicator.average.value = suc;
+		}, function(error){
 		})
+
+		//GET DEVIATION
+		$rootScope.req('/indicator/getdata/'+$scope.indicators[n].deviation.id, null, 'GET', function(suc){
+			$rootScope.selectedIndicator.deviation.value = suc;
+		}, function(error){
+		})
+
+		//GET DISTANCE
+		/*$rootScope.req('/indicator/getdata/'+$scope.indicators[n].distance.id, null, 'GET', function(suc){
+			$rootScope.selectedIndicator.distance.value = suc;
+		}, function(error){
+		})*/
 	}
 
 	//INDICATORS
 	$scope.selectIndicator = function(index) {
 		$rootScope.indicatorIsOn = true;
 		$rootScope.selectedIndicator = $scope.indicators[index]; //Change memory address
-		$scope.getDataN(26); //fazer para todOS INDICADORES
-		$scope.getDataN(27);
+		$scope.getDataN(index);
 		$scope.secondGraph.title = $scope.indicators[index].title;
+		$rootScope.req('/chart/indicator/'+$scope.indicators[index].id, null, 'GET', function(success){
+			for(var i=0; i<success.data.length; i++){
+			 	let dataaux = success.data[i].Date.split('T');
+			 	$scope.secondGraph.labels.push(stringaux2[0]);
+			 	$scope.secondGraph.data.push(success.data[i].Close);
+			 }
+			  $scope.secondGraph.series = [''];
+			  $scope.secondGraph.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+			  $scope.secondGraph.options = {
+			  	elements: { point: { radius: 0 } },
+			    scales: {
+			      yAxes: [
+			        {
+			          id: 'y-axis-1',
+			          type: 'linear',
+			          display: false,
+			          position: 'left',
+			          scaleShowLabels: false
+			        }
+			      ]
+			    }
+			};
+		}, function(error){
+			console.log(error, 'err')
+		})
 	}
 	$scope.deselectIndicator = function() {
 		$rootScope.selectedIndicator = null;
@@ -179,18 +272,28 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.turnOnIndicator = function(index){
 		//DADOS DO GRAFICO1 EM BAIXO
 		let indicator = $scope.indicators[index];
+		alert(1);
 		$rootScope.req('/chart/indicator/'+indicator.id, null, 'GET', function(success){
-			//console.log(success, 'success');
-			$scope.indicatorGraph = success.data;
-			for(var i=0; i<$scope.indicatorGraph.length; i++){
-			 	var stringaux = $scope.indicatorGraph[i].Date.split('T');
-			 	$scope.labels2.push(stringaux[0]);
-			 	$scope.data2.push($scope.indicatorGraph[i].Close);
+			alert(2);
+			$scope.data2 = [];
+			$scope.labels2 = [];
+//			alert(success.data[0].date);
+			console.log('chart/indicator turn on indicator ',JSON.stringify(success));
+			//$scope.indicatorGraph = success.data;
+			for(var i=0; i<success.data.length; i++){
+				$scope.labels2.push(success.data[i].date);
+			 	//var stringaux2 = success.data[i].date.split('T');
+			 	//$scope.labels2.push(stringaux2[0]);
+			 	if(index == 0){
+
+			 	} else if(index == 1){
+			 		$scope.data2.push(success.data[i].macdh);
+			 	} else if(index == 2){
+
+			 	}
+			 	
 			 }
-			  $scope.series2 = ['Series A'];
-			/*  $scope.onClick = function (points, evt) {
-			    console.log(points, evt);
-			  };*/
+			  $scope.series2 = ['series2'];
 			  $scope.datasetOverride2 = [{ yAxisID: 'y-axis-1' }];
 			  $scope.options2 = {
 			  	elements: { point: { radius: 0 } },
@@ -209,19 +312,18 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		}, function(error){
 			console.log(error, 'err')
 		})
+		//if()
 	}
 	
 //	$scope.notifications = [];
 
 	$scope.notificationsRefresh = function(){
-		/*$rootScope.req('/notification/getall', null, 'GET', function(suc){
-			suc = suc.slice(0, 1) + suc.slice(2);
-			suc = suc.slice(0,suc.length-2) + suc.slice(suc.length)+']';
-			suc=JSON.parse(suc);
+		$rootScope.req('/notification/getall', null, 'GET', function(suc){
+			console.log(suc);
 			$scope.notifications = suc;
 		}, function(err){
 			console.log(err);
-		});*/
+		});
 	}
 	$scope.notificationsRefresh();
 
@@ -249,61 +351,111 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.seletecdTab = tab;
 		$scope.paymentInvoiceShow = false;
 		$scope.editInvoiceShow = false;
+		$scope.newInvoice = {};
+		$rootScope.selectedInvoice = {};
 	}
 	/* -- BEGIN INVOICE MODAL --*/
 	
 
 	$scope.editInvoiceShow = false;
 	$scope.showEditInvoice = function(invoice){
+		$scope.editInvoiceShow = true;
 		$scope.newInvoice = invoice;
 		$rootScope.seletecdTab = 1; 
 	}
+	$scope.cancelUpdateInvoice = function(){
+		$scope.editInvoiceShow = false;
+		$scope.paymentInvoiceShow = false;
+		$scope.newInvoice = {};
+		$rootScope.selectedInvoice = {};
+		$rootScope.seletecdTab = 2; 
+	}
 	$scope.updateInvoice = function(){
 		$rootScope.selectedInvoice = $scope.newInvoice;
-		if($rootScope.selectedInvoice.num == null || $rootScope.selectedInvoice.num == ''
-			|| $rootScope.selectedInvoice.resp == null || $rootScope.selectedInvoice.resp == ''
-			|| $rootScope.selectedInvoice.type == null || $rootScope.selectedInvoice.type == ''
-			|| $rootScope.selectedInvoice.emission == null || $rootScope.selectedInvoice.emission == ''
-			|| $rootScope.selectedInvoice.expirate == null || $rootScope.selectedInvoice.expirate == ''
-			|| $rootScope.selectedInvoice.forn == null || $rootScope.selectedInvoice.forn == ''
-			|| $rootScope.selectedInvoice.total == null || $rootScope.selectedInvoice.total == '' 
-			|| $rootScope.selectedInvoice.prevision == null || $rootScope.selectedInvoice.prevision == ''
-			|| $rootScope.selectedInvoice.obs == null || $rootScope.selectedInvoice.obs == ''){
+		if($rootScope.selectedInvoice.nro_invoice == null || $rootScope.selectedInvoice.nro_invoice == ''
+			|| $rootScope.selectedInvoice.resp_invoice == null || $rootScope.selectedInvoice.resp_invoice == ''
+			|| $rootScope.selectedInvoice.tipo == null || $rootScope.selectedInvoice.tipo == ''
+			|| $rootScope.selectedInvoice.dt_emissao == null || $rootScope.selectedInvoice.dt_emissao == ''
+			|| $rootScope.selectedInvoice.dt_vencimento == null || $rootScope.selectedInvoice.dt_vencimento == ''
+			|| $rootScope.selectedInvoice.fornecedor == null || $rootScope.selectedInvoice.fornecedor == ''
+			|| $rootScope.selectedInvoice.valor_invoice == null || $rootScope.selectedInvoice.valor_invoice == '' 
+			|| $rootScope.selectedInvoice.dolar_provisao == null || $rootScope.selectedInvoice.dolar_provisao == ''
+			|| $rootScope.selectedInvoice.observacao == null || $rootScope.selectedInvoice.observacao == ''){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
-		//trocar . por ,
-		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.num+'/'+$rootScope.selectedInvoice.resp+'/'+$rootScope.selectedInvoice.type+'/'+$rootScope.selectedInvoice.emission+'/'+$rootScope.selectedInvoice.expirate+'/'+$rootScope.selectedInvoice.forn+'/'+$rootScope.selectedInvoice.total+'/'+$rootScope.selectedInvoice.prevision+'/'+$rootScope.selectedInvoice.obs, null, 'GET', function(suc){
+		if($rootScope.selectedInvoice.valor_invoice && $rootScope.selectedInvoice.valor_invoice-Math.trunc($rootScope.selectedInvoice.valor_invoice) == 0)
+			$rootScope.selectedInvoice.valor_invoice = $rootScope.selectedInvoice.valor_invoice + '.00';
+		if($rootScope.selectedInvoice.dolar_provisao && $rootScope.selectedInvoice.dolar_provisao-Math.trunc($rootScope.selectedInvoice.dolar_provisao) == 0)
+			$rootScope.selectedInvoice.dolar_provisao = $rootScope.selectedInvoice.dolar_provisao + '.00';
+
+		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+$rootScope.selectedInvoice.dt_emissao+'/'+$rootScope.selectedInvoice.dt_vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
-			$rootScope.seletecdTab = null; 
+			$scope.newInvoice = {};
+			$scope.getAllInvoices();
+			$rootScope.seletecdTab = 2; 
 			$scope.editInvoiceShow = false;
 		}, function(err){
 			console.log(err);
 		});	
 	}
+	$scope.deleteInvoice = function(idx){
+		if(idx){
+			$scope.newInvoice = {
+				id: idx
+			}
+		}
+		$rootScope.req('/invoice/delete/'+$scope.newInvoice.id, null, 'GET', function(suc){
+			alert(suc);
+			alert('Invoice deletada com sucesso!');
+			$rootScope.selectedInvoice = {};
+			$scope.newInvoice = {};
+			$rootScope.seletecdTab = 2;
+			$scope.editInvoiceShow = false;
+			$scope.getAllInvoices();
+		}, function(err){
+			console.log(err);
+		});
+	}
+
+	$scope.notificationInvoice = function(invoice){
+		$rootScope.req('/invoice/notification/activate/'+invoice.id, null, 'GET', function(suc){
+			alert('Notificação ativada com sucesso!');
+		}, function(err){
+			console.log(err);
+		});
+	}
 
 	$scope.paymentInvoiceShow = false;
 	$scope.showPaymentInvoice = function(invoice){
 		$rootScope.selectedInvoice = invoice; 
+		$scope.paymentInvoiceShow = true;;
 	}
 	$scope.payInvoice = function(){
-		if($rootScope.selectedInvoice.num == null || $rootScope.selectedInvoice.num == ''
-			|| $rootScope.selectedInvoice.payDate == null || $rootScope.selectedInvoice.payDate == ''
-			|| $rootScope.selectedInvoice.payDolar == null || $rootScope.selectedInvoice.payDolar == ''
-			|| $rootScope.selectedInvoice.payTotal == null || $rootScope.selectedInvoice.payTotal == ''){
+		$rootScope.selectedInvoice = $scope.newInvoice;
+		if($rootScope.selectedInvoice.nro_invoice == null || $rootScope.selectedInvoice.nro_invoice == ''
+			|| $rootScope.selectedInvoice.dt_pagamento == null || $rootScope.selectedInvoice.dt_pagamento == ''
+			|| $rootScope.selectedInvoice.dolar_pagamento == null || $rootScope.selectedInvoice.dolar_pagamento == ''
+			|| $rootScope.selectedInvoice.valor_pago == null || $rootScope.selectedInvoice.valor_pago == ''){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
-		//trocar . por ,
-		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.num+'/'+$rootScope.selectedInvoice.payDate+'/'+$rootScope.selectedInvoice.payDolar+'/'+$rootScope.selectedInvoice.payTotal, null, 'GET', function(suc){
+
+		if($rootScope.selectedInvoice.valor_pago-Math.trunc($rootScope.selectedInvoice.valor_pago) == 0)
+			$rootScope.selectedInvoice.valor_pago = $rootScope.selectedInvoice.valor_pago + '.00';
+		if($rootScope.selectedInvoice.dolar_pagamento-Math.trunc($rootScope.selectedInvoice.dolar_pagamento) == 0)
+			$rootScope.selectedInvoice.dolar_pagamento = $rootScope.selectedInvoice.dolar_pagamento + '.00';
+
+		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.dt_pagamento+'/'+$rootScope.selectedInvoice.dolar_pagamento+'/'+$rootScope.selectedInvoice.valor_pago, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
-			$rootScope.seletecdTab = null; 
+			$scope.newInvoice = {};
+			$rootScope.seletecdTab = 2; 
 			$scope.paymentInvoiceShow = false;
 		}, function(err){
 			console.log(err);
-		});	
+		}, true);	
 	}
 
 	$scope.newInvoice = {};
@@ -350,19 +502,10 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.req('/invoice/getclose', null, 'GET', function(suc){
 			$scope.closeInvoices = suc;
 		}, function(err){
-			console.log(err);
+			console.log('/invoice/getclose', err);
 		});
 	}
 	$scope.getAllInvoices();
-
-	$scope.deleteInvoice = function(index){
-		$rootScope.req('/invoice/delete/'+$scope.openInvoices[index].nro_invoice, null, 'GET', function(suc){
-			$scope.contacts.splice(index,1);
-			$scope.getContact();
-		}, function(err){
-			console.log(err);
-		});
-	}
 	/* -- END INVOICE MODAL -- */
 
 	/* -- BEGIN NOTIFICATION MODAL -- */
@@ -428,9 +571,6 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 
  /* ---------------------- */
-
- $scope.labels = [];
- $scope.data = [];
 
 
 })

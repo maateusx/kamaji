@@ -3,7 +3,7 @@
 
 <head>
     <title>Kamaji Dashboard</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8"> 
     <base href="/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
@@ -16,6 +16,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/nv.d3.min.css">
     
     <link rel="stylesheet" href="css/app.css">
     
@@ -30,6 +32,10 @@
         <img src="img/preloading.png" style="width: 250px">
     </div>
 
+    <div ng-show="isLoading" align="center" style="z-index: 99999; position: absolute; width: 100%; height: 100%; top: 0; left: 0; padding-top: 15%; background-color: rgba(0, 0, 0, 0.7);">
+        <img src="img/loading.gif" style="width: 100px">
+    </div>
+
     <div style="width:100%;height:100%" ui-view></div>
     
 </body>
@@ -42,6 +48,12 @@
     <!-- Angular -->
     <script src="js/lib/angular.min.js"></script>
     <script src="js/lib/angular-ui-router.min.js"></script>
+
+    <script src="js/utils/angular-md5.min.js"></script>
+
+    <!-- <script src="js/utils/d3.min.js"></script> -->
+   <!--  <script src="js/utils/nv.d3.min.js"></script>
+    <script src="js/utils/angular-nvd3.min.js"></script> -->
 
     <script src="js/utils/chart.js"></script>
     <script src="js/utils/angular-chart.js"></script>

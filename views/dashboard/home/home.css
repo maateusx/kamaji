@@ -292,6 +292,7 @@ input:checked + .slider:before {
 	padding: 20px;
 	max-height: 400px;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 .modalNotification-ButtonSearch {
 	float: left;
@@ -350,4 +351,25 @@ input:checked + .slider:before {
 	padding: 5px 15px;
 	margin: 0;
 	margin-bottom: 5px;
+}
+
+.selectedMainGraph {
+	background-color: transparent;
+	font-weight: bold;
+	border:none;
+	border-bottom: 1px solid rgba(255,255,255,0.5) !important;
+	color: rgba(255,255,255,0.5);
+}
+.deselectedMainGraph {
+	background-color: transparent;
+	font-weight: bold;
+	border:none;
+	color: rgba(255,255,255,0.5);
+}
+.deselectedMainGraph:focus, .selectedMainGraph:focus, .selectedMainGraph:active, .selectedMainGraph:active  {
+	outline: none;
+}
+
+#twitter-widget-0 {
+	border-radius:0 !important;
 }

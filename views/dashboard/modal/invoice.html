@@ -1,4 +1,5 @@
 <div style="margin-top: 20px; padding-bottom: 15px;">
+
     <div class="row margin-0">
       <div class="row margin-0 w70" align="left" style="padding: 0 10px">
           <div style="font-weight: bold; font-size: 14px">
@@ -14,89 +15,89 @@
           </div>
       </div>
     </div>
-    <div ng-show="invoicesFilter == 1">
-      <div class="modalBodyNotification margin-top-10 column" style="width:100%; overflow-x: auto; ">
-        <div style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap;">
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);" >-</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);" >Nr. Invoice</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Resp. Invoice</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Tipo</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dt. Emissão</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dt. Vencimento</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dt. Pagto</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Fornecedor</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Valor Invoice</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dólar Previsão</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dólar Pagto</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Valor Pago</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Status</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Observação</div>
-          <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Opções</div>
-        </div>
-        <div class="modalNotification-table" ng-repeat="invoice in openInvoices" style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap; margin-top: 10px;">
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">
-            <i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i>
-            <i class="fa fa-dollar cursor-pointer" aria-hidden="true" style="margin-left: 7px;"></i>
-            <i class="fa fa-bell cursor-pointer" aria-hidden="true" style="margin-left: 7px;"></i>
-          </div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.nro_invoice}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.resp_invoice}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.tipo}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dt_emissao}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dt_vencimento}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dt_pagamento}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.fornecedor}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.valor_invoice}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dolar_provisao}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dolar_pagamento}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.valor_pago}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.status}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.observacao}}</div>
-          <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);"><i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteContact($index)"></i></div>
-        </div>
-      </div>
+    <div class="margin-top-10" style="width: 100%; overflow-x: auto;" ng-show="invoicesFilter == 1">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Opções</th>
+            <th>Nr. Invoice</th>
+            <th>Resp. Invoice</th>
+            <th>Tipo</th>
+            <th>Data de Emissão</th>
+            <th>Data de Vencimento</th>
+            <th>Fornecedor</th>
+            <th>Valor Invoice</th>
+            <th>Dólar Previsão</th>
+            <th>Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="invoice in openInvoices">
+            <td class="row" style="margin: 0;">
+              <i class="fa fa-pencil cursor-pointer" aria-hidden="true" ng-show="user.usertype == 'admin'" ng-click="showEditInvoice(invoice)"></i>
+              <i class="fa fa-dollar cursor-pointer" aria-hidden="true" style="margin-left: 7px;" ng-show="user.usertype == 'admin'" ng-click="showPaymentInvoice(invoice)"></i>
+              <i class="fa fa-bell cursor-pointer" aria-hidden="true" style="margin-left: 7px;" ng-click="notificationInvoice(invoice)"></i>
+            </td>
+            <td>{{invoice.nro_invoice}}</td>
+            <td>{{invoice.resp_invoice}}</td>
+            <td>{{invoice.tipo}}</td>
+            <td>{{invoice.dt_emissao}}</td>
+            <td>{{invoice.dt_vencimento}}</td>
+            <td>{{invoice.fornecedor}}</td>
+            <td>{{invoice.valor_invoice}}</td>
+            <td>{{invoice.dolar_provisao}}</td>
+            <td>{{invoice.observacao}}</td>
+          </tr>
+        </tbody>
+      </table>
       <div align="center" ng-show="openInvoices.length == 0" style="width: 100%">
         <h5>Nenhuma invoice cadastrada.</h5>
       </div>
     </div>
-    <div ng-show="invoicesFilter == 2">
-      <div class="modalBodyNotification margin-top-10 column" style="width:100%; overflow-x: auto; ">
-        <div style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap;">
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);" >Nr. Invoice</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Resp. Invoice</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Tipo</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dt. Emissão</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dt. Vencimento</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dt. Pagto</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Fornecedor</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Valor Invoice</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dólar Previsão</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Dólar Pagto</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Valor Pago</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Status</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Observação</div>
-          <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">Opções</div>
-        </div>
-        <div class="modalNotification-table" ng-repeat="invoice in closeInvoices" style="color: #fff; border-radius: 0; font-weight: bold; width: auto; white-space: nowrap; margin-top: 10px;">
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.nro_invoice}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.resp_invoice}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.tipo}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dt_emissao}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dt_vencimento}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dt_pagamento}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.fornecedor}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.valor_invoice}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dolar_provisao}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.dolar_pagamento}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.valor_pago}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.status}}</div>
-          <div align="left" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);">{{invoice.observacao}}</div>
-          <div align="center" style="display: inline-block; width:150px; background-color: rgba(0, 0, 0, 0.1);"><i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteInvoice($index)"></i></div>
-        </div>
-        <div align="center" ng-show="closeInvoices.length == 0" style="width: 100%">
-          <h5>Nenhuma invoice fechada.</h5>
-        </div>
+
+    <div class="margin-top-10" style="width: 100%; overflow-x: auto;" ng-show="invoicesFilter == 2">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Opções</th>
+            <th>Nr. Invoice</th>
+            <th>Resp. Invoice</th>
+            <th>Tipo</th>
+            <th>Dt. Emissão</th>
+            <th>Dt. Vencimento</th>
+            <th>Dt. Pagto</th>
+            <th>Fornecedor</th>
+            <th>Valor Invoice</th>
+            <th>Dólar Previsão</th>
+            <th>Dólar Pagto</th>
+            <th>Valor Pago</th>
+            <th>Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="invoice in closeInvoices">
+            <td class="row" style="margin: 0;">
+              <i class="fa fa-times-circle-o cursor-pointer" aria-hidden="true" style="margin-left: 7px;" ng-click="deleteInvoice(invoice)"></i>
+            </td>
+            <td>{{invoice.nro_invoice}}</td>
+            <td>{{invoice.resp_invoice}}</td>
+            <td>{{invoice.tipo}}</td>
+            <td>{{invoice.dt_emissao}}</td>
+            <td>{{invoice.dt_vencimento}}</td>
+            <td>{{invoice.dt_pagamento}}</td>
+            <td>{{invoice.fornecedor}}</td>
+            <td>{{invoice.valor_invoice}}</td>
+            <td>{{invoice.dolar_provisao}}</td>
+            <td>{{invoice.dolar_pagamento}}</td>
+            <td>{{invoice.valor_pago}}</td>
+            <td>{{invoice.observacao}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div align="center" ng-show="closeInvoices.length == 0" style="width: 100%">
+        <h5>Nenhuma invoice fechada.</h5>
       </div>
     </div>
     
 </div>
+

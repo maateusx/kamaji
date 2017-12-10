@@ -5,7 +5,7 @@
 
         <nav class="navbar navbar-expand-lg dashboard-navbg">
             <div style="border-right: 2px solid #13181c;">
-                <img src="{{user.avatar}}" class="dashboard_nav-avatar">
+                <img src="img/user-placeholder.jpg" class="dashboard_nav-avatar">
                 <span class="text-capitalize">{{user.name}}</span>
                 <i class="fa fa-sign-out cursor-pointer margin-0-10" aria-hidden="true" ng-click="logout()"></i>
             </div>
@@ -33,22 +33,40 @@
         </nav>
 
         <!-- BEGIN CONTENT -->
-        <div class="dashboard-content" align="center">
-
+        <div class="dashboard-content" align="center">     
             <div ng-hide="indicatorIsOn">
-                <div align="left">
-                    <i class="fa fa-circle {{mainGraph.color == 1 ? 'color-green':''}}{{mainGraph.color == 0 ? 'color-red':''}}" aria-hidden="true"></i>
-                    <span class="dashboard_graph-status">{{mainGraph.status}}</span>   
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="w50" align="left">
+                        <i class="fa fa-circle {{mainGraph.color == 1 ? 'color-green':''}}{{mainGraph.color == 0 ? 'color-red':''}}" aria-hidden="true"></i>
+                        <span class="dashboard_graph-status">{{mainGraph.status}}</span> 
+                    </div>
+                    <div class="w50" align="right">
+                        <button class="{{selectedMainGraph == 1? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(1)">ALL</button>
+                        <button class="{{selectedMainGraph == 2? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(2)">1Y</button>
+                        <button class="{{selectedMainGraph == 3? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(3)">1M</button>
+                        <button class="{{selectedMainGraph == 4? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(4)">1W</button>
+                    </div>
                 </div>
 
+                <!-- <nvd3 options="optionsMainGraph" data="dataMainGraph" config="configMainGraph"></nvd3> -->
                 <!-- <div id="tester" style="width:100%;height:250px; margin-top: 20px;"></div> -->
-                <canvas id="line" class="chart chart-line" chart-data="data"
+                <!-- <canvas id="line" class="chart chart-line" chart-data="data"
                 chart-labels="labels" chart-series="series" chart-options="options"
+                chart-dataset-override="datasetOverride">
+                </canvas> -->
+                 <canvas id="line" class="chart chart-line" chart-data="mainGraphData"
+                chart-labels="mainGraphLabels" chart-options="mainGraphOptions"
                 chart-dataset-override="datasetOverride">
                 </canvas>
                 
-                <div style="height: 100px; width: 100%; background-color: green;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active">
+                
+                <div style="width: 100%;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active" align="left">
                     {{graph_indicator.title}}
+                    <!-- SECONDARY GRAPH ON -->
+                    <canvas id="line" class="chart chart-line" chart-data="data2"
+                    chart-labels="labels2" chart-series="series2" chart-options="options2"
+                    chart-dataset-override="datasetOverride2">
+                    </canvas>
                 </div>
             </div>
 
@@ -83,7 +101,8 @@
                         </div>
                     </div>
                 </div>
-                <div style="">
+                <div>
+                    <!-- SECONDARY GRAPH IN -->
                     <canvas id="line" class="chart chart-line" chart-data="data2"
                     chart-labels="labels2" chart-series="series2" chart-options="options2"
                     chart-dataset-override="datasetOverride2">
@@ -178,12 +197,12 @@
             </nav>
             <div class="column" style="padding: 15px 0;">
                 <div class="row dashboard-indicators {{indicatorIsOn && selectedIndicator.title == indicator.title ? 'selected-indicator':''}}" ng-repeat="indicator in indicators">
-                    <div class="w10 cursor-pointer" ng-click="selectIndicator($index); turnOnIndicator($index);" align="center">
+                    <div class="w10 cursor-pointer" ng-click="selectIndicator($index);" align="center">
                         <i class="fa fa-circle {{indicator.color == 1 ? 'color-green':'color-red'}}" aria-hidden="true"></i>
                     </div>
-                    <div class="w40 font-12 cursor-pointer" align="left" ng-click="selectIndicator($index); turnOnIndicator($index);">{{indicator.title}}</div>
-                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index); turnOnIndicator($index);">{{indicator.percent}}<span ng-show="indicator.percent">%</span></div>
-                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index); turnOnIndicator($index);">{{indicator.time}}<span ng-show="indicator.time">d</span></div>
+                    <div class="w40 font-12 cursor-pointer" align="left" ng-click="selectIndicator($index);">{{indicator.title}}</div>
+                    <div class="w15 font-12 cursor-pointer" ng-click="selectIndicator($index);">{{indicator.percent}}<span ng-show="indicator.percent">%</span></div>
+                    <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index);">{{indicator.time}}<span ng-show="indicator.time">d</span></div>
                     <div class="w20">
                         <label class="switch">
                           <input type="checkbox" ng-model="indicators[$index].active" ng-change="turnOnIndicator($index)">
@@ -228,7 +247,8 @@
             </nav>
 
             <div class="column">
-
+                <a class="twitter-timeline" data-lang="pt" data-theme="dark" href="https://twitter.com/JaredHarrill/lists/ethereum-chatter?ref_src=twsrc%5Etfw" data-tweet-limit="3">Loading...</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
         </div>
         
