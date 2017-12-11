@@ -41,19 +41,13 @@
                         <span class="dashboard_graph-status">{{mainGraph.status}}</span> 
                     </div>
                     <div class="w50" align="right">
-                        <button class="{{selectedMainGraph == 1? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(1)">ALL</button>
-                        <button class="{{selectedMainGraph == 2? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(2)">1Y</button>
-                        <button class="{{selectedMainGraph == 3? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(3)">1M</button>
-                        <button class="{{selectedMainGraph == 4? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(4)">1W</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 1? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(1);">ALL</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 2? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(2);">1Y</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 3? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(3);">1M</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 4? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(4);">1W</button>
                     </div>
                 </div>
 
-                <!-- <nvd3 options="optionsMainGraph" data="dataMainGraph" config="configMainGraph"></nvd3> -->
-                <!-- <div id="tester" style="width:100%;height:250px; margin-top: 20px;"></div> -->
-                <!-- <canvas id="line" class="chart chart-line" chart-data="data"
-                chart-labels="labels" chart-series="series" chart-options="options"
-                chart-dataset-override="datasetOverride">
-                </canvas> -->
                 <!-- <canvas id="line" class="chart chart-line" chart-data="mainGraphData"
                 chart-labels="mainGraphLabels" chart-options="mainGraphOptions"
                 chart-dataset-override="datasetOverride">
@@ -62,13 +56,9 @@
                 
                 
                 <!-- SECONDARY GRAPH ON -->
-                <div style="width: 100%;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active" align="left">
-                    <!-- {{graph_indicator.title}}
-                    <canvas id="line" class="chart chart-line" chart-data="data2"
-                    chart-labels="labels2" chart-series="series2" chart-options="options2"
-                    chart-dataset-override="datasetOverride2">
-                    </canvas> -->
-                    <div id="mainChart" class="googleCharts"></div>
+                <div style="width: 100%;" align="left">
+                    <div id="macdhSecondaryGraph" class="googleCharts" ng-show="indicators[1].active"></div>
+                    <div id="rsiSecondaryGraph" class="googleCharts" ng-show="indicators[2].active"></div>
                 </div>
             </div>
 
