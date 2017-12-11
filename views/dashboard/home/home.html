@@ -94,7 +94,7 @@
                     </div>
                     <div class="w18 row margin-0" align="left">
                         <div class="secondary-graph-days {{selectedIndicator.color == 1? 'color-green':'color-red'}}" align="center">
-                            {{selectedIndicator.days}}
+                            {{selectedIndicator.time}}
                         </div>
                         <div style="padding-left: 5px;">
                             <div class="font-normal">Dias<br>Passados</div> 
@@ -115,7 +115,7 @@
                     <div class="row secondary-graph-notification-settings" style="margin-top: 15px">
                         <div class="w20 row margin-0" style="padding: 0 15px;" ng-repeat="strategy in notificationsStrategies">
                             <div class="w10" align="center">
-                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;" ng-change="updateFlag($index)">
                             </div>
                             <div class="column w90" style="padding: 0 10px; padding-left: 5px;">
                                 <div class="row secondary-graph-notification-info">
@@ -141,31 +141,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="row w30" align="right">
-                            <div class="w10" align="center">
-                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
-                            </div>
-                            <div class="w60">
-                                Consevador
-                            </div>
+                    <div class="row w100" style="align-content: center; margin-top: 15px;">
+                        <div class="w33" align="center" ng-repeat="profile in notificationsStrategiesProfile">
+                            <input type="checkbox" ng-model="notificationsStrategiesProfile[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;" ng-change="refreshStrategiesProfile($index)">
+                            <span style="font-weight: normal;" >{{profile.title}}</span>
                         </div>
-                        <div class="row w30" align="center">
-                            <div class="w10" align="center">
-                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
-                            </div>
-                            <div class="w60">
-                                Muito Conservador
-                            </div>
+                        <!-- <div class="w33" align="center">
+                            <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                            <span style="font-weight: normal;">Muito Conservador</span>
                         </div>
-                        <div class="row w30" align="center">
-                            <div class="w10" align="center">
-                                <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
-                            </div>
-                            <div class="w60">
-                                Ultra Consevador
-                            </div>
-                        </div>
+                        <div class="w33" align="center">
+                            <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
+                            <span style="font-weight: normal;">Ultra Consevador</span>
+                        </div> -->
                         
                     </div>
                 </div>
@@ -246,8 +234,8 @@
               </span>
             </nav>
 
-            <div class="column">
-                <a class="twitter-timeline" data-lang="pt" data-theme="dark" href="https://twitter.com/JaredHarrill/lists/ethereum-chatter?ref_src=twsrc%5Etfw" data-tweet-limit="3">Loading...</a>
+            <div class="column" style="height: 500px; overflow-y: auto;" id="twitter">
+                <a class="twitter-timeline" data-lang="pt" data-theme="dark" href="https://twitter.com/sudoferraz/lists/algar-kamaji?ref_src=twsrc%5Etfw">Loading...</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
         </div>
@@ -258,4 +246,7 @@
 
 </div>
 
+<div id="bigChart"></div>
+
 <div ng-include src="'views/dashboard/modal/modal.html'"></div>
+

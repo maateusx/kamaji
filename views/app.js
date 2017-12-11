@@ -50,24 +50,27 @@ var app = angular.module('kamaji', [
     });  
   }
 
-  if(localStorage.getItem('email') != null && localStorage.getItem('email')!= '' 
-    && localStorage.getItem('password') != null && localStorage.getItem('password')!=''){
+  if(window.localStorage.getItem('email') != null && window.localStorage.getItem('email')!= '' 
+    && window.localStorage.getItem('password') != null && window.localStorage.getItem('password')!=''){
     var params = {
-      email: localStorage.getItem('email'),
-      password: localStorage.getItem('password')
+      email: window.localStorage.getItem('email'),
+      password: window.localStorage.getItem('password')
     }
 
     $rootScope.req('/login/'+params.email+'/'+params.password, null, 'GET', function(success){
       if(success == 'erro') {
-        localStorage.clear();
-        $state.go('login');
+        window.localStorage.clear();
+        location.replace('/login');
       } else {
         $rootScope.user = success;
       }
     }, function(error){
+      //window.localStorage.clear();
+      //location.replace('/login');
     }, false);
+  } else {
+    window.localStorage.clear();
   }
-
 })
 
 .config(function($stateProvider,$urlRouterProvider){
