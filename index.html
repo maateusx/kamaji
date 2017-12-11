@@ -38,10 +38,6 @@
 
     <div style="width:100%;height:100%" ui-view></div>
     
-    <div class="jumbotron">
-        <div id="bigChart"></div>
-    </div>
-    
 </body>
 
     <!-- Bootstrap -->
@@ -61,21 +57,6 @@
 
     <script src="js/utils/chart.js"></script>
     <script src="js/utils/angular-chart.js"></script>
-
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="js/utils/techan.js"></script>
-
-
-    <script src="index.js"></script>
-    <script src="data.js"></script>
-    <script>
-        (function(window, d3, techanSite) {
-            d3.select('div#bigChart').call(techanSite.bigchart);
-            window.onresize = function() {
-                d3.select('div#bigChart').call(techanSite.bigchart.resize);
-            };
-        })(window, d3, techanSite);
-    </script>
 
     <!-- Controllers -->
     <script src="views/app.js"></script>
