@@ -54,19 +54,21 @@
                 chart-labels="labels" chart-series="series" chart-options="options"
                 chart-dataset-override="datasetOverride">
                 </canvas> -->
-                 <canvas id="line" class="chart chart-line" chart-data="mainGraphData"
+                <!-- <canvas id="line" class="chart chart-line" chart-data="mainGraphData"
                 chart-labels="mainGraphLabels" chart-options="mainGraphOptions"
                 chart-dataset-override="datasetOverride">
-                </canvas>
+                </canvas> -->
+                <div id="mainChart" class="googleCharts"></div>
                 
                 
+                <!-- SECONDARY GRAPH ON -->
                 <div style="width: 100%;" ng-repeat="graph_indicator in indicators" ng-show="graph_indicator.active" align="left">
-                    {{graph_indicator.title}}
-                    <!-- SECONDARY GRAPH ON -->
+                    <!-- {{graph_indicator.title}}
                     <canvas id="line" class="chart chart-line" chart-data="data2"
                     chart-labels="labels2" chart-series="series2" chart-options="options2"
                     chart-dataset-override="datasetOverride2">
-                    </canvas>
+                    </canvas> -->
+                    <div id="mainChart" class="googleCharts"></div>
                 </div>
             </div>
 
@@ -103,10 +105,11 @@
                 </div>
                 <div>
                     <!-- SECONDARY GRAPH IN -->
-                    <canvas id="line" class="chart chart-line" chart-data="data2"
+                    <!-- <canvas id="line" class="chart chart-line" chart-data="data2"
                     chart-labels="labels2" chart-series="series2" chart-options="options2"
                     chart-dataset-override="datasetOverride2">
-                    </canvas>
+                    </canvas> -->
+                    <div id="secondChart" class="googleCharts"></div>
                 </div>
                 <div>
                     <div class="secondary-graph-notification" align="left">

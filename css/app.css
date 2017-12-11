@@ -165,3 +165,11 @@ html, body {
 	height: 90%;
 	padding-top: 15%;
 }
+
+.googleCharts rect {
+	fill: transparent !important;
+}
+
+td {
+	padding: 12px 20px;
+}

@@ -1,11 +1,120 @@
 app.controller("homeController", function($scope, $state, $rootScope, $http){
 
-    if(window.localStorage.getItem('email') == null || window.localStorage.getItem('email')== '' 
+    /*if(window.localStorage.getItem('email') == null || window.localStorage.getItem('email')== '' 
     || window.localStorage.getItem('password') == null || window.localStorage.getItem('password')==''){
       	window.localStorage.clear();
 		$rootScope = $rootScope.$new(true);
 		$scope = $scope.$new(true);
 		$state.go('login');
+    }*/
+
+  	google.charts.load('current', {packages: ['corechart', 'line']});
+  	
+	function initialMainGraph() {
+		var graphData = [];
+		for(var i = 0; i<$scope.graphDatas.length; i++){
+			var stringaux = $scope.graphDatas[i].Date.split('T');
+			graphData.push([''+stringaux[0], $scope.graphDatas[i].Close]);
+		}
+	    var data = new google.visualization.DataTable();
+	    data.addColumn('string', 'Data');
+	    data.addColumn('number', 'USD');
+	    data.addRows(graphData);
+	    var options = {
+	        hAxis: {
+	          title: 'Data'
+	        },
+	        vAxis: {
+	          title: 'Valor'
+	        }
+	    };
+	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
+	    chart.draw(data, options);
+    }
+
+    function macdhSecondaryGraph() {
+		var graphData = [];
+		for(var i = 0; i<$scope.graphDatas.length; i++){
+			var stringaux = $scope.graphDatas[i].Date.split('T');
+			graphData.push([stringaux[0], $scope.graphDatas[i].close]);
+		}
+	    var data = new google.visualization.DataTable();
+	    data.addColumn('string', 'Dia');
+	    data.addColumn('number', 'MACDH');
+	    data.addRows(graphData);
+	    var options = {
+	        chart: {
+	          title: 'MACDH',
+	          subtitle: ''
+	        }
+	    };
+	    var chart = new google.visualization.LineChart(document.getElementById('macdhSecondaryGraph'));
+	    chart.draw(data, options);
+    }
+
+    function rsiSecondaryGraph() {
+		var graphData = [];
+		for(var i = 0; i<$scope.graphDatas.length; i++){
+			var stringaux = $scope.graphDatas[i].Date.split('T');
+			graphData.push([stringaux[0], $scope.graphDatas[i].close]);
+		}
+	    var data = new google.visualization.DataTable();
+	    data.addColumn('string', 'Dia');
+	    data.addColumn('number', 'RSI');
+	    data.addRows(graphData);
+	    var options = {
+	        chart: {
+	          title: 'RSI',
+	          subtitle: ''
+	        }
+	    };
+	    var chart = new google.visualization.LineChart(document.getElementById('rsiSecondaryGraph'));
+	    chart.draw(data, options);
+    }
+
+    function secondaryMainGraph() {
+		var graphData = [];
+		for(var i = 0; i<$scope.graphDatas.length; i++){
+			var stringaux = $scope.graphDatas[i].Date.split('T');
+			graphData.push([stringaux[0], $scope.graphDatas[i].Close, $scope.graphDatas[i].Close]);
+		}
+	    var data = new google.visualization.DataTable();
+	    data.addColumn('string', 'Data');
+	    data.addColumn('number', 'USD');
+	    data.addColumn('number', 'Value');
+	    data.addRows(graphData);
+	    var options = {
+	        hAxis: {
+	          title: 'Data'
+	        },
+	        vAxis: {
+	          title: 'Valor'
+	        }
+	    };
+	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
+	    chart.draw(data, options);
+    }
+
+    function secondGraph() {
+		var graphData = [];
+		for(var i = 0; i<$scope.graphDatas.length; i++){
+			var stringaux = $scope.graphDatas[i].Date.split('T');
+			graphData.push([stringaux[0], $scope.graphDatas[i].Close]);
+		}
+	    var data = new google.visualization.DataTable();
+	    data.addColumn('string', 'Data');
+	    data.addColumn('number', 'USD');
+	    data.addRows(graphData);
+	    var options = {
+	        hAxis: {
+	          title: 'Data'
+	        },
+	        vAxis: {
+	          title: 'Valor'
+	        }
+	    };
+	    var chart = new google.visualization.LineChart(document.getElementById('secondChart'));
+	    chart.draw(data, options);
     }
 
     $rootScope.isLoading = true;
@@ -93,7 +202,11 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
 		//MAIN GRAPH
 		$rootScope.req('/chart/getall/line', null, 'GET', function(suc){
-			$scope.mainGraphData = [];
+
+			$scope.graphDatas = suc.data;
+			google.charts.setOnLoadCallback(initialMainGraph);
+
+			/*$scope.mainGraphData = [];
 			$scope.mainGraphLabels = [];
 			for(var i=0; i<suc.data.length; i++){
 			 	var stringaux = suc.data[i].Date.split('T');
@@ -115,7 +228,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			        }
 			      ]
 			    }
-			};
+			};*/
 			$rootScope.isLoading = false;
 		}, function(err){
 			console.log(err);
@@ -169,8 +282,9 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		}
 
 		$rootScope.req(url, null, 'GET', function(suc){
-
-			$scope.mainGraphData = [];
+			$scope.graphDatas = suc.data;
+			google.charts.setOnLoadCallback(initialMainGraph);
+			/*$scope.mainGraphData = [];
 			$scope.mainGraphLabels = [];
 			for(var i=0; i<suc.data.length; i++){
 			 	var stringaux = suc.data[i].Date.split('T');
@@ -180,7 +294,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			$scope.series = ['Value'];
 			$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
 			$scope.mainGraphOptions = {
-//			  	elements: { point: { radius: 0 } },
+			  	elements: { point: { radius: 0 } },
 			    scales: {
 			      yAxes: [
 			        {
@@ -192,7 +306,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			        }
 			      ]
 			    }
-			};
+			};*/
 
 			/*console.log(JSON.stringify(suc))
 			$scope.labels= [];
