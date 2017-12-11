@@ -41,19 +41,14 @@
                         <span class="dashboard_graph-status">{{mainGraph.status}}</span> 
                     </div>
                     <div class="w50" align="right">
-                        <button class="cursor-pointer {{selectedMainGraph == 1? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(1);">ALL</button>
-                        <button class="cursor-pointer {{selectedMainGraph == 2? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(2);">1Y</button>
-                        <button class="cursor-pointer {{selectedMainGraph == 3? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(3);">1M</button>
-                        <button class="cursor-pointer {{selectedMainGraph == 4? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="selectMainGraph(0); graphSelectPeriod(4);">1W</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 1? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click=" graphSelectPeriod(1); selectMainGraph(0);">ALL</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 2? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="graphSelectPeriod(2); selectMainGraph(0);">1Y</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 3? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="graphSelectPeriod(3); selectMainGraph(0);">1M</button>
+                        <button class="cursor-pointer {{selectedMainGraph == 4? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="graphSelectPeriod(4); selectMainGraph(0);">1W</button>
                     </div>
                 </div>
 
-                <!-- <canvas id="line" class="chart chart-line" chart-data="mainGraphData"
-                chart-labels="mainGraphLabels" chart-options="mainGraphOptions"
-                chart-dataset-override="datasetOverride">
-                </canvas> -->
-                <div id="mainChart" class="googleCharts"></div>
-                
+                <div id="mainChart" class="googleCharts"></div>                
                 
                 <!-- SECONDARY GRAPH ON -->
                 <div style="width: 100%;" align="left">
@@ -70,7 +65,7 @@
                     </div>
                     <div class="w18" align="left">
                         <div>{{selectedIndicator.title}}</div>
-                        <div class="font-normal">{{secondGraph.sub}}</div>  
+                        <div class="font-normal">{{selectedIndicator.sub}}</div>  
                     </div>
                     <div class="w18" align="left">
                         <div>{{selectedIndicator.average.value}}</div>
@@ -94,12 +89,7 @@
                     </div>
                 </div>
                 <div>
-                    <!-- SECONDARY GRAPH IN -->
-                    <!-- <canvas id="line" class="chart chart-line" chart-data="data2"
-                    chart-labels="labels2" chart-series="series2" chart-options="options2"
-                    chart-dataset-override="datasetOverride2">
-                    </canvas> -->
-                    <div id="secondChart" class="googleCharts"></div>
+                    <div id="secondChart"></div>
                 </div>
                 <div>
                     <div class="secondary-graph-notification" align="left">
@@ -138,16 +128,7 @@
                         <div class="w33" align="center" ng-repeat="profile in notificationsStrategiesProfile">
                             <input type="checkbox" ng-model="notificationsStrategiesProfile[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;" ng-change="refreshStrategiesProfile($index)">
                             <span style="font-weight: normal;" >{{profile.title}}</span>
-                        </div>
-                        <!-- <div class="w33" align="center">
-                            <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
-                            <span style="font-weight: normal;">Muito Conservador</span>
-                        </div>
-                        <div class="w33" align="center">
-                            <input type="checkbox" ng-model="notificationsStrategies[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;">
-                            <span style="font-weight: normal;">Ultra Consevador</span>
-                        </div> -->
-                        
+                        </div>                        
                     </div>
                 </div>
             </div>

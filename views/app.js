@@ -2,16 +2,14 @@ var app = angular.module('kamaji', [
   'kamaji.auth',
   'kamaji.dashboard',
   'ui.router',
-  'angular-md5',
-  'chart.js'
+  'angular-md5'
 ])
 
 .run(function ($rootScope, $http, $location, $window, $state, $stateParams) {
-  //'chart.js',
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
 
-  $rootScope.reqApiURL = "http://10.15.36.41:5000";
+  $rootScope.reqApiURL = "http://10.13.80.230:5000";
   $rootScope.serverURL = "http://localhost:5000";
 
   $rootScope.isLoading = false;
@@ -65,8 +63,8 @@ var app = angular.module('kamaji', [
         $rootScope.user = success;
       }
     }, function(error){
-      //window.localStorage.clear();
-      //location.replace('/login');
+      window.localStorage.clear();
+      location.replace('/login');
     }, false);
   } else {
     window.localStorage.clear();

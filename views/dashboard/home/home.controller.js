@@ -10,29 +10,38 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
   	google.charts.load('current', {packages: ['corechart', 'line']});
   	
+  	//INITIAL SINGLE - All
+  	$scope.InitialPrimarySingleGraphIsOn = false;
 	function initialMainGraph() {
-		var graphData = [];
-		for(var i = 0; i<$scope.graphDatas.length; i++){
-			var stringaux = $scope.graphDatas[i].Date.split('T');
-			graphData.push([''+stringaux[0], $scope.graphDatas[i].Close]);
+		if(!$scope.InitialPrimarySingleGraphIsOn) {
+			var graphData = [];
+			$scope.backupGraphDataInitial = $scope.graphDatas;
+			for(var i = 0; i<$scope.graphDatas.length; i++){
+				var stringaux = $scope.graphDatas[i].Date.split('T');
+				graphData.push([''+stringaux[0], $scope.graphDatas[i].Close]);
+			}
+			$scope.InitialPrimarySingleGraphIsOn = true;
+		    $scope.InitialPrimarySingleGraph = new google.visualization.DataTable();
+		    $scope.InitialPrimarySingleGraph.addColumn('string', 'Data');
+		    $scope.InitialPrimarySingleGraph.addColumn('number', 'USD');
+		    $scope.InitialPrimarySingleGraph.addRows(graphData);
+		    var options = {
+		        hAxis: {
+		          title: 'Data'
+		        },
+		        vAxis: {
+		          title: 'Valor'
+		        },
+		        legend:'none'
+		    };
 		}
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('string', 'Data');
-	    data.addColumn('number', 'USD');
-	    data.addRows(graphData);
-	    var options = {
-	        hAxis: {
-	          title: 'Data'
-	        },
-	        vAxis: {
-	          title: 'Valor'
-	        }
-	    };
 	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
-	    chart.draw(data, options);
+	    chart.draw($scope.InitialPrimarySingleGraph, options);
     }
 
+    //INITIAL SINGLE OTHER TIME - Year - Month - Week
     function initialOtherMainGraph() {
+		$scope.backupGraphData = $scope.graphDatas;
 		var graphData = [];
 		for(var i = 0; i<$scope.graphDatas.length; i++){
 			var stringaux = $scope.graphDatas[i].Date.split('T');
@@ -48,16 +57,60 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	        },
 	        vAxis: {
 	          title: 'Valor'
-	        }
-	    };
+	        },
+	        legend:'none'
+	    };	
+		
 	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
 	    chart.draw(data, options);
     }
 
+	//INITIAL WITH LINES - not okay
+	$scope.secondaryGraphLinesBackup = {lines: 0, main: null, macd: null, lb: null, ub: null};
+    function secondaryMainGraph() {
+    	//pegar grafico setado e adicionar linha
+
+
+    	/*if($scope.secondaryGraphLinesBackup.lines == 0 || $scope.secondaryGraphLinesBackup == null){
+    		var graphData = [['Data', 'CLOSE', 'Value']];
+			for(var i = 0; i<$scope.graphDatas.length; i++){
+				if($scope.graphDatas[i].Date)
+					var stringaux = $scope.graphDatas[i].Date.split('T');
+				else
+					var stringaux = $scope.graphDatas[i].date.split('T');
+
+				if($scope.graphDatas[i].macd)
+					graphData.push([''+stringaux[0], $scope.graphDatas[i].macd]);
+				else if($scope.graphDatas[i].boll_lb)
+					graphData.push([''+stringaux[0], $scope.graphDatas[i].boll_lb]);
+				else if($scope.graphDatas[i].boll_ub)
+					graphData.push([''+stringaux[0], $scope.graphDatas[i].boll_ub]);
+			}
+
+			$scope.secondaryGraphLinesBackup = {lines: 1, data: graphData};
+		    var data = google.visualization.arrayToDataTable(graphData);
+    	} else if($scope.secondaryGraphLinesBackup.lines == 1){
+
+    	} else {
+
+    	}
+
+        var options = {
+          legend: 'none'
+        };	
+		
+	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
+	    chart.draw(data, options);*/
+    }
+
+    //MACDH SECONDARY
     function macdhSecondaryGraph() {
 		var graphData = [];
 		for(var i = 0; i<$scope.graphDatas.length; i++){
-			var stringaux = $scope.graphDatas[i].date.split('T');
+			if($scope.graphDatas[i].date)
+				var stringaux = $scope.graphDatas[i].date.split('T');
+			else
+				var stringaux = $scope.graphDatas[i].Date.split('T');
 			graphData.push([stringaux[0], $scope.graphDatas[i].macdh]);
 		}
 	    var data = new google.visualization.DataTable();
@@ -68,16 +121,21 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	        chart: {
 	          title: 'Macdh',
 	          subtitle: ''
-	        }
+	        },
+	        legend:'none'
 	    };
 	    var chart = new google.visualization.LineChart(document.getElementById('macdhSecondaryGraph'));
 	    chart.draw(data, options);
     }
 
+    //RSI SECONDARY
     function rsiSecondaryGraph() {
 		var graphData = [];
 		for(var i = 0; i<$scope.graphDatas.length; i++){
-			var stringaux = $scope.graphDatas[i].date.split('T');
+			if($scope.graphDatas[i].date)
+				var stringaux = $scope.graphDatas[i].date.split('T');
+			else
+				var stringaux = $scope.graphDatas[i].Date.split('T');
 			graphData.push([stringaux[0], $scope.graphDatas[i].rsi]);
 		}
 	    var data = new google.visualization.DataTable();
@@ -88,54 +146,38 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	        chart: {
 	          title: 'RSI',
 	          subtitle: ''
-	        }
+	        },
+	        legend:'none'
 	    };
 	    var chart = new google.visualization.LineChart(document.getElementById('rsiSecondaryGraph'));
 	    chart.draw(data, options);
     }
 
-    function secondaryMainGraph() {
+    //SECOND - CANDLE - not okay - test
+	function secondGraph() {
 		var graphData = [];
 		for(var i = 0; i<$scope.graphDatas.length; i++){
-			var stringaux = $scope.graphDatas[i].date.split('T');
-			graphData.push([stringaux[0], $scope.graphDatas[i].Close, $scope.graphDatas[i].Close]);
+			if($scope.graphDatas[i].date)
+				var stringaux = $scope.graphDatas[i].date.split('T');
+			else
+				var stringaux = $scope.graphDatas[i].Date.split('T');
+			graphData.push([stringaux[0], $scope.graphDatas[i].Low, $scope.graphDatas[i].Open, $scope.graphDatas[i].Close, $scope.graphDatas[i].High]);
 		}
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('string', 'Data');
-	    data.addColumn('number', 'USD');
-	    data.addColumn('number', 'Value');
-	    data.addRows(graphData);
-	    var options = {
-	        hAxis: {
-	          title: 'Data'
-	        },
-	        vAxis: {
-	          title: 'Valor'
-	        }
-	    };
-	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
-	    chart.draw(data, options);
-    }
 
-    function secondGraph() {
-		var graphData = [];
-		for(var i = 0; i<$scope.graphDatas.length; i++){
-			var stringaux = $scope.graphDatas[i].Date.split('T');
-			graphData.push([stringaux[0], $scope.graphDatas[i].Close]);
-		}
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('string', 'Data');
-	    data.addColumn('number', 'USD');
-	    data.addRows(graphData);
+		var data = google.visualization.arrayToDataTable(graphData, true);
+
 	    var options = {
-	        hAxis: {
-	          title: 'Data'
-	        },
-	        vAxis: {
-	          title: 'Valor'
-	        }
+	      legend:'none',
+	      bar: { groupWidth: '100%' }, // Remove space between bars.
+          candlestick: {
+            fallingColor: { strokeWidth: 0, fill: '#c0392b' }, // red
+            risingColor: { strokeWidth: 0, fill: '#27ae60' }   // green
+          },
+  		  tooltip: {trigger: 'selection'},
+		  aggregationTarget: 'category'
 	    };
-	    var chart = new google.visualization.LineChart(document.getElementById('secondChart'));
+	    
+	    var chart = new google.visualization.CandlestickChart(document.getElementById('secondChart'));
 	    chart.draw(data, options);
     }
 
@@ -157,22 +199,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		data: null
 	}
 
-	$scope.secondGraph = {
-		title: 'MACD',
-		sub: 'Histogram',
-		average: 0.0001022,
-		deviation: 0.0156754,
-		distance: 0.7179375,
-		color: 1,
-		days: 2
-	}
-
 	$scope.indicators = [
-		{title: 'MACD', percent: null, time: '', color: 0, active: false, average: {id: 26, value: null}, deviation: {id: 27, value: null}, distance: {id: 28, value: null}, id: 1},
-		{title: 'MACDH', percent: null, time: '', color: 0, active: false, average: {id: 29, value: null}, deviation: {id: 30, value: null}, distance: {id: 31, value: null}, id: 3},
-		{title: 'RSI', percent: null, time: '', color: 0, active: false, average: {id: 11, value: null}, deviation: {id: 12, value: null}, distance: {id: 13, value: null}, id: 8},
-		{title: 'BB Low', percent: null, time: '', color: 0, active: false, average: {id: 20, value: null}, deviation: {id: 21, value: null}, distance: {id: 22, value: null}, id: 6},
-		{title: 'BB Up', percent: null, time: '', color: 0, active: false, average: {id: 17, value: null}, deviation: {id: 18, value: null}, distance: {id: 19, value: null}, id: 5}
+		{title: 'MACD', sub:'Cross', percent: null, time: '', color: 0, active: false, average: {id: 26, value: null}, deviation: {id: 27, value: null}, distance: {id: 28, value: null}, id: 1},
+		{title: 'MACDH', sub:'Histogram', percent: null, time: '', color: 0, active: false, average: {id: 29, value: null}, deviation: {id: 30, value: null}, distance: {id: 31, value: null}, id: 3},
+		{title: 'RSI', sub:'Bands Cross', percent: null, time: '', color: 0, active: false, average: {id: 11, value: null}, deviation: {id: 12, value: null}, distance: {id: 13, value: null}, id: 8},
+		{title: 'BB Low', sub: 'Bands LB', percent: null, time: '', color: 0, active: false, average: {id: 20, value: null}, deviation: {id: 21, value: null}, distance: {id: 22, value: null}, id: 6},
+		{title: 'BB Up', sub: 'Bands UB', percent: null, time: '', color: 0, active: false, average: {id: 17, value: null}, deviation: {id: 18, value: null}, distance: {id: 19, value: null}, id: 5}
 	];
 	$rootScope.indicatorIsOn = false;
 
@@ -224,33 +256,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
 		//MAIN GRAPH
 		$rootScope.req('/chart/getall/line', null, 'GET', function(suc){
-
 			$scope.graphDatas = suc.data;
 			google.charts.setOnLoadCallback(initialMainGraph);
-
-			/*$scope.mainGraphData = [];
-			$scope.mainGraphLabels = [];
-			for(var i=0; i<suc.data.length; i++){
-			 	var stringaux = suc.data[i].Date.split('T');
-			 	$scope.mainGraphLabels.push(stringaux[0]);
-			 	$scope.mainGraphData.push(suc.data[i].Close);
-			}
-			$scope.series = ['Value'];
-			$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
-			$scope.mainGraphOptions = {
-			  	elements: { point: { radius: 0 } },
-			    scales: {
-			      yAxes: [
-			        {
-			          id: 'y-axis-1',
-			          type: 'linear',
-			          display: true,
-			          position: 'left',
-			          scaleShowLabels: false
-			        }
-			      ]
-			    }
-			};*/
 			$rootScope.isLoading = false;
 		}, function(err){
 			console.log(err);
@@ -306,16 +313,27 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			var aux = '/chart/getall/line';
 		else
 			var aux = $scope.selectedPeriod + n;
-		$rootScope.req(aux, null, 'GET', function(suc){
-			$scope.graphDatas = suc.data;
-			if(!$scope.selectedPeriod)
+
+		//ATUALIZAR INLINE TIME
+		if($scope.indicators[1].active){
+			$scope.turnOnIndicator(1);
+		} else if($scope.indicators[2].active){
+			$scope.turnOnIndicator(2);
+		} else {
+			//ATUALIZA GRAPH WITH LINE TIME
+		}
+
+		if(!$scope.selectedPeriod)
 				google.charts.setOnLoadCallback(initialMainGraph);
-			else
+		else {
+			$rootScope.req(aux, null, 'GET', function(suc){
+				$scope.graphDatas = suc.data;
 				google.charts.setOnLoadCallback(initialOtherMainGraph);
-			$scope.$apply();
-		}, function(err){
-			console.log(err);
-		}, true);
+				$scope.$apply();
+			}, function(err){
+				console.log(err);
+			}, true);
+		}
 	}
 
 	$scope.getDataN = function(n){
@@ -330,12 +348,6 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			$rootScope.selectedIndicator.deviation.value = suc;
 		}, function(error){
 		})
-
-		//GET DISTANCE
-		/*$rootScope.req('/indicator/getdata/'+$scope.indicators[n].distance.id, null, 'GET', function(suc){
-			$rootScope.selectedIndicator.distance.value = suc;
-		}, function(error){
-		})*/
 	}
 
 	//INDICATORS
@@ -343,29 +355,9 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.indicatorIsOn = true;
 		$rootScope.selectedIndicator = $scope.indicators[index]; //Change memory address
 		$scope.getDataN(index);
-		$scope.secondGraph.title = $scope.indicators[index].title;
-		$rootScope.req('/chart/indicator/'+$scope.indicators[index].id, null, 'GET', function(success){
-			/*for(var i=0; i<success.data.length; i++){
-			 	let dataaux = success.data[i].Date.split('T');
-			 	$scope.secondGraph.labels.push(stringaux2[0]);
-			 	$scope.secondGraph.data.push(success.data[i].Close);
-			 }
-			  $scope.secondGraph.series = [''];
-			  $scope.secondGraph.datasetOverride = [{ yAxisID: 'y-axis-1' }];
-			  $scope.secondGraph.options = {
-			  	elements: { point: { radius: 0 } },
-			    scales: {
-			      yAxes: [
-			        {
-			          id: 'y-axis-1',
-			          type: 'linear',
-			          display: false,
-			          position: 'left',
-			          scaleShowLabels: false
-			        }
-			      ]
-			    }
-			};*/
+		$rootScope.req('/chart/indicator/'+$scope.indicators[index].id, null, 'GET', function(suc){
+			$scope.graphDatas = suc.data;
+			google.charts.setOnLoadCallback(secondGraph);
 		}, function(error){
 			console.log(error, 'err')
 		})
@@ -379,12 +371,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if(!$scope.indicators[index].active)
 			return;
 
-		//alert(1);
 		//DADOS DO GRAFICO1 EM BAIXO
 		if(!$scope.selectedPeriod)
 			var aux = '/chart/indicator/'+$scope.indicators[index].id;
 		else
 			var aux = $scope.selectedPeriod + $scope.indicators[index].id;
+
 		$rootScope.req(aux, null, 'GET', function(suc){
 			$scope.graphDatas = suc.data;
 			//alert(2);
@@ -401,56 +393,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			} else if(index == 2 ){
 				google.charts.setOnLoadCallback(rsiSecondaryGraph);
 			} else {
-				google.charts.setOnLoadCallback(initialOtherMainGraph);
+				google.charts.setOnLoadCallback(secondaryMainGraph);
 			}
 			$scope.$apply();
 		}, function(err){
 			console.log(err);
-			//alert(3);
 		}, true);
-
-		//
-		//boll_lb
-		//boll_ub
-		/*$rootScope.req('/chart/indicator/'+indicator.id, null, 'GET', function(success){
-			
-			$scope.data2 = [];
-			$scope.labels2 = [];
-//			alert(success.data[0].date);
-			console.log('chart/indicator turn on indicator ',JSON.stringify(success));
-			//$scope.indicatorGraph = success.data;
-			for(var i=0; i<success.data.length; i++){
-				$scope.labels2.push(success.data[i].date);
-			 	//var stringaux2 = success.data[i].date.split('T');
-			 	//$scope.labels2.push(stringaux2[0]);
-			 	if(index == 0){
-
-			 	} else if(index == 1){
-			 		$scope.data2.push(success.data[i].macdh);
-			 	} else if(index == 2){
-
-			 	}
-			 	
-			 }
-			  $scope.series2 = ['series2'];
-			  $scope.datasetOverride2 = [{ yAxisID: 'y-axis-1' }];
-			  $scope.options2 = {
-			  	elements: { point: { radius: 0 } },
-			    scales: {
-			      yAxes: [
-			        {
-			          id: 'y-axis-1',
-			          type: 'linear',
-			          display: true,
-			          position: 'left',
-			          scaleShowLabels: false
-			        }
-			      ]
-			    }
-			};
-		}, function(error){
-			console.log(error, 'err')
-		})*/
 	}
 	
 	$scope.notifications = [];
@@ -484,11 +432,11 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 
 	$scope.notificationsStrategies = [
-		{title: 'MACD', sub: 'Cross', percent: 100, active: true, id:1},
-		{title: 'MACD', sub: 'Histogram', percent: 90, active: true, id:3},
-		{title: 'Boolinger', sub: 'Bands UB', percent: 10, active: false, id:5},
-		{title: 'Boolinger', sub: 'Bands LB', percent: 20, active: true, id:6},
-		{title: 'RSI', sub: 'Cross', percent: 50, active: true, id:8}
+		{title: 'MACD', sub: 'Cross', percent: 0, active: true, id:1},
+		{title: 'MACD', sub: 'Histogram', percent: 0, active: true, id:3},
+		{title: 'Boolinger', sub: 'Bands UB', percent: 0, active: true, id:5},
+		{title: 'Boolinger', sub: 'Bands LB', percent: 0, active: true, id:6},
+		{title: 'RSI', sub: 'Cross', percent: 0, active: true, id:8}
 	];
 	$scope.getStrategies = function(){
 		$rootScope.req('/strategy/getall', null, 'GET', function(suc){
@@ -551,22 +499,10 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$scope.newInvoice = invoice;
 		$rootScope.seletecdTab = 1; 
 
-		/*var date1 = $scope.newInvoice.dt_emissao.split('-');
-		var date2 = date1[0] +'-'+ (date1[1] < 10 ? '0'+date1[1]:date1[1]) ++ '-'+ (date1[2] < 10 ? '0'+date1[2]:date1[2]) + "T00:00:00";*/
-		/*$scope.newInvoice.dt_emissao = new Date(date1[0], date1[1], date1[2]);
-		$scope.newInvoice.dt_vencimento.setHours(0, 0, 0, 0);
-
-		date1 = $scope.newInvoice.dt_vencimento.split('-');
-		$scope.newInvoice.dt_vencimento = new Date(date1[0], date1[1], date1[2]);
-		$scope.newInvoice.dt_vencimento.setHours(0, 0, 0, 0);
-
-		var date1 = $scope.newInvoice.dt_emissao + "T00:00:00"*/
-		/*alert(date2);
+		var date1 = $scope.newInvoice.dt_emissao.split('-');
+		var date2 = date1[0] +'-'+ (date1[1] < 10 ? '0'+date1[1]:date1[1]) ++ '-'+ (date1[2] < 10 ? '0'+date1[2]:date1[2]) + "T00:00:00";
 		$scope.newInvoice.dt_emissao = new Date(date2); 
-
-		date1 = $scope.newInvoice.dt_vencimento + "T00:00:00.000Z"
-		$scope.newInvoice.dt_vencimento = new Date(Date.parse(date1));*/
-
+		$scope.newInvoice.dt_emissao.setDate(date.getDate() - 1);
 	}
 	$scope.cancelUpdateInvoice = function(){
 		$scope.editInvoiceShow = false;
@@ -675,6 +611,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.newInvoice = {};
 	$scope.createInvoice = function()
 	{
+		console.log($scope.newInvoice);
 		if($scope.newInvoice.nro_invoice == null || $scope.newInvoice.nro_invoice == ''
 			|| $scope.newInvoice.resp_invoice == null || $scope.newInvoice.resp_invoice == ''
 			|| $scope.newInvoice.tipo == null || $scope.newInvoice.tipo == ''
@@ -777,10 +714,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.req('/contact/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone, null, 'GET', function(suc){
 			$scope.contacts.push($scope.contactNew);
 			$scope.getContact();
-			//alert(1);
 			$scope.contactNew = {};
 		}, function(err){
-			//alert(2);
 			console.log(err);
 		});
 	}
@@ -792,8 +727,5 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$scope = $scope.$new(true);
 		location.replace('/login');
 	}
-
- /* ---------------------- */
-
 
 })
