@@ -500,7 +500,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.seletecdTab = 1; 
 
 		var date1 = $scope.newInvoice.dt_emissao.split('-');
-		var date2 = date1[0] +'-'+ (date1[1] < 10 ? '0'+date1[1]:date1[1]) ++ '-'+ (date1[2] < 10 ? '0'+date1[2]:date1[2]) + "T00:00:00";
+		var date2 = date1[0] +'-'+ date1[1]+ '-'+ date1[2] + "T00:00:00";
 		$scope.newInvoice.dt_emissao = new Date(date2); 
 		$scope.newInvoice.dt_emissao.setDate(date.getDate() - 1);
 	}
