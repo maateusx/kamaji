@@ -1,0 +1,28 @@
+<div style="margin-top: 20px; padding-bottom: 15px;">
+
+    <div class="margin-top-10" style="width: 100%; overflow-x: auto;" align="center">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th style="text-align: center;">Nome</th>
+            <th style="text-align: center;">Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="relatorio in relatorios">
+            <td style="text-align: center;">{{relatorio}}</td>
+            <td style="text-align: center;">
+              <a target="_blank" href="{{relatorio.link}}">
+                <i class="fa fa-download cursor-pointer" aria-hidden="true"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div align="center" ng-show="relatorios.length == 0" style="width: 100%">
+        <h5>Nenhum relatório encontrado.</h5>
+      </div>
+    </div>
+    
+</div>
+

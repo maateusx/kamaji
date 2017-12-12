@@ -6,183 +6,16 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope = $rootScope.$new(true);
 		$scope = $scope.$new(true);
 		$state.go('login');
-    }
+    } 
 
-  	google.charts.load('current', {packages: ['corechart', 'line']});
-  	
-  	//INITIAL SINGLE - All
-  	$scope.InitialPrimarySingleGraphIsOn = false;
-	function initialMainGraph() {
-		if(!$scope.InitialPrimarySingleGraphIsOn) {
-			var graphData = [];
-			$scope.backupGraphDataInitial = $scope.graphDatas;
-			for(var i = 0; i<$scope.graphDatas.length; i++){
-				var stringaux = $scope.graphDatas[i].Date.split('T');
-				graphData.push([''+stringaux[0], $scope.graphDatas[i].Close]);
-			}
-			$scope.InitialPrimarySingleGraphIsOn = true;
-		    $scope.InitialPrimarySingleGraph = new google.visualization.DataTable();
-		    $scope.InitialPrimarySingleGraph.addColumn('string', 'Data');
-		    $scope.InitialPrimarySingleGraph.addColumn('number', 'USD');
-		    $scope.InitialPrimarySingleGraph.addRows(graphData);
-		    var options = {
-		        hAxis: {
-		          title: 'Data'
-		        },
-		        vAxis: {
-		          title: 'Valor'
-		        },
-		        legend:'none'
-		    };
-		}
-	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
-	    chart.draw($scope.InitialPrimarySingleGraph, options);
-    }
-
-    //INITIAL SINGLE OTHER TIME - Year - Month - Week
-    function initialOtherMainGraph() {
-		$scope.backupGraphData = $scope.graphDatas;
-		var graphData = [];
-		for(var i = 0; i<$scope.graphDatas.length; i++){
-			var stringaux = $scope.graphDatas[i].Date.split('T');
-			graphData.push([''+stringaux[0], $scope.graphDatas[i].close]);
-		}
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('string', 'Data');
-	    data.addColumn('number', 'USD');
-	    data.addRows(graphData);
-	    var options = {
-	        hAxis: {
-	          title: 'Data'
-	        },
-	        vAxis: {
-	          title: 'Valor'
-	        },
-	        legend:'none'
-	    };	
-		
-	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
-	    chart.draw(data, options);
-    }
-
-	//INITIAL WITH LINES - not okay
-	$scope.secondaryGraphLinesBackup = {lines: 0, main: null, macd: null, lb: null, ub: null};
-    function secondaryMainGraph() {
-    	//pegar grafico setado e adicionar linha
-
-
-    	/*if($scope.secondaryGraphLinesBackup.lines == 0 || $scope.secondaryGraphLinesBackup == null){
-    		var graphData = [['Data', 'CLOSE', 'Value']];
-			for(var i = 0; i<$scope.graphDatas.length; i++){
-				if($scope.graphDatas[i].Date)
-					var stringaux = $scope.graphDatas[i].Date.split('T');
-				else
-					var stringaux = $scope.graphDatas[i].date.split('T');
-
-				if($scope.graphDatas[i].macd)
-					graphData.push([''+stringaux[0], $scope.graphDatas[i].macd]);
-				else if($scope.graphDatas[i].boll_lb)
-					graphData.push([''+stringaux[0], $scope.graphDatas[i].boll_lb]);
-				else if($scope.graphDatas[i].boll_ub)
-					graphData.push([''+stringaux[0], $scope.graphDatas[i].boll_ub]);
-			}
-
-			$scope.secondaryGraphLinesBackup = {lines: 1, data: graphData};
-		    var data = google.visualization.arrayToDataTable(graphData);
-    	} else if($scope.secondaryGraphLinesBackup.lines == 1){
-
-    	} else {
-
-    	}
-
-        var options = {
-          legend: 'none'
-        };	
-		
-	    var chart = new google.visualization.LineChart(document.getElementById('mainChart'));
-	    chart.draw(data, options);*/
-    }
-
-    //MACDH SECONDARY
-    function macdhSecondaryGraph() {
-		var graphData = [];
-		for(var i = 0; i<$scope.graphDatas.length; i++){
-			if($scope.graphDatas[i].date)
-				var stringaux = $scope.graphDatas[i].date.split('T');
-			else
-				var stringaux = $scope.graphDatas[i].Date.split('T');
-			graphData.push([stringaux[0], $scope.graphDatas[i].macdh]);
-		}
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('string', 'Dia');
-	    data.addColumn('number', 'MACDH');
-	    data.addRows(graphData);
-	    var options = {
-	        chart: {
-	          title: 'Macdh',
-	          subtitle: ''
-	        },
-	        legend:'none'
-	    };
-	    var chart = new google.visualization.LineChart(document.getElementById('macdhSecondaryGraph'));
-	    chart.draw(data, options);
-    }
-
-    //RSI SECONDARY
-    function rsiSecondaryGraph() {
-		var graphData = [];
-		for(var i = 0; i<$scope.graphDatas.length; i++){
-			if($scope.graphDatas[i].date)
-				var stringaux = $scope.graphDatas[i].date.split('T');
-			else
-				var stringaux = $scope.graphDatas[i].Date.split('T');
-			graphData.push([stringaux[0], $scope.graphDatas[i].rsi]);
-		}
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('string', 'Dia');
-	    data.addColumn('number', 'RSI');
-	    data.addRows(graphData);
-	    var options = {
-	        chart: {
-	          title: 'RSI',
-	          subtitle: ''
-	        },
-	        legend:'none'
-	    };
-	    var chart = new google.visualization.LineChart(document.getElementById('rsiSecondaryGraph'));
-	    chart.draw(data, options);
-    }
-
-    //SECOND - CANDLE - not okay - test
-	function secondGraph() {
-		var graphData = [];
-		for(var i = 0; i<$scope.graphDatas.length; i++){
-			if($scope.graphDatas[i].date)
-				var stringaux = $scope.graphDatas[i].date.split('T');
-			else
-				var stringaux = $scope.graphDatas[i].Date.split('T');
-			graphData.push([stringaux[0], $scope.graphDatas[i].Low, $scope.graphDatas[i].Open, $scope.graphDatas[i].Close, $scope.graphDatas[i].High]);
-		}
-
-		var data = google.visualization.arrayToDataTable(graphData, true);
-
-	    var options = {
-	      legend:'none',
-	      bar: { groupWidth: '100%' }, // Remove space between bars.
-          candlestick: {
-            fallingColor: { strokeWidth: 0, fill: '#c0392b' }, // red
-            risingColor: { strokeWidth: 0, fill: '#27ae60' }   // green
-          },
-  		  tooltip: {trigger: 'selection'},
-		  aggregationTarget: 'category'
-	    };
-	    
-	    var chart = new google.visualization.CandlestickChart(document.getElementById('secondChart'));
-	    chart.draw(data, options);
+    $scope.chartView = 1;
+    $scope.changeChart = function(n){
+    	$socpe.chartView = n;
+    	$scope.$apply();
     }
 
     $rootScope.isLoading = true;
-    	
+
 	// CONSTRUCTOR
 	$scope.coinType = 'USD/BRL';
 
@@ -254,16 +87,6 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			console.log('/indicator/getdata/low',err);
 		});
 
-		//MAIN GRAPH
-		$rootScope.req('/chart/getall/line', null, 'GET', function(suc){
-			$scope.graphDatas = suc.data;
-			google.charts.setOnLoadCallback(initialMainGraph);
-			$rootScope.isLoading = false;
-		}, function(err){
-			console.log(err);
-			$rootScope.isLoading = false;
-		});
-
 		$rootScope.req('/signal/getall', null, 'GET', function(suc){
 			for(var i=0; i<suc.length; i++){
 				for(var j=0; j<$scope.indicators.length; j++){
@@ -276,14 +99,19 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 
 		$rootScope.req('/overview', null, 'GET', function(suc){
-			if(suc){
-				$scope.mainGraph.status = 'Tendência de Subida';
-				$scope.mainGraph.color =  1;
-			} else {
+			if(suc == 0){
 				$scope.mainGraph.status = 'Tendência Indefinida';
 				$scope.mainGraph.color =  0;
+			} else if(suc==1){
+				$scope.mainGraph.status = 'Movimento Lateral';
+				$scope.mainGraph.color =  1;
+			} else {
+				$scope.mainGraph.status = 'Tendência de Subida';
+				$scope.mainGraph.color =  2;
 			}
+			$rootScope.isLoading = false;
 		}, function(err){
+			$rootScope.isLoading = false;
 			console.log(err);
 		});
 
@@ -295,46 +123,6 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$scope.getDistance(4); $scope.getTime(4);
 	}
 	$scope.init();
-
-	$scope.graphSelectPeriod = function(n){
-		if(n == 1){
-			$scope.selectedPeriod = false;
-		} else if(n == 2) {
-			$scope.selectedPeriod = '/chart/year/indicator/';
-		} else if(n == 3) {
-			$scope.selectedPeriod = '/chart/month/indicator/';
-		} else if(n == 4) {
-			$scope.selectedPeriod = '/chart/week/indicator/';
-		}
-	}
-	$scope.selectMainGraph = function(n){
-		$scope.selectedMainGraph = n;
-		if(!$scope.selectedPeriod)
-			var aux = '/chart/getall/line';
-		else
-			var aux = $scope.selectedPeriod + n;
-
-		//ATUALIZAR INLINE TIME
-		if($scope.indicators[1].active){
-			$scope.turnOnIndicator(1);
-		} else if($scope.indicators[2].active){
-			$scope.turnOnIndicator(2);
-		} else {
-			//ATUALIZA GRAPH WITH LINE TIME
-		}
-
-		if(!$scope.selectedPeriod)
-				google.charts.setOnLoadCallback(initialMainGraph);
-		else {
-			$rootScope.req(aux, null, 'GET', function(suc){
-				$scope.graphDatas = suc.data;
-				google.charts.setOnLoadCallback(initialOtherMainGraph);
-				$scope.$apply();
-			}, function(err){
-				console.log(err);
-			}, true);
-		}
-	}
 
 	$scope.getDataN = function(n){
 		//GET AVERAGE
@@ -352,53 +140,44 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
 	//INDICATORS
 	$scope.selectIndicator = function(index) {
-		$rootScope.indicatorIsOn = true;
-		$rootScope.selectedIndicator = $scope.indicators[index]; //Change memory address
 		$scope.getDataN(index);
-		$rootScope.req('/chart/indicator/'+$scope.indicators[index].id, null, 'GET', function(suc){
-			$scope.graphDatas = suc.data;
-			google.charts.setOnLoadCallback(secondGraph);
-		}, function(error){
-			console.log(error, 'err')
-		})
+		$rootScope.indicatorIsOn = true;
+		$rootScope.selectedIndicator = $scope.indicators[index];
+		$scope.secondChartView = index;
 	}
 	$scope.deselectIndicator = function() {
 		$rootScope.selectedIndicator = null;
 		$rootScope.indicatorIsOn = false;
 	}
 
-	$scope.turnOnIndicator = function(index){
-		if(!$scope.indicators[index].active)
+	$scope.turnOnIndicator = function(){
+		if(($scope.indicators[0].active || $scope.indicators[1].active) && $scope.indicators[2].active && ($scope.indicators[3].active || $scope.indicators[4].active)){
+			$scope.chartView = 6; //all
+		} else if(($scope.indicators[0].active || $scope.indicators[1].active) && !$scope.indicators[2].active && ($scope.indicators[3].active || $scope.indicators[4].active)){
+			$scope.chartView = 5; //bb, macd
+		} else if(!$scope.indicators[0].active && !$scope.indicators[1].active && !$scope.indicators[2].active && !$scope.indicators[3].active && !$scope.indicators[4].active){
+			$scope.chartView = 1; //main
+		} else if(($scope.indicators[0].active || $scope.indicators[1].active) && !$scope.indicators[2].active && !$scope.indicators[3].active && !$scope.indicators[4].active){
+			$scope.chartView = 2; //macd
+		} else if(!$scope.indicators[0].active && !$scope.indicators[1].active && $scope.indicators[2].active && !$scope.indicators[3].active && !$scope.indicators[4].active){
+			$scope.chartView = 4; //rsi
+		} else if(!$scope.indicators[0].active && !$scope.indicators[1].active && !$scope.indicators[2].active &&($scope.indicators[3].active || $scope.indicators[4].active)){
+			$scope.chartView = 3; //bb
+		} else if(!$scope.indicators[0].active && !$scope.indicators[1].active && $scope.indicators[2].active &&($scope.indicators[3].active || $scope.indicators[4].active)){
+			$scope.chartView = 8; //rsi,bb
+		} else if(($scope.indicators[0].active || $scope.indicators[1].active) && $scope.indicators[2].active && !$scope.indicators[3].active && !$scope.indicators[4].active){
+			$scope.chartView = 7; //rsi,macd
+		}
+	}
+
+	$scope.updateIndicatorDays = function(){
+		$scope.selectedIndicator.time = $scope.selectedIndicator.time.replace(/\D+/g, '');
+		if($scope.selectedIndicator.time == null || $scope.selectedIndicator.time == '')
 			return;
-
-		//DADOS DO GRAFICO1 EM BAIXO
-		if(!$scope.selectedPeriod)
-			var aux = '/chart/indicator/'+$scope.indicators[index].id;
-		else
-			var aux = $scope.selectedPeriod + $scope.indicators[index].id;
-
-		$rootScope.req(aux, null, 'GET', function(suc){
-			$scope.graphDatas = suc.data;
-			//alert(2);
-			//alert(JSON.stringify(suc.data));
-			if(index == 3) {
-				$scope.indicatorGraphName = 'boll_lb';
-			} else if(index == 4){
-				$scope.indicatorGraphName = 'boll_ub';
-			} else {
-				$scope.indicatorGraphName = $scope.indicators[index].title.toLowerCase();
-			}
-			if(index == 1){
-				google.charts.setOnLoadCallback(macdhSecondaryGraph);
-			} else if(index == 2 ){
-				google.charts.setOnLoadCallback(rsiSecondaryGraph);
-			} else {
-				google.charts.setOnLoadCallback(secondaryMainGraph);
-			}
-			$scope.$apply();
+		$rootScope.req('/strategy/setindicatordays/'+$scope.selectedIndicator.id+'/'+$scope.selectedIndicator.time, null, 'GET', function(suc){
 		}, function(err){
 			console.log(err);
-		}, true);
+		});
 	}
 	
 	$scope.notifications = [];
@@ -720,6 +499,35 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 	}
 	/* -- END NOTIFICATION MODAL -- */
+
+	/*BEGIN RELATORIOS*/
+	$scope.relatorios = [];
+	$scope.getRelatorios = function(){
+		$rootScope.req('/relatorio/getall', null, 'GET', function(suc){
+			$scope.relatorios = [];
+		}, function(err){
+			console.log(err);
+		});
+	}
+	/*END RELATORIOS*/
+
+	$scope.notices=[];
+	$scope.getNotices = function(){
+		$http({
+	      url: 'https://news-headlines.tradingview.com/headlines/yahoo/category/currencies/?locale=br',
+	      method: 'GET',
+	      data: null  
+	    })
+	    .then(function(data){
+	    	$scope.notices = data.data;
+	    })
+	}
+	$scope.getNotices();
+
+	$scope.showActuality = 1;
+	$scope.selectActulity = function(n){
+		$scope.showActuality = n;
+	}
 
 	$scope.logout = function(){
 		window.localStorage.clear();

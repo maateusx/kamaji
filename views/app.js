@@ -9,7 +9,7 @@ var app = angular.module('kamaji', [
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
 
-  $rootScope.reqApiURL = "http://10.13.80.230:5000";
+  $rootScope.reqApiURL = "http://192.168.1.9:5000";
   $rootScope.serverURL = "http://localhost:5000";
 
   $rootScope.isLoading = false;
@@ -61,10 +61,15 @@ var app = angular.module('kamaji', [
         location.replace('/login');
       } else {
         $rootScope.user = success;
+        $rootScope.req('/user/photo/'+success.id, null, 'GET', function(suc){
+          $rootScope.user.photo = suc;
+        }, function(err){
+          console.log(err);
+        });
       }
     }, function(error){
-      window.localStorage.clear();
-      location.replace('/login');
+      //window.localStorage.clear();
+      //location.replace('/login');
     }, false);
   } else {
     window.localStorage.clear();

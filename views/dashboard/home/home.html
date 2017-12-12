@@ -1,18 +1,17 @@
-    <div class="dashboard-background row">
+<div class="dashboard-background row">
         
     <!-- BEGIN FIRST COLUMN -->
     <div class="col-md-9 dashboard-first-column">
 
         <nav class="navbar navbar-expand-lg dashboard-navbg">
             <div style="border-right: 2px solid #13181c;">
-                <img src="img/user-placeholder.jpg" class="dashboard_nav-avatar">
+                <img src="{{user.photo}}" class="dashboard_nav-avatar">
                 <span class="text-capitalize">{{user.name}}</span>
                 <i class="fa fa-sign-out cursor-pointer margin-0-10" aria-hidden="true" ng-click="logout()"></i>
             </div>
 
             <button class="navbar-toggler color-green" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border: 1px solid #3ab54a;">
-                <!-- <span class="navbar-toggler-icon"></span> -->
-                <i class="navbar-toggler-icon fa fa-circle" aria-hidden="true"></i>
+                <i class="navbar-toggler-icon fa fa-bars" aria-hidden="true"></i>
             </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent" align="center">
@@ -37,24 +36,34 @@
             <div ng-hide="indicatorIsOn">
                 <div class="row" style="margin-bottom: 15px;">
                     <div class="w50" align="left">
-                        <i class="fa fa-circle {{mainGraph.color == 1 ? 'color-green':''}}{{mainGraph.color == 0 ? 'color-red':''}}" aria-hidden="true"></i>
+                        <i class="fa fa-circle {{mainGraph.color == 2 ? 'color-green':''}}{{mainGraph.color == 1 ? 'color-yellow':''}}{{mainGraph.color == 0 ? 'color-red':''}}" aria-hidden="true"></i>
                         <span class="dashboard_graph-status">{{mainGraph.status}}</span> 
-                    </div>
-                    <div class="w50" align="right">
-                        <button class="cursor-pointer {{selectedMainGraph == 1? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click=" graphSelectPeriod(1); selectMainGraph(0);">ALL</button>
-                        <button class="cursor-pointer {{selectedMainGraph == 2? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="graphSelectPeriod(2); selectMainGraph(0);">1Y</button>
-                        <button class="cursor-pointer {{selectedMainGraph == 3? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="graphSelectPeriod(3); selectMainGraph(0);">1M</button>
-                        <button class="cursor-pointer {{selectedMainGraph == 4? 'selectedMainGraph': 'deselectedMainGraph'}}" ng-click="graphSelectPeriod(4); selectMainGraph(0);">1W</button>
                     </div>
                 </div>
 
-                <div id="mainChart" class="googleCharts"></div>                
-                
-                <!-- SECONDARY GRAPH ON -->
-                <div style="width: 100%;" align="left">
-                    <div id="macdhSecondaryGraph" class="googleCharts" ng-show="indicators[1].active"></div>
-                    <div id="rsiSecondaryGraph" class="googleCharts" ng-show="indicators[2].active"></div>
-                </div>
+                <!-- MAIN -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=%5B%5D&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 1"></iframe>
+
+                <!-- MAIN - MACD -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=MACD%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 2"></iframe>
+
+                <!-- MAIN - bollinger bands -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=BB%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 3"></iframe>
+
+                <!-- MAIN - RSI -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=RSI%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 4"></iframe>
+
+                <!-- MAIN - MACD - BB -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=RSI%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 5"></iframe>
+
+                <!-- MAIN - MACD RSI E BB -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=BB%40tv-basicstudies%1FMACD%40tv-basicstudies%1FRSI%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 6"></iframe>
+
+                <!-- MAIN - MACD e RSI: -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=MACD%40tv-basicstudies%1FRSI%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 7"></iframe>
+
+                <!-- MAIN - RSI e BB: -->
+                <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=BB%40tv-basicstudies%1FRSI%40tv-basicstudies&hideideas=1&theme=Dark&style=2&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="chartView == 8"></iframe>
             </div>
 
 
@@ -80,17 +89,26 @@
                         <div class="font-normal">Distância Atual</div>     
                     </div>
                     <div class="w18 row margin-0" align="left">
-                        <div class="secondary-graph-days {{selectedIndicator.color == 1? 'color-green':'color-red'}}" align="center">
-                            {{selectedIndicator.time}}
+                        <div align="center">
+                            <input type="text" name="indicatorDay" ng-model="selectedIndicator.time" class="secondary-graph-days {{selectedIndicator.color == 1? 'color-green':'color-red'}}" style="border: none; padding: 5px; font-weight: bold;" ng-change="updateIndicatorDays()">
                         </div>
                         <div style="padding-left: 5px;">
                             <div class="font-normal">Dias<br>Passados</div> 
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div id="secondChart"></div>
+                <div style="padding-top: 25px;">
+                    
+                    <!-- INDICADOR MACD -->
+                    <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=MACD%40tv-basicstudies&theme=Dark&style=1&timezone=Etc%2FUTC&hideideasbutton=1&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="secondChartView == 0 || secondChartView == 1"></iframe>
+
+                    <!-- INDICADOR RSI -->
+                    <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=MACD%40tv-basicstudies&theme=Dark&style=1&timezone=Etc%2FUTC&hideideasbutton=1&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="secondChartView == 2"></iframe>
+
+                    <!-- INDICADOR BB -->
+                    <iframe src="https://www.tradingview.com/widgetembed/?symbol=FX_IDC%3AUSDBRL&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=MACD%40tv-basicstudies&theme=Dark&style=1&timezone=Etc%2FUTC&hideideasbutton=1&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=FX_IDC%3AUSDBRL" style="width: 100%; height: 500px; border:none;" ng-show="secondChartView == 3 || secondChartView == 4"></iframe>
                 </div>
+
                 <div>
                     <div class="secondary-graph-notification" align="left">
                         Estratégia de Notificações
@@ -154,7 +172,6 @@
             <nav class="navbar dashboard-navbg">
               <span class="navbar-text">
                 Indicadores
-                <i class="fa fa-cog cursor-pointer margin-left-10" aria-hidden="true"></i>
               </span>
             </nav>
             <div class="column" style="padding: 15px 0;">
@@ -167,7 +184,7 @@
                     <div class="w10 font-12 cursor-pointer" ng-click="selectIndicator($index);">{{indicator.time}}<span ng-show="indicator.time">d</span></div>
                     <div class="w20">
                         <label class="switch">
-                          <input type="checkbox" ng-model="indicators[$index].active" ng-change="turnOnIndicator($index)">
+                          <input type="checkbox" ng-model="indicators[$index].active" ng-change="turnOnIndicator()">
                           <span class="slider round"></span>
                         </label>
                     </div>
@@ -202,18 +219,28 @@
         </div>
 
         <div class="min-h33">
-            <nav class="navbar dashboard-navbg">
-              <span class="navbar-text">
+            <nav class="navbar dashboard-navbg" style="align-content: center">
+              <span class="navbar-text {{showActuality == 1?'noticeSelected':'cursor-pointer'}}" style="width: 50%; text-align: center;" ng-click="selectActulity(1)">
                 Twitter Handles
+              </span>
+              <span class="navbar-text {{showActuality == 2?'noticeSelected':'cursor-pointer'}}" style="width: 50%; text-align: center;" ng-click="selectActulity(2)">
+                Notícias
               </span>
             </nav>
 
-            <div class="column" style="height: 500px; overflow-y: auto;" id="twitter">
+            <div class="column" style="height: 500px; overflow-y: auto;" id="twitter" ng-show="showActuality == 1">
                 <a class="twitter-timeline" data-lang="pt" data-theme="dark" href="https://twitter.com/sudoferraz/lists/algar-kamaji?ref_src=twsrc%5Etfw">Loading...</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
+
+            <div class="column" style="height: 500px; overflow-y: auto; padding: 20px; padding-top: 0;" ng-show="showActuality == 2">
+                <div class="column" align="left" ng-repeat="notice in notices" style="border-bottom: 1px solid rgba(255, 255, 255, 0.7); padding: 15px 0px;">
+                    <div style="color: rgba(255, 255, 255, 0.8); font-weight: bold; font-size: 14px; margin-bottom: 10px;">{{notice.title}}</div>
+                    <div style="color: rgba(255, 255, 255, 0.5); font-size: 12px;">{{notice.shortDescription | limitTo: 140}} [...]</div>
+                    <div><a target="_blank" href="{{notice.link}}" style="font-size: 9px;" class="cursor-pointer color-green">{{notice.link | limitTo: 55}}...</a></div>
+                </div>
+            </div>
         </div>
-        
 
     </div>
     <!-- END SECOND COLUMN -->
@@ -221,4 +248,3 @@
 </div>
 
 <div ng-include src="'views/dashboard/modal/modal.html'"></div>
-

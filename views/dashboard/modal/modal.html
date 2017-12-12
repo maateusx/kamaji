@@ -7,6 +7,7 @@
             <button class="modalTab {{seletecdTab == 1? 'modalSelectedTab':''}}" ng-click="changeTab(1)">{{editInvoiceShow? 'Editar ':'Adicionar '}}Invoice</button>
             <button class="modalTab {{seletecdTab == 2? 'modalSelectedTab':''}}" ng-click="changeTab(2)">Invoice</button>
             <button class="modalTab {{seletecdTab == 3? 'modalSelectedTab':''}}" ng-click="changeTab(3)">Notificações</button>
+            <button class="modalTab {{seletecdTab == 4? 'modalSelectedTab':''}}" ng-click="changeTab(4)">Relatórios</button>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
           <span aria-hidden="true">&times;</span>
@@ -17,6 +18,7 @@
         <div ng-include src="'views/dashboard/modal/addInvoice.html'" ng-show="seletecdTab == 1"></div>
         <div ng-include src="'views/dashboard/modal/invoice.html'" ng-show="seletecdTab == 2"></div>
         <div ng-include src="'views/dashboard/modal/notification.html'" ng-show="seletecdTab == 3"></div>
+        <div ng-include src="'views/dashboard/modal/relatorio.html'" ng-show="seletecdTab == 4"></div>
       </div>
 
     </div>
