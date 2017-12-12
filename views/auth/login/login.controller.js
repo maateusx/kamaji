@@ -33,6 +33,13 @@ app.controller("loginController", function($scope, $state, $rootScope, md5){
 				localStorage.setItem('email', $scope.account.email);
 				localStorage.setItem('password', md5.createHash($scope.account.password));
 				$rootScope.user = success;
+				
+				$rootScope.req('/user/photo/'+success.id, null, 'GET', function(suc){
+		          $rootScope.user.photo = suc;
+		        }, function(err){
+		          console.log(err);
+		        });
+
 				$state.go('home');
 			}
 		}, function(error){
