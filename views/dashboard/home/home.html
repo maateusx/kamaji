@@ -77,11 +77,11 @@
                         <div class="font-normal">{{selectedIndicator.sub}}</div>  
                     </div>
                     <div class="w18" align="left">
-                        <div>{{selectedIndicator.average.value}}</div>
+                        <div>{{selectedIndicator.average.value | number: 4}}</div>
                         <div class="font-normal">Média</div>     
                     </div>
                     <div class="w18" align="left">
-                        <div>{{selectedIndicator.deviation.value}}</div>
+                        <div>{{selectedIndicator.deviation.value | number: 4}}</div>
                         <div class="font-normal">Desvio Padrão</div>   
                     </div>
                     <div class="w18" align="left">

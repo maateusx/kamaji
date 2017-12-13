@@ -11,10 +11,10 @@
             <i class="fa fa-refresh cursor-pointer" aria-hidden="true" ng-click="getAllInvoices()" style="color: #fff; margin-right: 10px;"></i>
           </div>
           <div class="w40">
-            <button class="{{invoicesFilter == 1? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectInvoiceFilter(1)">Abertas</button>
+            <button class="resize-invoiceButton {{invoicesFilter == 1? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectInvoiceFilter(1)">Abertas</button>
           </div>
           <div class="w40">
-            <button class="{{invoicesFilter == 2? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectInvoiceFilter(2)">Encerradas</button>
+            <button class="resize-invoiceButton {{invoicesFilter == 2? 'modaNotification-button-filter-selected':'modaNotification-button-filter'}}" ng-click="selectInvoiceFilter(2)">Encerradas</button>
           </div>
       </div>
     </div>
