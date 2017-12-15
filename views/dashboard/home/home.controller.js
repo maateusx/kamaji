@@ -123,6 +123,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$scope.getDistance(4); $scope.getTime(4);
 	}
 	$scope.init();
+	setInterval(function(){ $scope.init(); }, 30000);
 
 	$scope.getDataN = function(n){
 		//GET AVERAGE
@@ -372,10 +373,12 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			$rootScope.selectedInvoice.valor_pago = $rootScope.selectedInvoice.valor_pago + '.00';
 		if($rootScope.selectedInvoice.dolar_pagamento-Math.trunc($rootScope.selectedInvoice.dolar_pagamento) == 0)
 			$rootScope.selectedInvoice.dolar_pagamento = $rootScope.selectedInvoice.dolar_pagamento + '.00';
+		if($rootScope.selectedInvoice.imposto-Math.trunc($rootScope.selectedInvoice.imposto) == 0)
+			$rootScope.selectedInvoice.imposto = $rootScope.selectedInvoice.imposto + '.00';
 
 		let pagamento = $rootScope.selectedInvoice.dt_pagamento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_pagamento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_pagamento.getDay();
 		$rootScope.selectedInvoice.dt_pagamento = pagamento;
-		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.id+'/'+pagamento+'/'+$rootScope.selectedInvoice.dolar_pagamento+'/'+$rootScope.selectedInvoice.valor_pago, null, 'GET', function(suc){
+		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.id+'/'+pagamento+'/'+$rootScope.selectedInvoice.dolar_pagamento+'/'+$rootScope.selectedInvoice.valor_pago+'/'+$rootScope.selectedInvoice.imposto, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
 			$scope.newInvoice = {};
