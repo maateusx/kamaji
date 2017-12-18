@@ -320,6 +320,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.selectedInvoice.dt_emissao = emissao;
 		$rootScope.selectedInvoice.dt_vencimento = vencimento;
 		$scope.$apply();
+		alert('Registro da invoice: ' + JSON.stringify($rootScope.selectedInvoice));
 		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+$rootScope.selectedInvoice.dt_emissao+'/'+$rootScope.selectedInvoice.dt_vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
@@ -417,14 +418,15 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($scope.newInvoice.dolar_provisao && $scope.newInvoice.dolar_provisao-Math.trunc($scope.newInvoice.dolar_provisao) == 0)
 			$scope.newInvoice.dolar_provisao = $scope.newInvoice.dolar_provisao + '.00';
 
-		let emission = $scope.newInvoice.dt_emissao.getFullYear()+'-'+($scope.newInvoice.dt_emissao.getMonth()+1)+'-'+$scope.newInvoice.dt_emissao.getDay();
-		let expirate = $scope.newInvoice.dt_vencimento.getFullYear()+'-'+($scope.newInvoice.dt_vencimento.getMonth()+1)+'-'+$scope.newInvoice.dt_vencimento.getDay();
+		var emission = $scope.newInvoice.dt_emissao.getFullYear()+'-'+($scope.newInvoice.dt_emissao.getMonth()+1)+'-'+$scope.newInvoice.dt_emissao.getDay();
+		var expirate = $scope.newInvoice.dt_vencimento.getFullYear()+'-'+($scope.newInvoice.dt_vencimento.getMonth()+1)+'-'+$scope.newInvoice.dt_vencimento.getDay();
 		
 		$scope.newInvoice.dt_emissao = emission;
 		$scope.newInvoice.dt_vencimento = expirate;
 
 		$scope.newInvoice.total += 0.00;
 		$scope.newInvoice.prevision += 0.00;
+		alert('Registro da invoice: ' + JSON.stringify($scope.newInvoice));
 		$rootScope.req('/invoice/register/'+$scope.newInvoice.nro_invoice+'/'+$scope.newInvoice.resp_invoice+'/'+$scope.newInvoice.tipo+'/'+emission+'/'+expirate+'/'+$scope.newInvoice.fornecedor+'/'+$scope.newInvoice.valor_invoice+'/'+$scope.newInvoice.dolar_provisao+'/'+$scope.newInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice criado com sucesso!');
 			$scope.newInvoice = {};
