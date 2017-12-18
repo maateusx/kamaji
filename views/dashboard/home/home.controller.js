@@ -175,7 +175,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$scope.selectedIndicator.time = $scope.selectedIndicator.time.replace(/\D+/g, '');
 		if($scope.selectedIndicator.time == null || $scope.selectedIndicator.time == '')
 			return;
-		$rootScope.req('/strategy/setindicatordays/'+$scope.selectedIndicator.id+'/'+$scope.selectedIndicator.time, null, 'GET', function(suc){
+		$rootScope.req('/strategy/setindicatordays/'+$scope.selectedIndicator.id+'/'+$scope.selectedIndicator.time+'/'+$rootScope.user.id, null, 'GET', function(suc){
 		}, function(err){
 			console.log(err);
 		});
@@ -204,7 +204,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			}
 		}
 		let idStrategy = index + 1;
-		$rootScope.req('/checkbox/' + idStrategy, null, 'GET', function(suc){
+		$rootScope.req('/checkbox/' + idStrategy+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			$scope.getStrategies();
 		}, function(err){
 			console.log(err);
@@ -244,7 +244,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.getStrategies();
 	$scope.refreshStrategies = function(index){
-		$rootScope.req('/strategy/updateaccuracy/'+$scope.notificationsStrategies[index].id+'/'+$scope.notificationsStrategies[index].percent, null, 'GET', function(suc){
+		$rootScope.req('/strategy/updateaccuracy/'+$scope.notificationsStrategies[index].id+'/'+$scope.notificationsStrategies[index].percent+'/'+$rootScope.user.id, null, 'GET', function(suc){
 		}, function(err){
 			console.log(err);
 		});
@@ -253,7 +253,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		var flag = 0;
 		if($scope.notificationsStrategies[index].active)
 			flag = 1;
-		$rootScope.req('/strategy/updateflag/'+$scope.notificationsStrategies[index].id+'/'+flag, null, 'GET', function(suc){
+		$rootScope.req('/strategy/updateflag/'+$scope.notificationsStrategies[index].id+'/'+flag+'/'+$rootScope.user.id, null, 'GET', function(suc){
 		}, function(err){
 			console.log(err);
 		});
@@ -316,7 +316,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.selectedInvoice.dt_emissao = emissao;
 		$rootScope.selectedInvoice.dt_vencimento = vencimento;
 
-		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+emissao+'/'+vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao, null, 'GET', function(suc){
+		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+emissao+'/'+vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
 			$scope.newInvoice = {};
@@ -333,7 +333,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 				id: idx
 			}
 		}
-		$rootScope.req('/invoice/delete/'+$scope.newInvoice.id, null, 'GET', function(suc){
+		$rootScope.req('/invoice/delete/'+$scope.newInvoice.id+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice deletada com sucesso!');
 			$rootScope.selectedInvoice = {};
 			$scope.newInvoice = {};
@@ -378,7 +378,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
 		let pagamento = $rootScope.selectedInvoice.dt_pagamento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_pagamento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_pagamento.getDay();
 		$rootScope.selectedInvoice.dt_pagamento = pagamento;
-		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.id+'/'+pagamento+'/'+$rootScope.selectedInvoice.dolar_pagamento+'/'+$rootScope.selectedInvoice.valor_pago+'/'+$rootScope.selectedInvoice.imposto, null, 'GET', function(suc){
+		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.id+'/'+pagamento+'/'+$rootScope.selectedInvoice.dolar_pagamento+'/'+$rootScope.selectedInvoice.valor_pago+'/'+$rootScope.selectedInvoice.imposto+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
 			$scope.newInvoice = {};
@@ -420,7 +420,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 
 		$scope.newInvoice.total += 0.00;
 		$scope.newInvoice.prevision += 0.00;
-		$rootScope.req('/invoice/register/'+$scope.newInvoice.nro_invoice+'/'+$scope.newInvoice.resp_invoice+'/'+$scope.newInvoice.tipo+'/'+emission+'/'+expirate+'/'+$scope.newInvoice.fornecedor+'/'+$scope.newInvoice.valor_invoice+'/'+$scope.newInvoice.dolar_provisao+'/'+$scope.newInvoice.observacao, null, 'GET', function(suc){
+		$rootScope.req('/invoice/register/'+$scope.newInvoice.nro_invoice+'/'+$scope.newInvoice.resp_invoice+'/'+$scope.newInvoice.tipo+'/'+emission+'/'+expirate+'/'+$scope.newInvoice.fornecedor+'/'+$scope.newInvoice.valor_invoice+'/'+$scope.newInvoice.dolar_provisao+'/'+$scope.newInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice criado com sucesso!');
 			$scope.newInvoice = {};
 			$scope.getAllInvoices();
@@ -479,7 +479,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	}
 	$scope.getContact();
 	$scope.deleteContact = function(index){
-		$rootScope.req('/contact/delete/'+$scope.contacts[index].email, null, 'GET', function(suc){
+		$rootScope.req('/contact/delete/'+$scope.contacts[index].email+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			$scope.contacts.splice(index,1);
 			$scope.getContact();
 		}, function(err){
@@ -493,7 +493,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			alert('Preencha todos os campos corretamente!');
 			return;
 		}
-		$rootScope.req('/contact/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone, null, 'GET', function(suc){
+		$rootScope.req('/contact/register/'+$scope.contactNew.name+'/'+$scope.contactNew.email+'/'+$scope.contactNew.phone+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			$scope.contacts.push($scope.contactNew);
 			$scope.getContact();
 			$scope.contactNew = {};
@@ -513,6 +513,11 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 	}
 	/*END RELATORIOS*/
+
+	$scope.refreshPrice = function(){
+		$scope.newInvoice.valor_pago = $scope.newInvoice.valor_invoice * $scope.newInvoice.dolar_pagamento;
+		$scope.$apply();
+	}
 
 	$scope.notices=[];
 	$scope.getNotices = function(){
