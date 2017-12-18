@@ -265,8 +265,6 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$("#modal").modal("show"); 
 	}
 	$scope.changeTab = function(tab){
-		if(tab == 2)
-			$scope.getAllInvoices();
 		$rootScope.seletecdTab = tab;
 		$scope.paymentInvoiceShow = false;
 		$scope.editInvoiceShow = false;
@@ -294,7 +292,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$rootScope.seletecdTab = 2; 
 	}
 	$scope.updateInvoice = function(){
-		$rootScope.selectedInvoice = $scope.newInvoice;
+		$rootScope.selectedInvoice = Object.assign({}, $scope.newInvoice);
 		if($rootScope.selectedInvoice.nro_invoice == null || $rootScope.selectedInvoice.nro_invoice == ''
 			|| $rootScope.selectedInvoice.resp_invoice == null || $rootScope.selectedInvoice.resp_invoice == ''
 			|| $rootScope.selectedInvoice.tipo == null || $rootScope.selectedInvoice.tipo == ''
@@ -312,13 +310,13 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($rootScope.selectedInvoice.dolar_provisao && $rootScope.selectedInvoice.dolar_provisao-Math.trunc($rootScope.selectedInvoice.dolar_provisao) == 0)
 			$rootScope.selectedInvoice.dolar_provisao = $rootScope.selectedInvoice.dolar_provisao + '.00';
 
-		let emissao = $rootScope.selectedInvoice.dt_emissao.getFullYear()+'-'+($rootScope.selectedInvoice.dt_emissao.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_emissao.getDay();
-		let vencimento = $rootScope.selectedInvoice.dt_vencimento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_vencimento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_vencimento.getDay();
+		var emissao = $rootScope.selectedInvoice.dt_emissao.getFullYear()+'-'+($rootScope.selectedInvoice.dt_emissao.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_emissao.getDay();
+		var vencimento = $rootScope.selectedInvoice.dt_vencimento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_vencimento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_vencimento.getDay();
 		
 		$rootScope.selectedInvoice.dt_emissao = emissao;
 		$rootScope.selectedInvoice.dt_vencimento = vencimento;
 
-		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+emissao+'/'+vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
+		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+$rootScope.selectedInvoice.dt_emissao+'/'+$rootScope.selectedInvoice.dt_vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
 			$scope.newInvoice = {};
