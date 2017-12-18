@@ -278,7 +278,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.editInvoiceShow = false;
 	$scope.showEditInvoice = function(invoice){
 		$scope.editInvoiceShow = true;
-		$scope.newInvoice = = Object.assign({}, invoice);
+		$scope.newInvoice = Object.assign({}, invoice);
 		$rootScope.seletecdTab = 1; 
 
 		var date1 = $scope.newInvoice.dt_emissao.split('-');
