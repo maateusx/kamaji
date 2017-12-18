@@ -314,8 +314,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($rootScope.selectedInvoice.dolar_provisao && $rootScope.selectedInvoice.dolar_provisao-Math.trunc($rootScope.selectedInvoice.dolar_provisao) == 0)
 			$rootScope.selectedInvoice.dolar_provisao = $rootScope.selectedInvoice.dolar_provisao + '.00';
 
-		var emissao = $rootScope.selectedInvoice.dt_emissao.getFullYear()+'-'+($rootScope.selectedInvoice.dt_emissao.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_emissao.getDay();
-		var vencimento = $rootScope.selectedInvoice.dt_vencimento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_vencimento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_vencimento.getDay();
+		var emissao = $rootScope.selectedInvoice.dt_emissao.getFullYear()+'-'+($rootScope.selectedInvoice.dt_emissao.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_emissao.getDate();
+		var vencimento = $rootScope.selectedInvoice.dt_vencimento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_vencimento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_vencimento.getDate();
 		
 		$rootScope.selectedInvoice.dt_emissao = emissao;
 		$rootScope.selectedInvoice.dt_vencimento = vencimento;
@@ -382,7 +382,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($rootScope.selectedInvoice.imposto-Math.trunc($rootScope.selectedInvoice.imposto) == 0)
 			$rootScope.selectedInvoice.imposto = $rootScope.selectedInvoice.imposto + '.00';
 
-		let pagamento = $rootScope.selectedInvoice.dt_pagamento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_pagamento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_pagamento.getDay();
+		let pagamento = $rootScope.selectedInvoice.dt_pagamento.getFullYear()+'-'+($rootScope.selectedInvoice.dt_pagamento.getMonth()+1)+'-'+$rootScope.selectedInvoice.dt_pagamento.getDate();
 		$rootScope.selectedInvoice.dt_pagamento = pagamento;
 		$rootScope.req('/invoice/set_payment/'+$rootScope.selectedInvoice.id+'/'+pagamento+'/'+$rootScope.selectedInvoice.dolar_pagamento+'/'+$rootScope.selectedInvoice.valor_pago+'/'+$rootScope.selectedInvoice.imposto+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
@@ -418,8 +418,9 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($scope.newInvoice.dolar_provisao && $scope.newInvoice.dolar_provisao-Math.trunc($scope.newInvoice.dolar_provisao) == 0)
 			$scope.newInvoice.dolar_provisao = $scope.newInvoice.dolar_provisao + '.00';
 
-		var emission = $scope.newInvoice.dt_emissao.getFullYear()+'-'+($scope.newInvoice.dt_emissao.getMonth()+1)+'-'+$scope.newInvoice.dt_emissao.getDay();
-		var expirate = $scope.newInvoice.dt_vencimento.getFullYear()+'-'+($scope.newInvoice.dt_vencimento.getMonth()+1)+'-'+$scope.newInvoice.dt_vencimento.getDay();
+	
+		var emission = $scope.newInvoice.dt_emissao.getFullYear()+'-'+($scope.newInvoice.dt_emissao.getMonth()+1)+'-'+$scope.newInvoice.dt_emissao.getDate();
+		var expirate = $scope.newInvoice.dt_vencimento.getFullYear()+'-'+($scope.newInvoice.dt_vencimento.getMonth()+1)+'-'+$scope.newInvoice.dt_vencimento.getDate();
 		
 		$scope.newInvoice.dt_emissao = emission;
 		$scope.newInvoice.dt_vencimento = expirate;
