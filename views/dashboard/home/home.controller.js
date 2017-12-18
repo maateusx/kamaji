@@ -265,6 +265,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$("#modal").modal("show"); 
 	}
 	$scope.changeTab = function(tab){
+		if(tab == 2)
+			$scope.getAllInvoices();
 		$rootScope.seletecdTab = tab;
 		$scope.paymentInvoiceShow = false;
 		$scope.editInvoiceShow = false;
@@ -276,7 +278,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.editInvoiceShow = false;
 	$scope.showEditInvoice = function(invoice){
 		$scope.editInvoiceShow = true;
-		$scope.newInvoice = invoice;
+		$scope.newInvoice = = Object.assign({}, invoice);
 		$rootScope.seletecdTab = 1; 
 
 		var date1 = $scope.newInvoice.dt_emissao.split('-');
@@ -364,7 +366,8 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($rootScope.selectedInvoice.nro_invoice == null || $rootScope.selectedInvoice.nro_invoice == ''
 			|| $rootScope.selectedInvoice.dt_pagamento == null || $rootScope.selectedInvoice.dt_pagamento == ''
 			|| $rootScope.selectedInvoice.dolar_pagamento == null || $rootScope.selectedInvoice.dolar_pagamento == ''
-			|| $rootScope.selectedInvoice.valor_pago == null || $rootScope.selectedInvoice.valor_pago == ''){
+			|| $rootScope.selectedInvoice.valor_pago == null || $rootScope.selectedInvoice.valor_pago == ''
+			|| $rootScope.selectedInvoice.imposto == null || $rootScope.selectedInvoice.imposto == ''){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
