@@ -160,7 +160,7 @@
     <button class="modalNotificationButton" ng-click="cancelUpdateInvoice()" ng-show="editInvoiceShow || paymentInvoiceShow" style="background-color: transparent; color: #fff">
       Cancelar
     </button>
-    <button class="modalNotificationButton" ng-click="deleteInvoice()" ng-show="editInvoiceShow == true && paymentInvoiceShow == false" style="background-color: #e74c3c;">
+    <button class="modalNotificationButton" ng-click="deleteInvoice()" ng-show="editInvoiceShow == true && paymentInvoiceShow == false && user.usertype == 'admin'" style="background-color: #e74c3c;">
       <i class="fa fa-trash-o" aria-hidden="true" style="margin-right: 5px;"></i>
       Deletar
     </button>

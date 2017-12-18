@@ -38,7 +38,7 @@
           <tr ng-repeat="invoice in openInvoices">
             <td class="row" style="margin: 0;">
               <i class="fa fa-pencil cursor-pointer" aria-hidden="true" ng-click="showEditInvoice(invoice)"></i>
-              <i class="fa fa-dollar cursor-pointer" aria-hidden="true" style="margin-left: 7px;" ng-click="showPaymentInvoice(invoice)"></i>
+              <i class="fa fa-dollar cursor-pointer" aria-hidden="true" ng-show="user.usertype == 'admin'" style="margin-left: 7px;" ng-click="showPaymentInvoice(invoice)"></i>
               <!-- <i class="fa fa-bell cursor-pointer" aria-hidden="true" style="margin-left: 7px;" ng-click="notificationInvoice(invoice)"></i> -->
             </td>
             <td>{{invoice.nro_invoice}}</td>
