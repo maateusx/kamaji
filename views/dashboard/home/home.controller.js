@@ -282,6 +282,10 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		var date1 = $scope.newInvoice.dt_emissao.split('-');
 		var date2 = date1[0] +'/'+ date1[1]+ '/'+ date1[2];
 		$scope.newInvoice.dt_emissao = new Date(date2); 
+
+		var date1 = $scope.newInvoice.dt_vencimento.split('-');
+		var date2 = date1[0] +'/'+ date1[1]+ '/'+ date1[2];
+		$scope.newInvoice.dt_vencimento = new Date(date2); 
 		//$scope.newInvoice.dt_emissao.setDate(date.getDate() - 1);
 	}
 	$scope.cancelUpdateInvoice = function(){
@@ -315,7 +319,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		
 		$rootScope.selectedInvoice.dt_emissao = emissao;
 		$rootScope.selectedInvoice.dt_vencimento = vencimento;
-
+		alert('Teste de parametros: ' + JSON.stringify($rootScope.selectedInvoice));
 		$rootScope.req('/invoice/update/'+$rootScope.selectedInvoice.nro_invoice+'/'+$rootScope.selectedInvoice.resp_invoice+'/'+$rootScope.selectedInvoice.tipo+'/'+emissao+'/'+vencimento+'/'+$rootScope.selectedInvoice.fornecedor+'/'+$rootScope.selectedInvoice.valor_invoice+'/'+$rootScope.selectedInvoice.dolar_provisao+'/'+$rootScope.selectedInvoice.observacao+'/'+$rootScope.user.id, null, 'GET', function(suc){
 			alert('Invoice atualizado com sucesso!');
 			$rootScope.selectedInvoice = {};
