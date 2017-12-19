@@ -304,8 +304,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			|| $rootScope.selectedInvoice.dt_vencimento == null || $rootScope.selectedInvoice.dt_vencimento == ''
 			|| $rootScope.selectedInvoice.fornecedor == null || $rootScope.selectedInvoice.fornecedor == ''
 			|| $rootScope.selectedInvoice.valor_invoice == null || $rootScope.selectedInvoice.valor_invoice == '' 
-			|| $rootScope.selectedInvoice.dolar_provisao == null || $rootScope.selectedInvoice.dolar_provisao == ''
-			|| $rootScope.selectedInvoice.observacao == null || $rootScope.selectedInvoice.observacao == ''){
+			|| $rootScope.selectedInvoice.dolar_provisao == null || $rootScope.selectedInvoice.dolar_provisao == ''){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
@@ -367,8 +366,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		if($rootScope.selectedInvoice.nro_invoice == null || $rootScope.selectedInvoice.nro_invoice == ''
 			|| $rootScope.selectedInvoice.dt_pagamento == null || $rootScope.selectedInvoice.dt_pagamento == ''
 			|| $rootScope.selectedInvoice.dolar_pagamento == null || $rootScope.selectedInvoice.dolar_pagamento == ''
-			|| $rootScope.selectedInvoice.valor_pago == null || $rootScope.selectedInvoice.valor_pago == ''
-			|| $rootScope.selectedInvoice.imposto == null || $rootScope.selectedInvoice.imposto == ''){
+			|| $rootScope.selectedInvoice.valor_pago == null || $rootScope.selectedInvoice.valor_pago == ''){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
