@@ -90,10 +90,10 @@
             <td style="white-space: nowrap">{{invoice.dt_vencimento}}</td>
             <td style="white-space: nowrap">{{invoice.dt_pagamento}}</td>
             <td>{{invoice.fornecedor}}</td>
-            <td>{{invoice.valor_invoice}}</td>
+            <td>{{invoice.valor_invoice | number:2}}</td>
             <td>{{invoice.dolar_provisao}}</td>
-            <td>{{invoice.dolar_pagamento}}</td>
-            <td>{{invoice.valor_pago}}</td>
+            <td>{{invoice.dolar_pagamento | number:4}}</td>
+            <td>{{invoice.valor_pago | number:2}}</td>
             <td>{{invoice.imposto}}</td>
             <td>{{invoice.observacao}}</td>
           </tr>

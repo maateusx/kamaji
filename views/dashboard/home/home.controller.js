@@ -308,6 +308,10 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
+
+		if($rootScope.selectedInvoice.observacao == null || $rootScope.selectedInvoice.observacao == '')
+			$rootScope.selectedInvoice.observacao = 'null';
+
 		if($rootScope.selectedInvoice.valor_invoice && $rootScope.selectedInvoice.valor_invoice-Math.trunc($rootScope.selectedInvoice.valor_invoice) == 0)
 			$rootScope.selectedInvoice.valor_invoice = $rootScope.selectedInvoice.valor_invoice + '.00';
 		if($rootScope.selectedInvoice.dolar_provisao && $rootScope.selectedInvoice.dolar_provisao-Math.trunc($rootScope.selectedInvoice.dolar_provisao) == 0)
@@ -370,6 +374,9 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
+
+		if($rootScope.selectedInvoice.imposto == null || $rootScope.selectedInvoice.imposto == '')
+			$rootScope.selectedInvoice.imposto = 0.00;
 
 		if($rootScope.selectedInvoice.valor_pago-Math.trunc($rootScope.selectedInvoice.valor_pago) == 0)
 			$rootScope.selectedInvoice.valor_pago = $rootScope.selectedInvoice.valor_pago + '.00';
