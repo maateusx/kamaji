@@ -410,11 +410,13 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			|| $scope.newInvoice.dt_vencimento == null || $scope.newInvoice.dt_vencimento == ''
 			|| $scope.newInvoice.fornecedor == null || $scope.newInvoice.fornecedor == ''
 			|| $scope.newInvoice.valor_invoice == null || $scope.newInvoice.valor_invoice == '' 
-			|| $scope.newInvoice.dolar_provisao == null || $scope.newInvoice.dolar_provisao == ''
-			|| $scope.newInvoice.observacao == null || $scope.newInvoice.observacao == ''){
+			|| $scope.newInvoice.dolar_provisao == null || $scope.newInvoice.dolar_provisao == ''){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
+
+		if($scope.newInvoice.observacao == null || $scope.newInvoice.observacao == '')
+			$scope.newInvoice.observacao = 'null';
 
 		if($scope.newInvoice.valor_invoice && $scope.newInvoice.valor_invoice-Math.trunc($scope.newInvoice.valor_invoice) == 0)
 			$scope.newInvoice.valor_invoice = $scope.newInvoice.valor_invoice + '.00';
