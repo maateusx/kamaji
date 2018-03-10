@@ -41,6 +41,11 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	];
 	$rootScope.indicatorIsOn = false;
 
+	$scope.homeView = 1;
+	$scope.changeHomeView = function(n){
+		$scope.homeView = n;
+	}
+
 	$scope.getDistance = function(n){
 		$rootScope.req('/indicator/getdata/'+$scope.indicators[n].distance.id, null, 'GET', function(suc){
 			$scope.indicators[n].distance.value = suc;
@@ -143,12 +148,14 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.selectIndicator = function(index) {
 		$scope.getDataN(index);
 		$rootScope.indicatorIsOn = true;
+		$scope.changeHomeView = 2;
 		$rootScope.selectedIndicator = $scope.indicators[index];
 		$scope.secondChartView = index;
 	}
 	$scope.deselectIndicator = function() {
 		$rootScope.selectedIndicator = null;
 		$rootScope.indicatorIsOn = false;
+		$scope.changeHomeView = 1;
 	}
 
 	$scope.turnOnIndicator = function(){
