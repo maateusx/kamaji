@@ -66,5 +66,5 @@ app.controller("loginController", function($scope, $state, $rootScope, md5){
 		}, true);
 	}
 	
-	$state.go('home');
+
 })
