@@ -154,11 +154,157 @@
                 <div class="w50" align="left">
                     <img src="img/preloading.png" style="height: 50px">
                 </div>
+
                 <div class="w50" align="right">
                     <button class="dashboard_invoices-button" ng-click="openModal(2)">Invoices</button>
+                    <button class="dashboard_invoices-button"
+                    onclick="window.location.href='results.csv'">Relatório</button>
+
+                </div>
+
+            </div>
+
+            <!-- BEGIN FORECAST TABLE -->
+            <div>
+                <div align="left">
+                    <h4>Forecast</h4>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-xs-12">
+                        <div class="margin-top-10" style="width: 100%; overflow-x: auto; border:1px solid #fff; border-radius: 3px;">
+                          <table class="table table-striped" style="margin: 0; padding: 0;">
+                            <thead>
+                              <tr style="background-color: #fff; color: #222;" align="center">
+                                <th>Período</th>
+                                <th>Erro</th>
+                                <th>Acurracy</th>
+                                <th>Model</th>
+                                <th style="white-space: nowrap">Back Test Score</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="i in [1,2,3]" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
+                                <td>1D
+                                    <i class="fa fa-circle {{i == 2 ? 'color-green':'color-red'}}" aria-hidden="true"></i>
+                                </td>
+                                <td style="color: #0068A7">0,91</td>
+                                <td>68%</td>
+                                <td>SVM</td>
+                                <td>
+                                    <img src="img/star.png" height="10">
+                                    <img src="img/star.png" height="10">
+                                    <img src="img/star.png" height="10">
+                                    <img src="img/star.png" height="10">
+                                    <img src="img/star2.png" height="10">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div align="center" style="width: 100%">
+                            <h5>Nenhum resultado encontrado.</h5>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12" style="padding: 0;">
+                        <div class="margin-top-10" style="width: 100%; border:1px solid #fff; border-radius: 3px; overflow-x: none;">
+                            <div class="column">
+                                <div style="background-color: #fff; color: #222; padding: 10px; font-size: 12px;" align="left">
+                                    OPÇÕES DE PREVISÃO
+                                </div>
+                                <div class="column" align="left" style="padding: 10px;">
+                                    <div class="w100">
+                                        <div class="input-group modalNotificationInputsContent">
+                                          <span class="input-group-addon modalNotificationInputsIcon" id="date-phone-icon" style="background-color: #fff; border-color: #fff;">
+                                            <label for="date-phone" class="modalNotificationInputsLabel" style="color: #222">Data de Previsão</label>
+                                          </span>
+                                          <input type="date" class="form-control modalNotificationInput" id="date-phone" aria-describedby="notification-phone-icon" style="border-color: #fff; font-size: 11px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="w100" style="margin-top: 10px;">
+                                        <div class="input-group modalNotificationInputsContent">
+                                          <span class="input-group-addon modalNotificationInputsIcon" style="background-color: #fff; border-color: #fff;">
+                                            <label class="modalNotificationInputsLabel" style="color: #222">Data de Previsão</label>
+                                          </span>
+                                          <select class="form-control modalNotificationInput" style="border-color: #fff;">
+                                              <option selected="">Padrão</option>
+                                              <option>2</option>
+                                              <option>3</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div align="right" style="margin-top: 10px;">
+                                        <button style="width: 90px; height: 35px; color: #222; background-color: #fff; font-size: 12px; border: none; border-radius: 4px;">
+                                             <i class="fa fa-plus" aria-hidden="true"></i>
+                                            ADICIONAR
+                                        </button>
+                                    </div>
+                                    
+                                    <hr style="margin-top: 15px; width: 100%; height: 1px; color: #fff; background-color: #fff;">
+
+                                    <div class="w100" style="margin-top: 10px;">
+                                        <div class="input-group modalNotificationInputsContent">
+                                          <span class="input-group-addon modalNotificationInputsIcon" style="background-color: #fff; border-color: #fff;">
+                                            <label class="modalNotificationInputsLabel" style="color: #222">Data de Previsão</label>
+                                          </span>
+                                          <select class="form-control modalNotificationInput" style="border-color: #fff;">
+                                              <option>1 Dia</option>
+                                              <option>15 Dias</option>
+                                              <option selected="">1 Mês</option>
+                                              <option>2 Meses</option>
+                                              <option>3 Meses</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- END FORECAST TABLE -->
+
+            <!-- BEGIN INVOICE TABLE -->
+            <div>
+                <div align="left">
+                    <h4>Invoices</h4>
+                </div>
+                <div class="margin-top-10" style="width: 100%; overflow-x: auto; border:1px solid #fff; border-radius: 3px;">
+                  <table class="table table-striped" style="margin: 0; padding: 0;">
+                    <thead>
+                      <tr style="background-color: #fff; color: #222;">
+                        <th>Nr. Invoice</th>
+                        <th>Observação</th>
+                        <th style="white-space: nowrap">Data de Vencimento</th>
+                        <th>Acurracy</th>
+                        <th>Previsão</th>
+                        <th style="white-space: nowrap">Sugestão de Últ. Pag.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="i in [1,2,3]" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
+                        <td>00001</td>
+                        <td>Lorem Ipsum</td>
+                        <td style="white-space: nowrap; color: #0068A7">10/05/2018</td>
+                        <td style="color: #0068A7">80%</td>
+                        <td>
+                            <img src="img/arrow_up.svg" ng-show="i == 1" height="10">
+                            <img src="img/arrow_down.svg" ng-show="i != 1" height="10">
+                        </td>
+                        <td style="color: #0068A7">01/05/2018</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div align="center" style="width: 100%">
+                    <h5>Nenhum resultado encontrado.</h5>
+                  </div>
                 </div>
             </div>
-            
+            <!-- END INVOICE TABLE -->
+
+
         </div>
         <!-- END CONTENT -->
 

@@ -1,5 +1,6 @@
 var app = angular.module('kamaji', [
   'kamaji.auth',
+  'kamaji.auth.register',
   'kamaji.dashboard',
   'ui.router',
   'angular-md5'
@@ -77,7 +78,7 @@ var app = angular.module('kamaji', [
 })
 
 .config(function($stateProvider,$urlRouterProvider){
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/home');
 })
 
 .config(function($locationProvider) {

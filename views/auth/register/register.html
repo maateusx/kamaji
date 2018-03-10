@@ -1,0 +1,32 @@
+<div class="login-background" align="center">
+
+    <div class="container">
+        
+            <div class="col-md-6 login_input-container">
+                <img src="img/preloading.png" style="width: 50%">
+
+                <div class="alert alert-warning" role="alert" ng-show="registerAlert.isOn" style="margin-top: 20px;">
+                  {{registerAlert.text}}
+                </div>
+
+                <form id="idForm" align="left" style="margin-top: 20px; width: 80%">
+                    <label for="email-account" class="login_input-label">Email</label>
+                    <div class="input-group">
+                      <input type="email" class="form-control" name="email" id="email-account" aria-describedby="basic-addon3" ng-model="account.email" ng-enter="makeLogin()">
+                    </div>
+
+                    <label for="password-account" class="login_input-label" style="margin-top: 10px;">Senha</label>
+                    <div class="input-group">
+                      <input type="password"  name="password" class="form-control" id="password-account" aria-describedby="basic-addon3" ng-model="account.password" ng-enter="makeLogin()">
+                    </div>
+                    
+                    <div align="right" style="margin-top: 20px;">
+                        <button class="login_button-sign cursor-pointer" ng-click="register()"><b>Registrar</b></button>
+                        <div class="login_arrow-right cursor-pointer" ng-click="register()"></div>
+                    </div>
+                </form>
+            </div>
+
+    </div>
+
+</div>

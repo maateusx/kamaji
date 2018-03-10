@@ -5,6 +5,12 @@
           <div style="font-weight: bold; font-size: 14px">
             Lista de Invoices
           </div>
+          <div style="padding-left: 15px">
+            <button class="modalNotification-ButtonSearch" ng-click="changeSearch()">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <input type="text" placeholder="Pesquisar" class="modalNotification-search" ng-model="invoiceSearch.$" ng-show="showSearch">
+          </div>
       </div>
       <div class="row margin-0 w30" align="right">
           <div class="w20">
@@ -35,7 +41,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="invoice in openInvoices">
+          <tr ng-repeat="invoice in openInvoices | filter:invoiceSearch">
             <td class="row" style="margin: 0;">
               <i class="fa fa-pencil cursor-pointer" aria-hidden="true" ng-click="showEditInvoice(invoice)"></i>
               <i class="fa fa-dollar cursor-pointer" aria-hidden="true" ng-show="user.usertype == 'admin'" style="margin-left: 7px;" ng-click="showPaymentInvoice(invoice)"></i>
@@ -79,7 +85,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="invoice in closeInvoices">
+          <tr ng-repeat="invoice in closeInvoices | filter:invoiceSearch">
             <td class="row" style="margin: 0;">
               <i class="fa fa-times-circle-o cursor-pointer" aria-hidden="true" style="margin-left: 7px;" ng-click="deleteInvoice(invoice.id)"></i>
             </td>
