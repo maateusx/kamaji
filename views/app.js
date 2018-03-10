@@ -78,7 +78,7 @@ var app = angular.module('kamaji', [
 })
 
 .config(function($stateProvider,$urlRouterProvider){
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/login');
 })
 
 .config(function($locationProvider) {
