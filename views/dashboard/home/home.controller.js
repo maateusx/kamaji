@@ -46,6 +46,48 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		$scope.homeView = n;
 	}
 
+	$scope.forecastInvoice = [];
+	$scope.forecasts = [];
+	$scope.getForecastInvoice = function(){
+		$rootScope.req('/forecast/invoice/getall', null, 'GET', function(suc){
+			$scope.forecastInvoice = suc;
+		}, function(err){
+			console.log(err);
+		});
+	}
+	$scope.getForecast = function(){
+		$rootScope.req('/forecast/invoice/getall', null, 'GET', function(suc){
+			$scope.forecasts = suc;
+		}, function(err){
+			console.log(err);
+		});
+	}
+	$scope.getForecast();
+	$scope.getForecastInvoice();
+
+	$scope.newForest = {
+		datePrevision: new Date(),
+		model: 'svm',
+		prevision: 30
+	}
+	$scope.createForest = function(){ //testar
+		if($scope.newForest.model == null || $scope.newForest.model == ''){
+			alert('Informe um modelo.')
+			return;
+		} else if($scope.newForest.prevision == null || $scope.newForest.prevision == ''){
+			alert('Informe uma previsão.')
+			return;
+		}
+
+		$rootScope.req('/forecast/label/'+$scope.newForest.model+'/'+$scope.newForest.prevision, null, 'GET', function(suc){
+			alert('Adicionado com sucesso!')
+			$scope.getForecast();
+		}, function(err){
+			alert('Ops, ocorreu um erro!');
+			console.log(err);
+		});
+	}
+
 	$scope.getDistance = function(n){
 		$rootScope.req('/indicator/getdata/'+$scope.indicators[n].distance.id, null, 'GET', function(suc){
 			$scope.indicators[n].distance.value = suc;

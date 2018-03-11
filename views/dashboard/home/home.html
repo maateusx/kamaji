@@ -164,33 +164,36 @@
                             <thead>
                               <tr style="background-color: #fff; color: #222;" align="center">
                                 <th>Período</th>
-                                <th>Erro</th>
-                                <th>Acurracy</th>
+                                <th>Acurácia</th>
                                 <th>Model</th>
                                 <th style="white-space: nowrap">Back Test Score</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="i in [1,2,3]" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
+                              <tr ng-repeat="forecast in forecasts" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
+                                <td>{{forecast.periodo}}</td>
                                 <td>
-                                    1D
                                     <img src="img/arrow_up.svg" ng-show="i == 1" height="10">
                                     <img src="img/arrow_down.svg" ng-show="i != 1" height="10">
+                                    {{forecast.accuracy}}%
                                 </td>
-                                <td style="color: #0068A7">0,91</td>
-                                <td>68%</td>
-                                <td>SVM</td>
+                                <td>{{forecast.model}}</td>
                                 <td>
-                                    <img src="img/star.png" height="10">
-                                    <img src="img/star.png" height="10">
-                                    <img src="img/star.png" height="10">
-                                    <img src="img/star.png" height="10">
-                                    <img src="img/star2.png" height="10">
+                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 1">
+                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 2">
+                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 3">
+                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 4">
+                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 5">
+                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 1">
+                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 2">
+                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 3">
+                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 4">
+                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 5">
                                 </td>
                               </tr>
                             </tbody>
                           </table>
-                          <div align="center" style="width: 100%">
+                          <div align="center" style="width: 100%" ng-show="forecasts.length == 0">
                             <h5>Nenhum resultado encontrado.</h5>
                           </div>
                         </div>
@@ -207,7 +210,7 @@
                                           <span class="input-group-addon modalNotificationInputsIcon" id="date-phone-icon" style="background-color: #fff; border-color: #fff;">
                                             <label for="date-phone" class="modalNotificationInputsLabel" style="color: #222">Data de Previsão</label>
                                           </span>
-                                          <input type="date" class="form-control modalNotificationInput" id="date-phone" aria-describedby="notification-phone-icon" style="border-color: #fff; font-size: 11px;">
+                                          <input type="date" class="form-control modalNotificationInput" id="date-phone" aria-describedby="notification-phone-icon" style="border-color: #fff; font-size: 11px;" ng-model="newForest.datePrevision">
                                         </div>
                                     </div>
 
@@ -216,15 +219,16 @@
                                           <span class="input-group-addon modalNotificationInputsIcon" style="background-color: #fff; border-color: #fff;">
                                             <label class="modalNotificationInputsLabel" style="color: #222">Modelo</label>
                                           </span>
-                                          <select class="form-control modalNotificationInput" style="border-color: #fff;">
-                                              <option selected="">Padrão</option>
-                                              <option>2</option>
-                                              <option>3</option>
+                                          <select class="form-control modalNotificationInput" style="border-color: #fff;" ng-model="newForest.model">
+                                              <option selected value="svm">SVM</option>
+                                              <option value="crf">CRF </option>
+                                              <option value="nn">NN</option>
+                                              <option value="dtc">DTC</option>
                                           </select>
                                         </div>
                                     </div>
                                     <div align="right" style="margin-top: 10px;">
-                                        <button style="width: 90px; height: 35px; color: #222; background-color: #fff; font-size: 12px; border: none; border-radius: 4px;">
+                                        <button style="width: 90px; height: 35px; color: #222; background-color: #fff; font-size: 12px; border: none; border-radius: 4px;" ng-click="createForest()">
                                              <i class="fa fa-plus" aria-hidden="true"></i>
                                             ADICIONAR
                                         </button>
@@ -237,12 +241,12 @@
                                           <span class="input-group-addon modalNotificationInputsIcon" style="background-color: #fff; border-color: #fff;">
                                             <label class="modalNotificationInputsLabel" style="color: #222">Previsão</label>
                                           </span>
-                                          <select class="form-control modalNotificationInput" style="border-color: #fff;">
-                                              <option>1 Dia</option>
-                                              <option>15 Dias</option>
-                                              <option selected="">1 Mês</option>
-                                              <option>2 Meses</option>
-                                              <option>3 Meses</option>
+                                          <select class="form-control modalNotificationInput" style="border-color: #fff;" ng-model="newForest.prevision">
+                                              <option value="1">1 Dia</option>
+                                              <option value="15">15 Dias</option>
+                                              <option value="30" selected>1 Mês</option>
+                                              <option value="60">2 Meses</option>
+                                              <option value="90">3 Meses</option>
                                           </select>
                                         </div>
                                     </div>
@@ -263,18 +267,20 @@
                   <table class="table table-striped" style="margin: 0; padding: 0;">
                     <thead>
                       <tr style="background-color: #fff; color: #222;">
-                        <th>Nr. Invoice</th>
-                        <th>Observação</th>
+                        <th>Fornecedor</th>
+                        <th>Valor da Invoice</th>
+                        <th>Dólar Provisão</th>
                         <th style="white-space: nowrap">Data de Vencimento</th>
-                        <th>Acurracy</th>
+                        <th>Accuracy</th>
                         <th>Previsão</th>
                         <th style="white-space: nowrap">Sugestão de Últ. Pag.</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="i in [1,2,3]" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
-                        <td>00001</td>
-                        <td>Lorem Ipsum</td>
+                      <tr ng-repeat="invoice in forecastInvoice" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
+                        <td>{{invoice.fornecedor}}</td>
+                        <td>{{invoice.valor_invoice}}</td>
+                        <th>{{invoice.dolar_provisao}}</th>
                         <td style="white-space: nowrap; color: #0068A7">10/05/2018</td>
                         <td style="color: #0068A7">80%</td>
                         <td>
@@ -285,7 +291,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div align="center" style="width: 100%">
+                  <div align="center" style="width: 100%" ng-show="forecastInvoice.length == 0">
                     <h5>Nenhum resultado encontrado.</h5>
                   </div>
                 </div>
@@ -298,12 +304,12 @@
                 </div>
 
                 <div class="column w50" align="right" style="padding: 0;">
-                    <div class="row" style="padding: 0;">
-                        <button class="dashboard_invoices-button" ng-click="openModal(2)">Invoices</button>
+                    <div class="row" style="padding: 0;" align="right">
+                        <button class="dashboard_invoices-button" ng-click="openModal(2)" style="margin-right: 5px;">Invoices</button>
                         <button class="dashboard_invoices-button" onclick="window.location.href='results.csv'">Relatório</button>
                     </div>
-                    <div class="row" style="padding: 0; margin-top: 10px;">
-                        <button class="dashboard_invoices-button" ng-click="changeHomeView(3)">Invoices</button>
+                    <div class="row" style="padding: 0; margin-top: 10px;" align="right">
+                        <button class="dashboard_invoices-button" ng-click="changeHomeView(3)" style="margin-right: 5px;">Wizard</button>
                         <button class="dashboard_invoices-button" ng-click="changeHomeView(4)">Forecast</button>
                     </div>
                 </div>
