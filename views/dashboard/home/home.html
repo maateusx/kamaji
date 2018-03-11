@@ -173,8 +173,8 @@
                               <tr ng-repeat="forecast in forecasts" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
                                 <td>{{forecast.periodo}}</td>
                                 <td>
-                                    <img src="img/arrow_up.svg" ng-show="i == 1" height="10">
-                                    <img src="img/arrow_down.svg" ng-show="i != 1" height="10">
+                                    <img src="img/arrow_up.svg" ng-show="forecast.previsao == 1" height="10">
+                                    <img src="img/arrow_down.svg" ng-show="forecast.previsao == 0" height="10">
                                     {{forecast.accuracy}}%
                                 </td>
                                 <td>{{forecast.model}}</td>
