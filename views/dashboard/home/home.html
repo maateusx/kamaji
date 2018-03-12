@@ -178,7 +178,7 @@
                                     <span ng-show="forecast.previsao == 'None'">--</span>
                                 </td>
                                 <td>
-                                    <span ng-show="forecast.previsao != 'None'">{{forecast.accuracy * 100}}%</span>
+                                    <span ng-show="forecast.previsao != 'None'">{{forecast.accuracy}}%</span>
                                     <span ng-show="forecast.previsao == 'None'">--</span>
                                 </td>
                                 <td>{{forecast.model}}</td>
@@ -275,7 +275,7 @@
                         <td>{{invoice.valor}}</td>
                         <th>{{invoice.dolar_provisao}}</th>
                         <td style="white-space: nowrap; color: #0068A7">{{invoice.dt_vencimento}}</td>
-                        <td style="color: #0068A7">{{invoice.accuracy * 100}}%</td>
+                        <td style="color: #0068A7">{{invoice.accuracy}}%</td>
                         <td>
                             <img src="img/arrow_up.svg" ng-show="invoice.previsao == 1" height="10">
                             <img src="img/arrow_down.svg" ng-show="invoice.previsao == 0" height="10">
