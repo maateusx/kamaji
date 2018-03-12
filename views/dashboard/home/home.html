@@ -145,7 +145,7 @@
                     <div class="row w100" style="align-content: center; margin-top: 15px;">
                         <div class="w33" align="center" ng-repeat="profile in notificationsStrategiesProfile">
                             <input type="checkbox" ng-model="notificationsStrategiesProfile[$index].active" style="background-color: #fff !important; border-radius: 5px !important; border-color: 3px solid #fff !important;" ng-change="refreshStrategiesProfile($index)">
-                            <span style="font-weight: normal;" >{{profile.title}}</span>
+                            <span style="font-weight: normal;">{{profile.title}}</span>
                         </div>                        
                     </div>
                 </div>
@@ -164,9 +164,9 @@
                             <thead>
                               <tr style="background-color: #fff; color: #222;" align="center">
                                 <th>Período</th>
+                                <th>Previsão</th>
                                 <th>Acurácia</th>
                                 <th>Model</th>
-                                <th style="white-space: nowrap">Back Test Score</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -175,21 +175,13 @@
                                 <td>
                                     <img src="img/arrow_up.svg" ng-show="forecast.previsao == 1" height="10">
                                     <img src="img/arrow_down.svg" ng-show="forecast.previsao == 0" height="10">
-                                    {{forecast.accuracy}}%
+                                    <span ng-show="forecast.previsao == 'None'">--</span>
+                                </td>
+                                <td>
+                                    <span ng-show="forecast.previsao != 'None'">{{forecast.accuracy * 100}}%</span>
+                                    <span ng-show="forecast.previsao == 'None'">--</span>
                                 </td>
                                 <td>{{forecast.model}}</td>
-                                <td>
-                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 1">
-                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 2">
-                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 3">
-                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 4">
-                                    <img src="img/star.png" height="10" ng-show="forecast.back-test >= 5">
-                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 1">
-                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 2">
-                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 3">
-                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 4">
-                                    <img src="img/star2.png" height="10" ng-show="forecast.back-test < 5">
-                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -276,18 +268,19 @@
                         <th style="white-space: nowrap">Sugestão de Últ. Pag.</th>
                       </tr>
                     </thead>
+                    
                     <tbody>
                       <tr ng-repeat="invoice in forecastInvoice" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
                         <td>{{invoice.fornecedor}}</td>
-                        <td>{{invoice.valor_invoice}}</td>
+                        <td>{{invoice.valor}}</td>
                         <th>{{invoice.dolar_provisao}}</th>
-                        <td style="white-space: nowrap; color: #0068A7">10/05/2018</td>
-                        <td style="color: #0068A7">80%</td>
+                        <td style="white-space: nowrap; color: #0068A7">{{invoice.dt_vencimento}}</td>
+                        <td style="color: #0068A7">{{invoice.accuracy * 100}}%</td>
                         <td>
-                            <img src="img/arrow_up.svg" ng-show="i == 1" height="10">
-                            <img src="img/arrow_down.svg" ng-show="i != 1" height="10">
+                            <img src="img/arrow_up.svg" ng-show="invoice.previsao == 1" height="10">
+                            <img src="img/arrow_down.svg" ng-show="invoice.previsao == 0" height="10">
                         </td>
-                        <td style="color: #0068A7">01/05/2018</td>
+                        <td style="color: #0068A7">{{invoice.sugestao}}</td>
                       </tr>
                     </tbody>
                   </table>
