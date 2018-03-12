@@ -50,14 +50,14 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.forecasts = [];
 	$scope.getForecastInvoice = function(){
 		$rootScope.req('/forecast/invoice/getall', null, 'GET', function(suc){
-			$scope.forecastInvoice = suc;
+			$scope.forecastInvoice = suc; 
 			console.log('forecastInvoice', suc)
 		}, function(err){
 			console.log(err);
 		});
 	}
 	$scope.getForecast = function(){
-		$rootScope.req('/forecast/invoice/getall', null, 'GET', function(suc){
+		$rootScope.req('/forecast/label/getall', null, 'GET', function(suc){
 			$scope.forecasts = suc;
 			console.log('forecasts', suc)
 		}, function(err){
