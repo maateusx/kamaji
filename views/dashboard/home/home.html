@@ -171,17 +171,17 @@
                             </thead>
                             <tbody>
                               <tr ng-repeat="forecast in forecasts" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
-                                <td>{{forecast.periodo}}</td>
+                                <td>{{forecast.intervalo}}</td>
                                 <td>
                                     <img src="img/arrow_up.svg" ng-show="forecast.previsao == 1" height="10">
                                     <img src="img/arrow_down.svg" ng-show="forecast.previsao == 0" height="10">
                                     <span ng-show="forecast.previsao == 'None'">--</span>
                                 </td>
                                 <td>
-                                    <span ng-show="forecast.previsao != 'None'">{{forecast.accuracy}}%</span>
+                                    <span ng-show="forecast.previsao != 'None'">{{forecast.accuracy* 100 | number:2}}%</span>
                                     <span ng-show="forecast.previsao == 'None'">--</span>
                                 </td>
-                                <td>{{forecast.model}}</td>
+                                <td>{{forecast.modelo}}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -247,6 +247,10 @@
                         </div>
                     </div>
                 </div>
+
+                <div align="center" class="w100" style="margin-top: 20px;">
+                    <img src="forecast.png" style="width:100%;">
+                </div>
             </div>
             <!-- END FORECAST TABLE -->
 
@@ -260,8 +264,8 @@
                     <thead>
                       <tr style="background-color: #fff; color: #222;">
                         <th>Fornecedor</th>
-                        <th>Valor da Invoice</th>
-                        <th>Dólar Provisão</th>
+                        <th style="white-space: nowrap">Valor da Invoice</th>
+                        <th style="white-space: nowrap">Dólar Provisão</th>
                         <th style="white-space: nowrap">Data de Vencimento</th>
                         <th>Accuracy</th>
                         <th>Previsão</th>
@@ -271,16 +275,19 @@
 
                     <tbody>
                       <tr ng-repeat="invoice in forecastInvoice" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
-                        <td>{{invoice.fornecedor}}</td>
-                        <td>{{invoice.valor}}</td>
-                        <th>{{invoice.dolar_provisao}}</th>
+                        <td style="white-space: nowrap">{{invoice.fornecedor}}</td>
+                        <td style="white-space: nowrap">{{invoice.valor}}</td>
+                        <th style="white-space: nowrap">{{invoice.dolar_provisao}}</th>
                         <td style="white-space: nowrap; color: #0068A7">{{invoice.dt_vencimento}}</td>
-                        <td style="color: #0068A7">{{invoice.accuracy}}%</td>
+                        <td style="color: #0068A7">
+                            <span ng-show="invoice.previsao != 'None'">{{invoice.accuracy* 100 | number:2}}%</span>
+                            <span ng-show="invoice.previsao == 'None'">--</span>
+                        </td>
                         <td>
                             <img src="img/arrow_up.svg" ng-show="invoice.previsao == 1" height="10">
                             <img src="img/arrow_down.svg" ng-show="invoice.previsao == 0" height="10">
                         </td>
-                        <td style="color: #0068A7">{{invoice.sugestao}}</td>
+                        <td style="color: #0068A7">{{invoice.sugestao == 'null'? '--': invoice.sugestao}}</td>
                       </tr>
                     </tbody>
                   </table>
