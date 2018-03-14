@@ -147,13 +147,11 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 
 		$rootScope.req('/overview', null, 'GET', function(suc){
+			console.log('overview', suc);
 			if(suc == 0){
-				$scope.mainGraph.status = 'Tendência Indefinida';
+				$scope.mainGraph.status = 'Tendência de Queda';
 				$scope.mainGraph.color =  0;
 			} else if(suc==1){
-				$scope.mainGraph.status = 'Movimento Lateral';
-				$scope.mainGraph.color =  1;
-			} else {
 				$scope.mainGraph.status = 'Tendência de Subida';
 				$scope.mainGraph.color =  2;
 			}

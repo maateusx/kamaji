@@ -153,9 +153,10 @@
 
             <!-- BEGIN FORECAST TABLE -->
             <div ng-show="homeView == 3">
-                <div align="left">
+                
+                <div align="left" style="width: 100%">
                     <h4>Forecast</h4>
-                    <h4 style="float: right" ng-click="changeHomeView(1)">X</h4>
+                    <h4 style="float: right; cursor: pointer;" ng-click="changeHomeView(1)">X</h4>    
                 </div>
 
                 <div class="row">
@@ -236,6 +237,8 @@
                                           </span>
                                           <select class="form-control modalNotificationInput" style="border-color: #fff;" ng-model="newForest.prevision">
                                               <option value="1">1 Dia</option>
+                                              <option value="5">5 Dias</option>
+                                              <option value="7">1 semana</option>
                                               <option value="15">15 Dias</option>
                                               <option value="30" selected>1 Mês</option>
                                               <option value="60">2 Meses</option>
@@ -257,10 +260,12 @@
 
             <!-- BEGIN INVOICE TABLE -->
             <div ng-show="homeView == 4">
-                <div align="left">
+
+                <div align="left" style="width: 100%">
                     <h4>Invoices</h4>
-                    <h4 style="float: right" ng-click="changeHomeView(1)">X</h4>
+                    <h4 style="float: right; cursor: pointer;" ng-click="changeHomeView(1)">X</h4>    
                 </div>
+
                 <div class="margin-top-10" style="width: 100%; overflow-x: auto; border:1px solid #fff; border-radius: 3px;">
                   <table class="table table-striped" style="margin: 0; padding: 0;">
                     <thead>
