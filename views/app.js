@@ -10,8 +10,8 @@ var app = angular.module('kamaji', [
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
 
-  $rootScope.reqApiURL = "http://192.168.1.3:5000"; //localhost
-  $rootScope.serverURL = "http://192.168.1.3:5000"; //localhost
+  $rootScope.reqApiURL = "http://192.168.1.5:5000"; //localhost
+  $rootScope.serverURL = "http://192.168.1.5:5000"; //localhost
 
   $rootScope.isLoading = false;
   $rootScope.req = function(service, params, type, successCB, errorCB, loading){

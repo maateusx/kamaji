@@ -55,10 +55,23 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			console.log(err);
 		});
 	}
+
+	function compare(a,b) {
+	  if (a.intervalo < b.intervalo)
+	     return -1;
+	  if (a.intervalo > b.intervalo)
+	    return 1;
+	  return 0;
+	}
 	$scope.getForecast = function(){
 		$rootScope.req('/forecast/label/getall', null, 'GET', function(suc){
+			for(var i=0; i<suc.length; i++){
+				suc[i].intervalo = parseInt(suc[i].intervalo);
+			}
+			suc.sort(compare);
 			$scope.forecasts = suc;
-			console.log('forecasts', suc);
+			console.log('forecasts', $scope.forecasts);
+			$scope.$apply();
 		}, function(err){
 			console.log(err);
 		});
@@ -152,7 +165,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 				$scope.mainGraph.status = 'Tendência de Queda';
 				$scope.mainGraph.color =  0;
 			} else if(suc==1){
-				$scope.mainGraph.status = 'Tendência de Subida';
+				$scope.mainGraph.status = 'Tendência de Alta';
 				$scope.mainGraph.color =  2;
 			}
 			$rootScope.isLoading = false;
