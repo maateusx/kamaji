@@ -202,14 +202,15 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.selectIndicator = function(index) {
 		$scope.getDataN(index);
 		$rootScope.indicatorIsOn = true;
-		$scope.changeHomeView = 2;
+		$scope.homeView = 2;
 		$rootScope.selectedIndicator = $scope.indicators[index];
 		$scope.secondChartView = index;
+		$scope.$apply();
 	}
 	$scope.deselectIndicator = function() {
 		$rootScope.selectedIndicator = null;
 		$rootScope.indicatorIsOn = false;
-		$scope.changeHomeView = 1;
+		$scope.homeView = 1;
 	}
 
 	$scope.turnOnIndicator = function(){
