@@ -101,6 +101,15 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 			console.log(err);
 		});
 	}
+	$scope.deleteForecast = function(forecast, index){
+		$rootScope.req('/forecast/delete/'+forecast.model+'/'+forecast.prevision, null, 'GET', function(suc){
+			alert('Forecast deletado com sucesso!');
+			$scope.forecasts.splice(index, 1);
+		}, function(err){
+			alert('Ops, ocorreu um erro!');
+			console.log(err);
+		});
+	}
 
 	$scope.getDistance = function(n){
 		$rootScope.req('/indicator/getdata/'+$scope.indicators[n].distance.id, null, 'GET', function(suc){

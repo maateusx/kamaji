@@ -169,6 +169,7 @@
                                 <th>Previsão</th>
                                 <th>Acurácia</th>
                                 <th>Model</th>
+                                <th>Opções</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -184,6 +185,9 @@
                                     <span ng-show="forecast.previsao == 'None'">--</span>
                                 </td>
                                 <td>{{forecast.modelo}}</td>
+                                <td>
+                                    <i class="fa fa-times cursor-pointer" aria-hidden="true" ng-click="deleteForecast(forecast, $index)"></i>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -274,7 +278,7 @@
                         <th style="white-space: nowrap">Valor da Invoice</th>
                         <th style="white-space: nowrap">Dólar Provisão</th>
                         <th style="white-space: nowrap">Data de Vencimento</th>
-                        <th>Accuracy</th>
+                        <th>Acurácia</th>
                         <th>Previsão</th>
                         <th style="white-space: nowrap">Sugestão de Últ. Pag.</th>
                       </tr>
@@ -283,8 +287,8 @@
                     <tbody>
                       <tr ng-repeat="invoice in forecastInvoice" align="center" style="{{$index%2 != 0? 'background-color: rgba(255, 255, 255, 0.1': ''}}">
                         <td style="white-space: nowrap">{{invoice.fornecedor}}</td>
-                        <td style="white-space: nowrap">{{invoice.valor}}</td>
-                        <th style="white-space: nowrap">{{invoice.dolar_provisao}}</th>
+                        <td style="white-space: nowrap">{{invoice.valor | number:2}}</td>
+                        <th style="white-space: nowrap">{{invoice.dolar_provisao | number:4}}</th>
                         <td style="white-space: nowrap; color: #0068A7">{{invoice.dt_vencimento}}</td>
                         <td style="color: #0068A7">
                             <span ng-show="invoice.previsao != 'None'">{{invoice.accuracy* 100 | number:2}}%</span>
