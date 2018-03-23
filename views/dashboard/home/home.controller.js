@@ -102,7 +102,7 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 		});
 	}
 	$scope.deleteForecast = function(forecast, index){
-		$rootScope.req('/forecast/delete/'+forecast.model+'/'+forecast.prevision, null, 'GET', function(suc){
+		$rootScope.req('/forecast/delete/'+forecast.model+'/'+forecast.intervalo+'/'+forecast.accuracy, null, 'GET', function(suc){
 			alert('Forecast deletado com sucesso!');
 			$scope.forecasts.splice(index, 1);
 		}, function(err){
