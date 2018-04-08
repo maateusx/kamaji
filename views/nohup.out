@@ -1,0 +1,2 @@
+[ERR] Could not start server, fallback file not found
+[TRY] http-server-spa <directory> <fallback> <port>
