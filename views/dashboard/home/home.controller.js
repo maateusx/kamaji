@@ -473,15 +473,14 @@ app.controller("homeController", function($scope, $state, $rootScope, $http){
 	$scope.newInvoice = {};
 	$scope.createInvoice = function()
 	{
-		console.log($scope.newInvoice);
-		if($scope.newInvoice.nro_invoice == null || $scope.newInvoice.nro_invoice == ''
-			|| $scope.newInvoice.resp_invoice == null || $scope.newInvoice.resp_invoice == ''
-			|| $scope.newInvoice.tipo == null || $scope.newInvoice.tipo == ''
-			|| $scope.newInvoice.dt_emissao == null || $scope.newInvoice.dt_emissao == ''
-			|| $scope.newInvoice.dt_vencimento == null || $scope.newInvoice.dt_vencimento == ''
-			|| $scope.newInvoice.fornecedor == null || $scope.newInvoice.fornecedor == ''
-			|| $scope.newInvoice.valor_invoice == null || $scope.newInvoice.valor_invoice == '' 
-			|| $scope.newInvoice.dolar_provisao == null || $scope.newInvoice.dolar_provisao == ''){
+		if($scope.newInvoice.nro_invoice == null || $scope.newInvoice.nro_invoice == '' || !$scope.newInvoice.nro_invoice.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.resp_invoice == null || $scope.newInvoice.resp_invoice == '' || !$scope.newInvoice.resp_invoice.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.tipo == null || $scope.newInvoice.tipo == '' || !$scope.newInvoice.tipo.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.dt_emissao == null || $scope.newInvoice.dt_emissao == '' || !$scope.newInvoice.dt_emissao.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.dt_vencimento == null || $scope.newInvoice.dt_vencimento == '' || !$scope.newInvoice.dt_vencimento.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.fornecedor == null || $scope.newInvoice.fornecedor == '' || !$scope.newInvoice.fornecedor.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.valor_invoice == null || $scope.newInvoice.valor_invoice == ''  || !$scope.newInvoice.valor_invoice.match('/^[A-Za-z_][A-Za-z\d_]*$/')
+			|| $scope.newInvoice.dolar_provisao == null || $scope.newInvoice.dolar_provisao == '' || !$scope.newInvoice.dolar_provisao.match('/^[A-Za-z_][A-Za-z\d_]*$/')){
 			alert("Preencha todos os campos corretamente!");
 			return;
 		}
